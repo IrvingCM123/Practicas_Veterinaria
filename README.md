@@ -1,27 +1,40 @@
-# Veterinaria
+# Veterinary Management System - Angular 14
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+## Descripción
 
-## Development server
+Este proyecto consiste en una aplicación desarrollada en Angular 14 que tiene como objetivo mejorar la operatividad de una veterinaria, proporcionando una interfaz amigable y eficiente para la gestión de inventario y el seguimiento de ventas. A continuación, se detallan las principales funciones del programa:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Funciones del Programa
 
-## Code scaffolding
+### 1. Gestión de Inventario Simplificada
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+La aplicación permite llevar un registro digitalizado y organizado de todos los productos disponibles en la veterinaria. Las funciones incluyen:
 
-## Build
+- Agregar nuevos productos al inventario.
+- Modificar información de productos existentes.
+- Eliminar productos de manera sencilla.
+- Actualizar automáticamente el inventario para garantizar la precisión de los datos.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### 2. Venta Eficiente a través de Códigos de Barras
 
-## Running unit tests
+Se ha incorporado un sistema de escaneo de códigos de barras para agilizar el proceso de venta. Esto permite:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Registrar las ventas de manera rápida y precisa.
+- Mejorar la experiencia del cliente al reducir el tiempo de espera.
+- Reducir los errores en el registro de ventas.
 
-## Running end-to-end tests
+### 3. Seguimiento Detallado de Ventas
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+La aplicación mantendrá un historial completo de las transacciones de venta. Esto permitirá a la veterinaria acceder a información detallada sobre las ventas realizadas, incluyendo la fecha, los productos vendidos y los ingresos generados en cada transacción.
 
-## Further help
+### 4. Análisis de Datos Significativos
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+El programa proporcionará informes de análisis de datos que serán de gran utilidad para tomar decisiones informadas. Estos informes incluirán:
+
+- Los ingresos totales del mes en curso.
+- Destacará los productos más vendidos.
+- Identificará aquellos productos que tienen un stock bajo (menos de 10 unidades).
+
+## Resumen
+
+En resumen, nuestra aplicación busca simplificar y agilizar la gestión de la veterinaria, desde el control de inventario hasta el seguimiento de las ventas realizadas en la veterinaria. Creemos que esta solución tecnológica contribuirá a la modernización del negocio y mejorará la eficiencia de las operaciones en beneficio de los clientes y el personal. Estamos emocionados por la oportunidad de aplicar nuestros conocimientos en un contexto real y colaborar en la mejora de la veterinaria a través de la innovación tecnológica.
