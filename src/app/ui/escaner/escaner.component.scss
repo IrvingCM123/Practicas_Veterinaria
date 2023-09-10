@@ -1,3 +1,5 @@
+@import '~font-awesome/css/font-awesome.css';
+
 body {
   background: #ffffff;
   box-sizing: content-box;
@@ -72,9 +74,10 @@ h1 {
 
 .container {
   background-color: #ffffff;
-  width:  90%;
+  width:  100%;
+  min-width: 90vw;
   height: 80%;
-  min-height: 80vh;
+  min-height: 90vh;
   margin-left: 8%;
   transition: 1s;
   transform-origin: left center;
@@ -98,7 +101,6 @@ h1 {
   border: 2px;
   border-color: #0b132b;
   border-style: groove;
-  overflow: auto; /* Agregado para habilitar el scroll cuando el contenido excede */
 }
 
 .producto {
@@ -116,7 +118,7 @@ h1 {
   border-color: #0b132b;
   border-style: groove;
   overflow-y: auto;
-  max-height: 100%; /* Altura máxima para habilitar el scroll */
+  max-height: 100%;
   position: static;
 }
 
@@ -128,4 +130,55 @@ h1 {
   font-weight: 900;
   padding: 0;
   margin: 19px;
+}
+
+.input-container {
+  position: relative;
+  width: 45%;
+  height: 5.7vh;
+
+  margin-left: 3%;
+  margin-right: 4%;
+
+  border: 1px;
+  border-color: #D2D2D0;
+  border-style: groove;
+  border-radius: 10px;
+
+  background-color: #e5dddde2;
+}
+
+
+.input-container input {
+  padding-right: 40px;
+  width: 90%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  margin-right: 0;
+
+  font-size: 150%;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 700;
+}
+
+.input-container input:focus {
+  outline: none;
+}
+
+.clear-icon {
+  top: 50%;
+  transform: translateY(3%);
+  cursor: pointer;
+  color: rgb(6, 6, 6);
+  font-size: 150%;
+}
+
+.clear-icon:hover {
+  color: #f00;
+}
+
+.buscar {
+  display: flex;
+  flex-direction: row;
 }

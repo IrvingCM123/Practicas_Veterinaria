@@ -11,13 +11,14 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
-    EscanerComponent
+    EscanerComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ZXingScannerModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

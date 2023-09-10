@@ -3,9 +3,9 @@
   <div class="menu">
     <nav>
       <ul>
-    <li><a href="#">Vender</a></li>
-    <li><a href="#">Historial De Venta</a></li>
-    <li><a href="#">Estadisticas</a></li>
+    <li><a href="#">* Vender</a></li>
+    <li><a href="#">* Historial De Venta</a></li>
+    <li><a href="#">* Estadisticas</a></li>
       </ul>
       </nav>
   </div>
@@ -14,10 +14,20 @@
 
     <div class="buscador">
 
-      <p> Registro Ventas </p>
+      <p class="buscador-titulo"> Registro Ventas </p>
 
-      <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="search()" placeholder="Escribe tu búsqueda...">
-      <button (click)="search()">Buscar</button>
+      <div class="buscar">
+
+        <div class="input-container">
+          <input  type="text" (keydown.enter)="search()" [(ngModel)]="searchTerm" placeholder="Escribe tu búsqueda..."/>
+          <i class="fa fa-times clear-icon" (click)="clearSearch()"></i>
+        </div>
+
+        <button>daw</button>
+        <button>dwadawd</button>
+
+      </div>
+
     </div>
 
     <div class="producto">

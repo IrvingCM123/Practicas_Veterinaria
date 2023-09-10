@@ -22,6 +22,10 @@ export class EscanerComponent {
 
   constructor() { }
 
+  clearSearch() {
+    this.searchTerm = ''; // Borra el contenido del input
+  }
+
   search() {
     if (this.searchTerm.trim() === '') {
       this.message = 'Por favor, ingresa un término de búsqueda.';
