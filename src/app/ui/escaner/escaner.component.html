@@ -1,0 +1,44 @@
+<div>
+
+  <div class="menu">
+    <nav>
+      <ul>
+    <li><a href="#">Vender</a></li>
+    <li><a href="#">Historial De Venta</a></li>
+    <li><a href="#">Estadisticas</a></li>
+      </ul>
+      </nav>
+  </div>
+
+  <div class="container">
+
+    <div class="buscador">
+
+      <p> Registro Ventas </p>
+
+      <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="search()" placeholder="Escribe tu búsqueda...">
+      <button (click)="search()">Buscar</button>
+    </div>
+
+    <div class="producto">
+      <h1>Like</h1>
+      <p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+        </p>
+    </div>
+
+    <div class="tabla">
+
+      <div *ngIf="message">
+        {{ message }}
+      </div>
+
+      <h1>Like</h1>
+      <p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+        </p>
+    </div>
+
+  </div>
+
+</div>
