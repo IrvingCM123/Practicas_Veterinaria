@@ -18,6 +18,11 @@
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
+    "@zxing/browser": "^0.1.1",
+    "@zxing/library": "^0.19.1",
+    "@zxing/ngx-scanner": "^3.6.2",
+    "i": "^0.3.7",
+    "npm": "^10.1.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
