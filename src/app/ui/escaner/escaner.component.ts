@@ -16,7 +16,12 @@ export class EscanerComponent {
 
   searchTerm: string = '';
   message: string = '';
-  productos_venta: any[] = [];
+
+  productosVenta: any = [
+    { id: 1, nombre: 'Producto 1', precio: 10, cantidad: 1 },
+    { id: 2, nombre: 'Producto 2', precio: 15, cantidad: 1 }
+  ];
+
 
   constructor() { }
 
@@ -34,8 +39,17 @@ export class EscanerComponent {
 
   agregar() {
     console.log(this.searchTerm);
-    this.productos_venta.push(this.searchTerm);
+    this.productosVenta.push(this.searchTerm);
     this.searchTerm = '';
+  }
+
+  eliminarProducto(producto: any): void {
+    const index = this.productosVenta.indexOf(producto);
+    if (index !== -1) {
+      this.productosVenta.splice(index, 1);
+    }
+
+    console.log(this.productosVenta)
   }
 
 }

@@ -34,8 +34,7 @@
     <div class="producto">
       <h1>Like</h1>
       <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
-        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+        Lorem, dolor sit lit. Unde n, repudiandae non consectetur, atque
       </p>
     </div>
 
@@ -48,17 +47,20 @@
             <th scope="col">Producto</th>
             <th scope="col">Precio</th>
             <th scope="col">Cantidad</th>
+            <th scope="col">Quitar </th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td> {{productos_venta[0]}} </td>
-            <td>Otto</td>
-            <td>@mdo</td>
+          <tr *ngFor="let producto of productosVenta; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.precio }}</td>
+            <td><input class="input_productos" type="number" [(ngModel)]="producto.cantidad" min="1"></td>
+            <td><button (click)="eliminarProducto(producto)"><i class="fa fa-times"></i></button></td>
           </tr>
         </tbody>
       </table>
+
     </div>
 
   </div>

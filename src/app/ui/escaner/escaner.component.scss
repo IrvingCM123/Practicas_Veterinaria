@@ -230,7 +230,9 @@ h1 {
   font-size: 115%;
 }
 
-
+.input_productos {
+  border: 0;
+}
 
 
 
@@ -248,7 +250,6 @@ h1 {
   }
 
   .container {
-    background-color: rgb(163, 45, 45);
     width: 100%;
     max-width: 500vw;
     overflow-x: auto;
