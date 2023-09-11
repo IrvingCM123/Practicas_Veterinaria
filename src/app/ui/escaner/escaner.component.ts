@@ -7,9 +7,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { Escanear_Service } from '../Servicios/EscanearQR.service';
-import { Datos_Locales } from '../Servicios/DatosLocales.service';
-
 @Component({
   selector: 'app-escaner',
   templateUrl: './escaner.component.html',
@@ -19,19 +16,26 @@ export class EscanerComponent {
 
   searchTerm: string = '';
   message: string = '';
+  productos_venta: any[] = [];
 
   constructor() { }
 
   clearSearch() {
-    this.searchTerm = ''; // Borra el contenido del input
+    this.searchTerm = '';
   }
 
   search() {
     if (this.searchTerm.trim() === '') {
       this.message = 'Por favor, ingresa un término de búsqueda.';
     } else {
-      this.message = 'Buscando...'; // Puedes reemplazar esto con tu lógica real de búsqueda
+      this.message = 'Buscando...';
     }
+  }
+
+  agregar() {
+    console.log(this.searchTerm);
+    this.productos_venta.push(this.searchTerm);
+    this.searchTerm = '';
   }
 
 }

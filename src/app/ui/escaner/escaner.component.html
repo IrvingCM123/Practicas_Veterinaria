@@ -25,7 +25,7 @@
         </div>
 
         <button class="buscador_buscar-limpiar" (click)="clearSearch()">Borrar</button>
-        <button class="buscador_buscar-agregar">Agregar</button>
+        <button class="buscador_buscar-agregar" (click)="agregar()" >Agregar</button>
 
       </div>
 
@@ -41,37 +41,24 @@
 
     <div class="tabla">
 
-      <div *ngIf="message">
-        {{ message }}
-      </div>
-
-      <h1>Like</h1>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
-        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
-        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-      </p><p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
-        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-      </p><p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
-        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-      </p><p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
-        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-      </p><p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
-        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-      </p><p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
-        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-      </p><p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
-        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-      </p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td> {{productos_venta[0]}} </td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </div>

@@ -8,7 +8,6 @@ body.Interfaz {
 .Interfaz {
   width: 100vw;
   height: 100vh;
-  background-color: aqua;
   overflow-x: auto;
   overflow-y: auto;
 }
@@ -23,7 +22,7 @@ body.Interfaz {
 }
 
 .Contenedor_Navegador{
-  background-color: blueviolet;
+  background: #1e2d5c;
   grid-row: 1/1;
   grid-column: 1/4;
   overflow-y: auto;
@@ -32,7 +31,6 @@ body.Interfaz {
 }
 
 .Contenedor_Contenido{
-  background-color: brown;
   grid-column: 1/4;
   grid-row: 2/3;
   overflow-y: auto;
@@ -41,7 +39,7 @@ body.Interfaz {
 }
 
 .Contenedor_Legacy{
-  background-color: cadetblue;
+  background-color: rgb(154, 158, 158);
   grid-row: 3/4;
   grid-column: 1/4;
   overflow-y: auto;

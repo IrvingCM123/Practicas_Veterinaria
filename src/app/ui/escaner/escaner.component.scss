@@ -9,7 +9,6 @@ body {
   height: 77.8vh;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: #f00;
 }
 
 .menu {
@@ -29,7 +28,7 @@ body {
   width: 15%;
 }
 
-.menu:hover ~ .container {
+.menu:hover~.container {
   transform: perspective(75vw) rotateY(10deg) translateX(20vw) scaleY(1.2);
 }
 
@@ -87,7 +86,6 @@ h1 {
 }
 
 .container {
-  background-color: #f4f2f2;
   display: grid;
 
   grid-template-rows: 1.5fr 3fr 3fr;
@@ -99,7 +97,7 @@ h1 {
   width: fit-content;
   min-width: 92vw;
   height: 73vh;
-  margin: 2px 0 0 7%;
+  margin: 9px 0 0 7%;
 
   transition: 1s;
   transform-origin: left center;
@@ -119,16 +117,35 @@ h1 {
   border-color: #0b132b;
   border-style: groove;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #4a90e2 #0b132b;
 }
 
 .tabla {
   grid-area: tabla;
-  border: 2px;
-  border-color: #0b132b;
-  border-style: groove;
+  padding-top: 20px;
   overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #4a90e2 #0b132b;
 }
 
+.producto::-webkit-scrollbar,
+.tabla::-webkit-scrollbar {
+  width: 8px;
+  height: 6px;
+}
+
+.producto::-webkit-scrollbar-thumb,
+.tabla::-webkit-scrollbar-thumb {
+  background-color: #4a90e2;
+  border-radius: 4px;
+}
+
+.producto::-webkit-scrollbar-track,
+.tabla::-webkit-scrollbar-track {
+  background-color: #0b132b;
+}
 
 .buscador p {
   font-size: 30px;
@@ -136,7 +153,7 @@ h1 {
   color: #0b132b;
   font-weight: 900;
   padding: 0;
-  margin: 2px 4px 12px 20px;
+  margin: 2px 4px 7px 20px;
 }
 
 .input-container {
@@ -182,7 +199,7 @@ h1 {
   color: #f00;
 }
 
-.buscador-titulo{
+.buscador-titulo {
   margin-top: 0;
   padding-top: 0;
 }
@@ -215,6 +232,9 @@ h1 {
 
 
 
+
+
+
 @media only screen and (max-width: 800px) {
 
   .menu {
@@ -222,13 +242,14 @@ h1 {
     height: 69%;
     margin-top: 4%;
   }
+
   .menu:hover {
     width: 13rem;
   }
 
   .container {
     background-color: rgb(163, 45, 45);
-    width: 100%; 
+    width: 100%;
     max-width: 500vw;
     overflow-x: auto;
     overflow-y: auto;
