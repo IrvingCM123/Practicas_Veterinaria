@@ -1,13 +1,14 @@
-<div>
+<div class="interfaz">
 
   <div class="menu">
     <nav>
+      Veterna
       <ul>
-    <li><a href="#">* Vender</a></li>
-    <li><a href="#">* Historial De Venta</a></li>
-    <li><a href="#">* Estadisticas</a></li>
+        <li><a href="#">Historial</a></li>
+        <li><a href="#">Registro Venta</a></li>
+        <li><a href="#">Estadisticas</a></li>
       </ul>
-      </nav>
+    </nav>
   </div>
 
   <div class="container">
@@ -16,15 +17,15 @@
 
       <p class="buscador-titulo"> Registro Ventas </p>
 
-      <div class="buscar">
+      <div class="buscador_buscar-input">
 
         <div class="input-container">
-          <input  type="text" (keydown.enter)="search()" [(ngModel)]="searchTerm" placeholder="Escribe tu búsqueda..."/>
+          <input type="text" (keydown.enter)="search()" [(ngModel)]="searchTerm" placeholder="Escribe tu búsqueda..." />
           <i class="fa fa-times clear-icon" (click)="clearSearch()"></i>
         </div>
 
-        <button>daw</button>
-        <button>dwadawd</button>
+        <button class="buscador_buscar-limpiar" (click)="clearSearch()">Borrar</button>
+        <button class="buscador_buscar-agregar">Agregar</button>
 
       </div>
 
@@ -33,8 +34,9 @@
     <div class="producto">
       <h1>Like</h1>
       <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-        </p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
+        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+      </p>
     </div>
 
     <div class="tabla">
@@ -45,8 +47,31 @@
 
       <h1>Like</h1>
       <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-        </p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
+        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+      </p>
+      <p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
+        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+      </p><p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
+        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+      </p><p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
+        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+      </p><p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
+        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+      </p><p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
+        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+      </p><p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
+        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+      </p><p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque
+        quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
+      </p>
     </div>
 
   </div>

@@ -1,1 +1,50 @@
 @import '~bootstrap/dist/css/bootstrap.css';
+
+body.Interfaz {
+  margin: 0; /* Elimina el margen predeterminado del cuerpo */
+  overflow: hidden; /* Oculta las barras de desplazamiento del cuerpo */
+}
+
+.Interfaz {
+  width: 100vw;
+  height: 100vh;
+  background-color: aqua;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.Interfaz_Contenedor {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: 1fr 7fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.Contenedor_Navegador{
+  background-color: blueviolet;
+  grid-row: 1/1;
+  grid-column: 1/4;
+  overflow-y: auto;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.Contenedor_Contenido{
+  background-color: brown;
+  grid-column: 1/4;
+  grid-row: 2/3;
+  overflow-y: auto;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.Contenedor_Legacy{
+  background-color: cadetblue;
+  grid-row: 3/4;
+  grid-column: 1/4;
+  overflow-y: auto;
+  overflow-x: auto;
+  white-space: nowrap;
+}
