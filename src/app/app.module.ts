@@ -6,8 +6,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { FormsModule } from '@angular/forms';
-
-
+import { HttpClientModule } from '@angular/common/http';
+import { EscanerPort } from './config/puertos/escaner-puertos/escaner-ports';
+import { EscanerAdapter } from './config/adaptadores/escaner-adapter/escaner-adapter';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,8 +21,13 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     ZXingScannerModule,
     FormsModule,
+    HttpClientModule,
+    CommonModule,
   ],
-  providers: [],
+  providers: [
+    {provide: EscanerPort, useClass: EscanerAdapter},
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

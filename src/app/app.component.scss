@@ -1,15 +1,12 @@
 @import '~bootstrap/dist/css/bootstrap.css';
 
-body.Interfaz {
-  margin: 0; /* Elimina el margen predeterminado del cuerpo */
-  overflow: hidden; /* Oculta las barras de desplazamiento del cuerpo */
-}
-
 .Interfaz {
-  width: 100vw;
-  height: 100vh;
-  overflow-x: auto;
-  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 97.6vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .Interfaz_Contenedor {
