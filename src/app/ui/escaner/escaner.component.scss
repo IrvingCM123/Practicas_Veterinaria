@@ -125,7 +125,6 @@ h1 {
   grid-area: tabla;
   padding-top: 20px;
   overflow-y: auto;
-
   scrollbar-width: thin;
   scrollbar-color: #4a90e2 #0b132b;
 }
@@ -232,9 +231,26 @@ h1 {
 
 .input_productos {
   border: 0;
+  width: 100px;
+  border: #0b132b;
 }
 
+.scan-success-message {
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #00ff00;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  animation: fadeOut 4s ease-in-out forwards;
+}
 
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
 
 
 @media only screen and (max-width: 800px) {
@@ -275,8 +291,8 @@ h1 {
   .container {
     flex-grow: 1;
     margin-left: 15%;
-    width: 79vw;
-    min-width: 79vw;
+    width: 84vw;
+    min-width: 80vw;
     overflow-x: auto;
     overflow-y: auto;
   }
@@ -299,12 +315,28 @@ h1 {
     margin-bottom: 1%;
   }
 
+  .input-container input {
+    font-size: 17px;
+  }
+
+  .buscador p {
+    font-size: 25px;
+  }
+
   .producto {
     width: 40vw;
   }
 
   .tabla {
     width: 76vw;
+  }
+
+  .buscador_buscar-limpiar {
+    font-size: 100%;
+  }
+
+  .buscador_buscar-agregar {
+    font-size: 100%;
   }
 
 }

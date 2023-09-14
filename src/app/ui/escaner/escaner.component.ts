@@ -1,11 +1,4 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  ViewChild,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { EscanerUseCase } from '../../domain/escaner-domain/client/escaner-usecase';
@@ -15,12 +8,16 @@ import { EscanerUseCase } from '../../domain/escaner-domain/client/escaner-useca
   templateUrl: './escaner.component.html',
   styleUrls: ['./escaner.component.scss'],
 })
-
 export class EscanerComponent implements OnInit {
   searchTerm: string = '';
   message: string = '';
+
   response$: any;
+
+  producto_encontrado: any = [];
   productos: any = [];
+  public Mostrar_Producto = false;
+  public Mostrar_Mensaje_Escaneo = false;
 
   productosVenta: any = [
     { id: 1, nombre: 'Producto 1', precio: 10, cantidad: 1 },
@@ -40,15 +37,38 @@ export class EscanerComponent implements OnInit {
     if (this.searchTerm.trim() === '') {
       this.message = 'Por favor, ingresa un término de búsqueda.';
     } else {
-      console.log(this.searchTerm)
-      this.response$ = await this._escanerUseCase.getProductoEscaneado(this.searchTerm);
-      this.response$.subscribe((data: any) => {
-        this.productos = data
-      });
+      let busqueda = await this.buscar_Producto(this.searchTerm);
+      if (busqueda === false) {
+        this.message = 'No se encontró el producto';
+        this.Mostrar_Producto = false;
+      } else {
+        this.Mostrar_Producto = true;
+        this.producto_encontrado = busqueda;
+        console.log(this.producto_encontrado);
+      }
     }
 
+    this.Mostrar_Mensaje_Escaneo = true;
+    setTimeout(() => {
+      this.Mostrar_Mensaje_Escaneo = false;
+    }, 2000);
+  }
 
-    console.log(this.productos);
+  async buscar_Producto(objeto_buscar: string) {
+    try {
+      const response: any = await this._escanerUseCase
+        .getProductoEscaneado(objeto_buscar)
+        .toPromise();
+
+      if (response && response.length > 0) {
+        return response;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al buscar producto:', error);
+      return false;
+    }
   }
 
   agregar() {
@@ -72,5 +92,4 @@ export class EscanerComponent implements OnInit {
 
     console.log(this.productosVenta);
   }
-
 }

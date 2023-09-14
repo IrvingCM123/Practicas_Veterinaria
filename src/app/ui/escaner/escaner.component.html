@@ -33,8 +33,8 @@
 
     <div class="producto">
       <h1>Like</h1>
-      <p>
-        Lorem, dolor sit lit. Unde n, repudiandae non consectetur, atque
+      <p *ngIf="Mostrar_Producto">
+        {{producto_encontrado[0].nombre}}
       </p>
     </div>
 
@@ -47,15 +47,17 @@
             <th scope="col">Producto</th>
             <th scope="col">Precio</th>
             <th scope="col">Cantidad</th>
+            <th scope="col">Subtotal</th>
             <th scope="col">Quitar </th>
           </tr>
         </thead>
-        <tbody class="tabla-contenido">
+        <tbody>
           <tr *ngFor="let producto of productosVenta; let i = index">
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ producto.nombre }}</td>
             <td>{{ producto.precio }}</td>
             <td><input class="input_productos" type="number" [(ngModel)]="producto.cantidad" min="1"></td>
+            <td></td>
             <td><button (click)="eliminarProducto(producto)"><i class="fa fa-times"></i></button></td>
           </tr>
         </tbody>
@@ -66,4 +68,8 @@
 
   </div>
 
+</div>
+
+<div *ngIf="Mostrar_Mensaje_Escaneo" class="scan-success-message">
+  {{message}}
 </div>
