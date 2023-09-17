@@ -1,0 +1,51 @@
+.Menu_Navegacion {
+  display: grid;
+  grid-template-columns: 3fr 1fr 3fr;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  gap: 10px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.Rutas_Navegacion {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.Rutas_Navegacion a {
+  text-decoration: none;
+  color: white;
+  margin-right: 20px;
+  font-weight: bold;
+}
+
+.Informacion_Tienda {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.Informacion_Tienda img {
+  max-width: 43.3%;
+  max-height: 40%;
+  height: auto;
+}
+
+.Informacion_Tienda p {
+  margin: 10px 20px;
+}
+
+.Usuario {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Usuario a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
