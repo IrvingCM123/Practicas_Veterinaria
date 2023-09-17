@@ -1,4 +1,4 @@
-<body class="Interfaz">
+<body class="Interfaz" *ngIf="!imprimirTicket">
 
   <main class="Interfaz_Contenedor">
 
@@ -7,7 +7,7 @@
     </header>
 
     <article class="Contenedor_Contenido">
-      <app-escaner></app-escaner>
+      <app-imprimir-tickets></app-imprimir-tickets>
     </article>
 
     <footer class="Contenedor_Legacy">
@@ -17,3 +17,7 @@
   </main>
 
 </body>
+
+<div *ngIf="imprimirTicket">
+  <app-imprimir-tickets> </app-imprimir-tickets>
+</div>

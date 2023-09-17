@@ -10,10 +10,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { EscanerPort } from './config/puertos/escaner-puertos/escaner-ports';
 import { EscanerAdapter } from './config/adaptadores/escaner-adapter/escaner-adapter';
 import { CommonModule } from '@angular/common';
+import { GenerarCodigoBarrasComponent } from './ui/generar-codigo-barras/generar-codigo-barras.component';
+import { ImprimirTicketsComponent } from './ui/imprimir-tickets/imprimir-tickets.component';
 @NgModule({
   declarations: [
     AppComponent,
     EscanerComponent,
+    GenerarCodigoBarrasComponent,
+    ImprimirTicketsComponent,
 
   ],
   imports: [

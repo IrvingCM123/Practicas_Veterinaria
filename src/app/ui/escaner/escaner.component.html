@@ -20,22 +20,21 @@
       <div class="buscador_buscar-input">
 
         <div class="input-container">
-          <input type="text" (keydown.enter)="search()" [(ngModel)]="searchTerm" placeholder="Escribe tu búsqueda..." />
-          <i class="fa fa-times clear-icon" (click)="clearSearch()"></i>
+          <input type="text" (keydown.enter)="buscar_Producto()" [(ngModel)]="id_Producto_Input" placeholder="Escribe tu búsqueda..." />
+          <i class="fa fa-times clear-icon" (click)="limpiar_Input()"></i>
         </div>
 
-        <button class="buscador_buscar-limpiar" (click)="clearSearch()">Borrar</button>
-        <button class="buscador_buscar-agregar" (click)="agregar()" >Agregar</button>
+        <button class="buscador_buscar-limpiar" (click)="limpiar_Input()">Borrar</button>
+        <button class="buscador_buscar-agregar" (click)="agregar_VentaProducto()" >Agregar</button>
 
       </div>
 
     </div>
 
     <div class="producto">
-      <h1>Like</h1>
-      <p *ngIf="Mostrar_Producto">
-        {{producto_encontrado[0].nombre}}
-      </p>
+      <div *ngIf="Mostrar_Producto">
+        {{producto_Encontrado[0].nombre}}
+      </div>
     </div>
 
     <div class="tabla">
@@ -58,7 +57,7 @@
             <td>{{ producto.precio }}</td>
             <td><input class="input_productos" type="number" [(ngModel)]="producto.cantidad" min="1"></td>
             <td></td>
-            <td><button (click)="eliminarProducto(producto)"><i class="fa fa-times"></i></button></td>
+            <td><button (click)="eliminar_VentaProducto(producto)"><i class="fa fa-times"></i></button></td>
           </tr>
         </tbody>
       </table>
@@ -70,6 +69,6 @@
 
 </div>
 
-<div *ngIf="Mostrar_Mensaje_Escaneo" class="scan-success-message">
-  {{message}}
+<div *ngIf="mostrar_Mensaje_Aviso" class="scan-success-message">
+  {{mensaje_Aviso}}
 </div>
