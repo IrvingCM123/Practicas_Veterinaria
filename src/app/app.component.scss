@@ -1,0 +1,45 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+
+.Interfaz {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 97.6vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.Interfaz_Contenedor {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: 1fr 7fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.Contenedor_Navegador{
+  background: #1e2d5c;
+  grid-row: 1/1;
+  grid-column: 1/4;
+  overflow-y: auto;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.Contenedor_Contenido{
+  grid-column: 1/4;
+  grid-row: 2/3;
+  overflow-y: auto;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.Contenedor_Legacy{
+  background-color: rgb(154, 158, 158);
+  grid-row: 3/4;
+  grid-column: 1/4;
+  overflow-y: auto;
+  overflow-x: auto;
+  white-space: nowrap;
+}
