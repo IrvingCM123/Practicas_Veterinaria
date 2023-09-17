@@ -1,44 +1,74 @@
-<div>
+<div class="interfaz">
 
   <div class="menu">
     <nav>
+      Veterna
       <ul>
-    <li><a href="#">Vender</a></li>
-    <li><a href="#">Historial De Venta</a></li>
-    <li><a href="#">Estadisticas</a></li>
+        <li><a href="#">Historial</a></li>
+        <li><a href="#">Registro Venta</a></li>
+        <li><a href="#">Estadisticas</a></li>
       </ul>
-      </nav>
+    </nav>
   </div>
 
   <div class="container">
 
     <div class="buscador">
 
-      <p> Registro Ventas </p>
+      <p class="buscador-titulo"> Registro Ventas </p>
 
-      <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="search()" placeholder="Escribe tu búsqueda...">
-      <button (click)="search()">Buscar</button>
+      <div class="buscador_buscar-input">
+
+        <div class="input-container">
+          <input type="text" (keydown.enter)="buscar_Producto()" [(ngModel)]="id_Producto_Input" placeholder="Escribe tu búsqueda..." />
+          <i class="fa fa-times clear-icon" (click)="limpiar_Input()"></i>
+        </div>
+
+        <button class="buscador_buscar-limpiar" (click)="limpiar_Input()">Borrar</button>
+        <button class="buscador_buscar-agregar" (click)="agregar_VentaProducto()" >Agregar</button>
+
+      </div>
+
     </div>
 
     <div class="producto">
-      <h1>Like</h1>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-        </p>
+      <div *ngIf="Mostrar_Producto">
+        {{producto_Encontrado[0].nombre}}
+      </div>
     </div>
 
     <div class="tabla">
 
-      <div *ngIf="message">
-        {{ message }}
-      </div>
+      <table style="width: 100%;">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Subtotal</th>
+            <th scope="col">Quitar </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of productosVenta; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.precio }}</td>
+            <td><input class="input_productos" type="number" [(ngModel)]="producto.cantidad" min="1"></td>
+            <td></td>
+            <td><button (click)="eliminar_VentaProducto(producto)"><i class="fa fa-times"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
 
-      <h1>Like</h1>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde neque commodi, repudiandae non consectetur, atque quos quas eos iure laborum hic consequatur modi odio iusto obcaecati. Quam error aspernatur unde.
-        </p>
     </div>
+
 
   </div>
 
+</div>
+
+<div *ngIf="mostrar_Mensaje_Aviso" class="scan-success-message">
+  {{mensaje_Aviso}}
 </div>

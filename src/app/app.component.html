@@ -1,1 +1,23 @@
-<app-escaner></app-escaner>
+<body class="Interfaz" *ngIf="!imprimirTicket">
+
+  <main class="Interfaz_Contenedor">
+
+    <header class="Contenedor_Navegador">
+      <p>Barra de navegación</p>
+    </header>
+
+    <article class="Contenedor_Contenido">
+      <app-imprimir-tickets></app-imprimir-tickets>
+    </article>
+
+    <footer class="Contenedor_Legacy">
+      <p> Texto iconico</p>
+    </footer>
+
+  </main>
+
+</body>
+
+<div *ngIf="imprimirTicket">
+  <app-imprimir-tickets> </app-imprimir-tickets>
+</div>
