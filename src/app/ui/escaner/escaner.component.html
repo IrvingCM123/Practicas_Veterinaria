@@ -1,8 +1,12 @@
 <div class="interfaz">
 
+  <div *ngIf="mostrar_Mensaje_Aviso" class="scan-success-message">
+    {{mensaje_Aviso}}
+  </div>
+
   <div class="menu">
     <nav>
-      Veterna
+      Veterinaria
       <ul>
         <li><a href="#">Historial</a></li>
         <li><a href="#">Registro Venta</a></li>
@@ -56,22 +60,37 @@
         <tbody>
           <tr *ngFor="let producto of productosVenta; let i = index">
             <th scope="row">{{ i + 1 }}</th>
-            <td>{{ producto.nombre }}</td>
-            <td>{{ producto.precio }}</td>
-            <td><input class="input_productos" type="number" [(ngModel)]="producto.cantidad" min="1"></td>
-            <td></td>
+            <td>{{ producto.Nombre }}</td>
+            <td>{{ producto.Precio }}</td>
+            <td><input class="input_productos" type="number" [(ngModel)]="producto.Cantidad" (change)="actualizarSubtotal(producto)" min="1"></td>
+            <td>{{ producto.Subtotal }}</td>
             <td><button (click)="eliminar_VentaProducto(producto)"><i class="fa fa-times"></i></button></td>
           </tr>
+
         </tbody>
       </table>
 
     </div>
 
+    <section class="ticket">
+
+      <div class="total_venta">
+        <p> Total: $ 200</p>
+      </div>
+
+      <div class="cambio_venta">
+        <label for="Total"> Paga con: </label>
+        <input id="Total" type="text">
+
+        <p style="padding-top: 2px;"> Cambio: </p>
+      </div>
+
+      <button class="generar_ticket" (click)="generar_Ticket()">
+        Generar Ticket
+      </button>
+    </section>
 
   </div>
 
 </div>
 
-<div *ngIf="mostrar_Mensaje_Aviso" class="scan-success-message">
-  {{mensaje_Aviso}}
-</div>

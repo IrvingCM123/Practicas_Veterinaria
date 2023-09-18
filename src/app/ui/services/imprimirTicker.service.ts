@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Injectable, ViewChild } from '@angular/core';
 
 interface TicketData {
   logoUrl: string;
@@ -13,12 +13,10 @@ interface Producto {
   precio: string;
 }
 
-@Component({
-  selector: 'app-imprimir-tickets',
-  templateUrl: './imprimir-tickets.component.html',
-  styleUrls: ['./imprimir-tickets.component.scss']
+@Injectable({
+  providedIn: 'root',
 })
-export class ImprimirTicketsComponent {
+export class Tickets_Service {
 
   ngOnInit(): void {
   }

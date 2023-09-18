@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { EscanerUseCase } from '../../domain/escaner-domain/client/escaner-usecase';
+import { Tickets_Service } from '../services/imprimirTicker.service';
 
 export interface Agregar_Producto {
   ID: string;
   Nombre: string;
   Precio: string;
+  Cantidad: number;
+  Subtotal: number;
 }
 
 export interface Producto {
@@ -19,13 +22,14 @@ export interface Producto {
   Categoria: string;
 }
 
-
 @Component({
   selector: 'app-escaner',
   templateUrl: './escaner.component.html',
   styleUrls: ['./escaner.component.scss'],
 })
+
 export class EscanerComponent implements OnInit {
+
   public id_Producto_Input: string = '';
 
   public producto_Encontrado: Producto | any = [];
@@ -36,20 +40,19 @@ export class EscanerComponent implements OnInit {
   public mensaje_Aviso: string = '';
   public mostrar_Mensaje_Aviso = false;
 
-  productosVenta: Agregar_Producto | any = [];
+  public productosVenta: Agregar_Producto | any = [ ];
 
   constructor(
     private http: HttpClient,
-    private _escanerUseCase: EscanerUseCase
+    private _escanerUseCase: EscanerUseCase,
+    private ticketService: Tickets_Service,
   ) {}
 
-  async ngOnInit() {
-  }
+  async ngOnInit() {}
 
   limpiar_Input() {
     this.id_Producto_Input = '';
   }
-
   async buscar_Producto() {
     if (this.id_Producto_Input.trim() === '') {
       this.mensaje_Aviso = 'Por favor, ingresa un término de búsqueda.';
@@ -70,7 +73,7 @@ export class EscanerComponent implements OnInit {
     this.mostrar_Mensaje_Aviso = true;
     setTimeout(() => {
       this.mostrar_Mensaje_Aviso = false;
-    }, 2000);
+    }, 1000);
   }
 
   async buscar_Producto_BD(producto_deseado: string) {
@@ -80,7 +83,7 @@ export class EscanerComponent implements OnInit {
         .toPromise();
 
       if (busquedaProducto_obtenido && busquedaProducto_obtenido.length > 0) {
-        return busquedaProducto_obtenido;
+        return busquedaProducto_obtenido[0];
       } else {
         return false;
       }
@@ -91,24 +94,30 @@ export class EscanerComponent implements OnInit {
   }
 
   agregar_VentaProducto() {
-      const productoAgregado: Agregar_Producto = {
-        ID: this.producto_Encontrado.ID,
-        Nombre: this.producto_Encontrado.Nombre,
-        Precio: this.producto_Encontrado.Precio,
-        // Agrega otros campos si es necesario
-      };
-      this.productosVenta.push(productoAgregado);
-
-      // Limpia el producto encontrado después de agregarlo
-      this.producto_Encontrado = null;
-
+    const productoAgregado: Agregar_Producto = {
+      ID: this.producto_Encontrado.ID,
+      Nombre: this.producto_Encontrado.Nombre,
+      Precio: this.producto_Encontrado.Precio,
+      Cantidad: 1, // Inicializamos la cantidad en 1
+      Subtotal: parseFloat(this.producto_Encontrado.Precio), // Inicializamos el subtotal con el precio
+    };
+    this.productosVenta.push(productoAgregado);
+    this.producto_Encontrado = null;
     this.id_Producto_Input = '';
   }
 
-  eliminar_VentaProducto(producto: any): void {
+  eliminar_VentaProducto(producto: Agregar_Producto): void {
     const index = this.productosVenta.indexOf(producto);
     if (index !== -1) {
       this.productosVenta.splice(index, 1);
     }
+  }
+
+  actualizarSubtotal(producto: Agregar_Producto) {
+    producto.Subtotal = parseFloat(producto.Precio) * producto.Cantidad;
+  }
+
+  generar_Ticket() {
+    this.ticketService.imprimir();
   }
 }
