@@ -131,10 +131,12 @@ h1 {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #4a90e2 #0b132b;
+}
 
-  border: 2px;
-  border-color: #0b132b;
-  border-style: groove;
+.table td {
+  padding: 8px;
+  text-align: center; /* Alineación horizontal al centro */
+  vertical-align: middle; /* Alineación vertical al centro */
 }
 
 .ticket {
@@ -178,12 +180,6 @@ h1 {
   border-color: rgb(22, 194, 65);
 
   cursor: pointer;
-}
-
-.tabla table tbody tr td {
-  border: 1px;
-  border-color: #0b132b;
-  border-style: groove;
 }
 
 .producto::-webkit-scrollbar,
@@ -280,8 +276,8 @@ h1 {
 }
 
 .buscador_buscar-limpiar {
-  background-color: #bbb;
-  color: black;
+  background-color: #999595;
+  color: rgb(255, 255, 255);
   font-weight: 700;
   font-size: 100%;
 }

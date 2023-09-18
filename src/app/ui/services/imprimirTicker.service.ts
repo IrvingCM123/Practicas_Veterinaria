@@ -24,19 +24,16 @@ export class Tickets_Service {
 
   @ViewChild('tablaImprimir', { static: false }) tablaImprimir: ElementRef | any;
 
-  ticket: TicketData | any; // Esta variable almacenará los datos del ticket
+  ticket: TicketData | any;
 
   constructor() {
-    // Aquí cargarías los datos dinámicos de tu JSON y los asignarías a this.ticket
-    // Ejemplo:
     this.ticket = {
-      logoUrl: 'https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
+      logoUrl: '../../../assets//Imagenes/logo.png',
       tienda: 'Como perros y gatos',
       fecha: '17/09/2023',
       productos: [
         { cantidad: 1.00, nombre: 'Producto 1', precio: '$10.00' },
         { cantidad: 2.00, nombre: 'Producto 2', precio: '$20.00' },
-        // ... otros productos ...
       ]
     };
   }

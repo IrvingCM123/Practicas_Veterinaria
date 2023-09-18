@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EscanerUseCase } from '../../domain/escaner-domain/client/escaner-usecase';
 import { Tickets_Service } from '../services/imprimirTicker.service';
+import { Datos_Locales } from '../services/DatosLocales.service';
 
 export interface Agregar_Producto {
   ID: string;
@@ -46,6 +47,7 @@ export class EscanerComponent implements OnInit {
     private http: HttpClient,
     private _escanerUseCase: EscanerUseCase,
     private ticketService: Tickets_Service,
+    private cache: Datos_Locales,
   ) {}
 
   async ngOnInit() {}
@@ -67,6 +69,7 @@ export class EscanerComponent implements OnInit {
       } else {
         this.Mostrar_Producto = true;
         this.producto_Encontrado = obtener_busqueda;
+        this.cache.guardar_DatoLocal('producto_encontrado', this.producto_Encontrado);
       }
     }
 
@@ -94,13 +97,17 @@ export class EscanerComponent implements OnInit {
   }
 
   agregar_VentaProducto() {
-    const productoAgregado: Agregar_Producto = {
+
+    let productoAgregado: Agregar_Producto | any  = this.cache.obtener_DatoLocal('producto_encontrado');
+
+    productoAgregado = {
       ID: this.producto_Encontrado.ID,
       Nombre: this.producto_Encontrado.Nombre,
       Precio: this.producto_Encontrado.Precio,
-      Cantidad: 1, // Inicializamos la cantidad en 1
-      Subtotal: parseFloat(this.producto_Encontrado.Precio), // Inicializamos el subtotal con el precio
+      Cantidad: 1,
+      Subtotal: parseFloat(this.producto_Encontrado.Precio),
     };
+    
     this.productosVenta.push(productoAgregado);
     this.producto_Encontrado = null;
     this.id_Producto_Input = '';
