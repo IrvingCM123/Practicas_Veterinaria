@@ -2,9 +2,9 @@
   display: grid;
   grid-template-columns: 3fr 1fr 3fr;
   align-items: center;
-  background-color: #333;
+  background: rgba(8, 29, 91, 0.882);
   color: white;
-  padding: 10px;
+  padding: 5px;
   gap: 10px;
   overflow-y: hidden;
   overflow-x: hidden;
@@ -12,17 +12,24 @@
 
 .Rutas_Navegacion {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .Rutas_Navegacion a {
   text-decoration: none;
-  color: white;
-  margin-right: 20px;
+  color: rgb(196, 189, 189);
+  margin-right: 50px;
   font-weight: bold;
+  font-size: 120%;
+}
+
+.Rutas_Navegacion a:hover {
+  color: white;
+  text-decoration: none;
 }
 
 .Informacion_Tienda {
+  font-size: 120%;
   display: flex;
   align-items: center;
   flex-grow: 1;
@@ -30,9 +37,11 @@
 }
 
 .Informacion_Tienda img {
-  max-width: 43.3%;
+  max-width: 40.3%;
   max-height: 40%;
   height: auto;
+  margin: 0;
+  padding: 0;
 }
 
 .Informacion_Tienda p {
@@ -41,11 +50,16 @@
 
 .Usuario {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  padding-left: 60%;
 }
 
-.Usuario a {
-  text-decoration: none;
+.botón_menu {
+  font-size: 100%;
   color: white;
-  font-weight: bold;
+  font-weight: 500;
+  background-color: rgb(22, 194, 65);
+  border-radius: 7px;
+  border: none;
+
 }
