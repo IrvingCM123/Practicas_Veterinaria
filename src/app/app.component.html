@@ -1,13 +1,13 @@
-<body class="Interfaz" *ngIf="!imprimirTicket">
+<body class="Interfaz">
 
   <main class="Interfaz_Contenedor">
 
     <header class="Contenedor_Navegador">
-      <p>Barra de navegación</p>
+      <app-header> </app-header>
     </header>
 
     <article class="Contenedor_Contenido">
-      <app-imprimir-tickets></app-imprimir-tickets>
+      <app-escaner> </app-escaner>
     </article>
 
     <footer class="Contenedor_Legacy">
@@ -17,7 +17,3 @@
   </main>
 
 </body>
-
-<div *ngIf="imprimirTicket">
-  <app-imprimir-tickets> </app-imprimir-tickets>
-</div>
