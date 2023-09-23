@@ -79,6 +79,8 @@ export class EscanerComponent implements OnInit {
     }, 1000);
   }
 
+
+
   async buscar_Producto_BD(producto_deseado: string) {
     try {
       const busquedaProducto_obtenido: any = await this._escanerUseCase
@@ -98,8 +100,8 @@ export class EscanerComponent implements OnInit {
 
   agregar_VentaProducto() {
 
-    let productoAgregado: Agregar_Producto | any  = this.cache.obtener_DatoLocal('producto_encontrado');
-
+    let productoAgregado: Agregar_Producto | null = this.cache.obtener_DatoLocal('producto_encontrado');
+    console.log(productoAgregado)
     productoAgregado = {
       ID: this.producto_Encontrado.ID,
       Nombre: this.producto_Encontrado.Nombre,
@@ -107,7 +109,7 @@ export class EscanerComponent implements OnInit {
       Cantidad: 1,
       Subtotal: parseFloat(this.producto_Encontrado.Precio),
     };
-    
+
     this.productosVenta.push(productoAgregado);
     this.producto_Encontrado = null;
     this.id_Producto_Input = '';
@@ -125,6 +127,6 @@ export class EscanerComponent implements OnInit {
   }
 
   generar_Ticket() {
-    this.ticketService.imprimir();
+    this.ticketService.imprimirEtiqueta();
   }
 }

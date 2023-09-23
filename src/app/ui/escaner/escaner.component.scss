@@ -135,8 +135,12 @@ h1 {
 
 .table td {
   padding: 8px;
-  text-align: center; /* Alineación horizontal al centro */
+  text-align: center; /* Alineac ión horizontal al centro */
   vertical-align: middle; /* Alineación vertical al centro */
+}
+
+.table thead tr th {
+  font-size: 130%;
 }
 
 .ticket {
@@ -152,7 +156,7 @@ h1 {
 .cambio_venta p,
 .cambio_venta label {
   font-weight: 600;
-  font-size: 120%;
+  font-size: 125%;
 
   margin: 0;
   padding: 0;
@@ -232,7 +236,7 @@ h1 {
   border: none;
   margin-right: 0;
 
-  font-size: 110%;
+  font-size: 125%;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-weight: 700;
 }
@@ -279,14 +283,14 @@ h1 {
   background-color: #999595;
   color: rgb(255, 255, 255);
   font-weight: 700;
-  font-size: 100%;
+  font-size: 110%;
 }
 
 .buscador_buscar-agregar {
   background-color: palevioletred;
   color: white;
   font-weight: 700;
-  font-size: 100%;
+  font-size: 110%;
 }
 
 .input_productos {
