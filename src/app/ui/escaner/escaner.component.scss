@@ -116,9 +116,6 @@ h1 {
 
 .producto {
   grid-area: producto;
-  border: 2px;
-  border-color: #0b132b;
-  border-style: groove;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #4a90e2 #0b132b;
@@ -129,7 +126,6 @@ h1 {
   grid-template-rows: repeat(3, auto);
   align-items: center;
   padding: 10px;
-
 }
 
 .producto div {
