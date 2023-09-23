@@ -69,6 +69,7 @@ export class EscanerComponent implements OnInit {
       } else {
         this.Mostrar_Producto = true;
         this.producto_Encontrado = obtener_busqueda;
+        console.log(this.producto_Encontrado);
         this.cache.guardar_DatoLocal('producto_encontrado', this.producto_Encontrado);
       }
     }

@@ -37,15 +37,16 @@
 
     <div class="producto">
       <div *ngIf="Mostrar_Producto">
-        {{producto_Encontrado[0].nombre}}
+        <img src="https://th.bing.com/th/id/R.7a864f07681f187fb572468bfc949977?rik=3fUik6Pc6xTrHQ&pid=ImgRaw&r=0" alt="">
+        <div>
+          <p>Nombre: {{producto_Encontrado.nombre}}</p>
+          <p>Precio: {{producto_Encontrado.precio}}</p>
+          <p>Tipo: {{producto_Encontrado.tipo}}</p>
+          <p>Marca: {{producto_Encontrado.marca}}</p>
+        </div>
       </div>
-      <p>
-        Imagen Producto <br>
-        Nombre Producto <br>
-        Costo Producto <br>
-        Cantidad Producto (Kg, Piezas, etc)  <br>
-      </p>
     </div>
+
 
     <div class="tabla">
 
