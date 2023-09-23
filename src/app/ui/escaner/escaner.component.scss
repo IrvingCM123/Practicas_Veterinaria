@@ -243,12 +243,12 @@ h1 {
   height: 4vh;
   margin-left: 3%;
   margin-top: 3px;
-  border: 1px;
-  border-color: #e5dddde2;
+  border: 2px;
+  border-color: #000000e2;
   border-style: groove;
   border-radius: 10px;
 
-  background-color: #e5dddde2;
+  background-color: #ffffff;
 }
 
 .input-container input {
@@ -292,27 +292,30 @@ h1 {
 
 .buscador_buscar-input button {
   margin: 3px 20px;
-  padding: 3px 0px;
+  padding: 2px 0px;
   border-radius: 10px;
   width: 20%;
   height: 100%;
 
-  border-color: transparent;
+  border: 2px;
+  border-style: groove;
+
+  border-color: #0b132b;
   cursor: pointer;
 }
 
-.buscador_buscar-limpiar {
-  background-color: #999595;
-  color: rgb(255, 255, 255);
+.buscador_buscar-limpiar,
+.buscador_buscar-agregar {
+  background-color: #ffffff;
+  color: rgb(1, 1, 1);
   font-weight: 700;
   font-size: 110%;
 }
 
-.buscador_buscar-agregar {
-  background-color: palevioletred;
-  color: white;
-  font-weight: 700;
-  font-size: 110%;
+.buscador_buscar-limpiar:hover,
+.buscador_buscar-agregar:hover {
+  background-color: #0b132b;
+  color: #ffffff;
 }
 
 .input_productos {

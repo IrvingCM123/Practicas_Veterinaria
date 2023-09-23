@@ -8,7 +8,7 @@ import { Datos_Locales } from '../services/DatosLocales.service';
 export interface Agregar_Producto {
   ID: string;
   Nombre: string;
-  Precio: string;
+  Precio: number;
   Cantidad: number;
   Subtotal: number;
 }
@@ -41,7 +41,7 @@ export class EscanerComponent implements OnInit {
   public mensaje_Aviso: string = '';
   public mostrar_Mensaje_Aviso = false;
 
-  public productosVenta: Agregar_Producto | any = [ ];
+  public productosVenta: Agregar_Producto[] | any = [ ];
 
   constructor(
     private http: HttpClient,
@@ -69,8 +69,7 @@ export class EscanerComponent implements OnInit {
       } else {
         this.Mostrar_Producto = true;
         this.producto_Encontrado = obtener_busqueda;
-        console.log(this.producto_Encontrado);
-        this.cache.guardar_DatoLocal('producto_encontrado', this.producto_Encontrado);
+        await this.cache.guardar_DatoLocal('producto_encontrado', this.producto_Encontrado);
       }
     }
 
@@ -99,22 +98,25 @@ export class EscanerComponent implements OnInit {
     }
   }
 
-  agregar_VentaProducto() {
+  async agregar_VentaProducto() {
+    const productoEncontrado: any = await this.cache.obtener_DatoLocal('producto_encontrado');
+    if (productoEncontrado) { // Verificar que productoEncontrado no sea nulo y tenga una propiedad 'nombre'
+      const productoAgregado: Agregar_Producto = {
+        ID: productoEncontrado.id,
+        Nombre: productoEncontrado.nombre,
+        Precio: parseFloat(productoEncontrado.precio),
+        Cantidad: 1,
+        Subtotal: parseFloat(productoEncontrado.precio) * 1,
+      };
 
-    let productoAgregado: Agregar_Producto | null = this.cache.obtener_DatoLocal('producto_encontrado');
-    console.log(productoAgregado)
-    productoAgregado = {
-      ID: this.producto_Encontrado.ID,
-      Nombre: this.producto_Encontrado.Nombre,
-      Precio: this.producto_Encontrado.Precio,
-      Cantidad: 1,
-      Subtotal: parseFloat(this.producto_Encontrado.Precio),
-    };
+      await this.productosVenta.push(productoAgregado);
 
-    this.productosVenta.push(productoAgregado);
-    this.producto_Encontrado = null;
-    this.id_Producto_Input = '';
+      this.producto_Encontrado = null;
+      this.id_Producto_Input = '';
+    }
   }
+
+
 
   eliminar_VentaProducto(producto: Agregar_Producto): void {
     const index = this.productosVenta.indexOf(producto);
@@ -124,7 +126,7 @@ export class EscanerComponent implements OnInit {
   }
 
   actualizarSubtotal(producto: Agregar_Producto) {
-    producto.Subtotal = parseFloat(producto.Precio) * producto.Cantidad;
+    producto.Subtotal = (producto.Precio) * producto.Cantidad;
   }
 
   generar_Ticket() {
