@@ -81,7 +81,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let producto of productosVenta; let i = index">
+          <tr async *ngFor="let producto of productosVenta; let i = index">
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ producto.Nombre }} </td>
             <td>{{ producto.Precio }}</td>
