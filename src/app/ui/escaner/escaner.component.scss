@@ -165,6 +165,11 @@ h1 {
   font-size: 130%;
 }
 
+.table tbody tr td {
+  font-size: 110%;
+  font-weight: 600;
+}
+
 .ticket {
   grid-area: ticket;
 
@@ -185,12 +190,10 @@ h1 {
 }
 
 .cambio_venta input {
-  border: 1px;
-  border-radius: 5px;
-  border-style: groove;
-  border-color: #0b132b;
-
+  border: 0px;
   width: 70%;
+  font-size: 115%;
+  font-weight: 600;
 }
 
 .generar_ticket {
@@ -325,8 +328,8 @@ h1 {
 }
 
 .input_productos {
-  appearance: textfield; /* Esto oculta las flechas de incremento/decremento en algunos navegadores */
-  -webkit-appearance: textfield; /* Esto oculta las flechas de incremento/decremento en Safari */
+  appearance: textfield;
+  -webkit-appearance: textfield;
 }
 
 

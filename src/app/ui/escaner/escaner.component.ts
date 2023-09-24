@@ -12,6 +12,7 @@ export interface Agregar_Producto {
   Precio: number;
   Cantidad: number;
   Subtotal: number;
+  Marca: string;
 }
 
 export interface Producto {
@@ -73,13 +74,14 @@ export class EscanerComponent implements OnInit {
       } else {
         this.Mostrar_Producto = true;
         this.producto_Encontrado = obtener_busqueda;
-
+        console.log(obtener_busqueda);
         const productoAgregado: Agregar_Producto = {
           ID: this.producto_Encontrado.id,
           Nombre: this.producto_Encontrado.nombre,
           Precio: parseFloat(this.producto_Encontrado.precio),
           Cantidad: 1,
           Subtotal: parseFloat(this.producto_Encontrado.precio) * 1,
+          Marca: this.producto_Encontrado.marca,
         };
 
         await this.venta_Service.agregarProductoEncontrado(productoAgregado);
@@ -134,35 +136,43 @@ export class EscanerComponent implements OnInit {
   }
 
   generar_Ticket() {
-    // Calcular el total
     const total = this.calcularTotal();
-    // Calcular el cambio
     const cambio = this.montoAPagar - total;
 
-    // Crear el ticket con los datos
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.toLocaleDateString();
+    const horaFormateada = fechaActual.toLocaleTimeString();
+
     const ticket = {
       logoUrl: '../../../assets/Imagenes/logo.png',
       tienda: 'Como perros y gatos',
-      fecha: '19/09/2023',
+      fecha: `${fechaFormateada} ${horaFormateada}`,
       productos: this.productosVenta.map((producto: Agregar_Producto) => {
         return {
           cantidad: producto.Cantidad,
           nombre: producto.Nombre,
           precio: `$${producto.Precio.toFixed(2)}`,
+          subtotal: producto.Subtotal.toFixed(2),
+          marca: producto.Marca,
         };
       }),
       total: `$${total.toFixed(2)}`,
-      montoPagado: this.montoAPagar, // Pasar el monto a pagar
-      cambio: cambio, // Pasar el cambio
+      montoPagado: this.montoAPagar,
+      cambio: cambio,
+      veterinaria_1: 'M.V.Z. Nilda Carreón F.',
+      veterinaria_2: 'M.V.Z. Marisa R. Carreón',
+      direccion:
+        'Junto al garaje del Hotel Trueba. Sur. 11 No. 337 Orizaba, Ver.',
+      tel: '272-724-2852',
+      cel_1: '272-114-6086',
+      cel_2: '272-154-7909',
+      lema: '¡Consentimos a tu mascota!',
     };
 
-    // Imprimir el ticket
     this.ticketService.imprimir(ticket);
 
-    // Reiniciar productos
     this.venta_Service.reiniciarProductosEncontrados();
   }
-
 
   public montoAPagar: number = 0;
   public cambio: number = 0;
@@ -177,4 +187,5 @@ export class EscanerComponent implements OnInit {
       0
     );
   }
+
 }
