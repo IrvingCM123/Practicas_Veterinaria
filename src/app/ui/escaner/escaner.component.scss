@@ -116,13 +116,35 @@ h1 {
 
 .producto {
   grid-area: producto;
-  border: 2px;
-  border-color: #0b132b;
-  border-style: groove;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #4a90e2 #0b132b;
-  height: 90%;
+  max-height: 90%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: repeat(3, auto);
+  align-items: center;
+  padding: 10px;
+}
+
+.producto div {
+  grid-column: span 3;
+}
+
+.producto div img {
+  margin: 1% 0px 0px 25%;
+  object-fit: cover;
+
+  max-width: 50%;
+  max-height: 50%;
+}
+
+.producto div div p {
+  font-size: 120%;
+  color: rgb(0, 0, 0);
+  font-weight: 800;
+  margin: 4% 0 0 5%
 }
 
 .tabla {
@@ -135,8 +157,8 @@ h1 {
 
 .table td {
   padding: 8px;
-  text-align: center; /* Alineac ión horizontal al centro */
-  vertical-align: middle; /* Alineación vertical al centro */
+  text-align: center;
+  vertical-align: middle;
 }
 
 .table thead tr th {
@@ -221,12 +243,12 @@ h1 {
   height: 4vh;
   margin-left: 3%;
   margin-top: 3px;
-  border: 1px;
-  border-color: #e5dddde2;
+  border: 2px;
+  border-color: #000000e2;
   border-style: groove;
   border-radius: 10px;
 
-  background-color: #e5dddde2;
+  background-color: #ffffff;
 }
 
 .input-container input {
@@ -270,27 +292,30 @@ h1 {
 
 .buscador_buscar-input button {
   margin: 3px 20px;
-  padding: 3px 0px;
+  padding: 2px 0px;
   border-radius: 10px;
   width: 20%;
   height: 100%;
 
-  border-color: transparent;
+  border: 2px;
+  border-style: groove;
+
+  border-color: #0b132b;
   cursor: pointer;
 }
 
-.buscador_buscar-limpiar {
-  background-color: #999595;
-  color: rgb(255, 255, 255);
+.buscador_buscar-limpiar,
+.buscador_buscar-agregar {
+  background-color: #ffffff;
+  color: rgb(1, 1, 1);
   font-weight: 700;
   font-size: 110%;
 }
 
-.buscador_buscar-agregar {
-  background-color: palevioletred;
-  color: white;
-  font-weight: 700;
-  font-size: 110%;
+.buscador_buscar-limpiar:hover,
+.buscador_buscar-agregar:hover {
+  background-color: #0b132b;
+  color: #ffffff;
 }
 
 .input_productos {
@@ -298,6 +323,12 @@ h1 {
   width: 100px;
   border: #0b132b;
 }
+
+.input_productos {
+  appearance: textfield; /* Esto oculta las flechas de incremento/decremento en algunos navegadores */
+  -webkit-appearance: textfield; /* Esto oculta las flechas de incremento/decremento en Safari */
+}
+
 
 .scan-success-message {
   position: fixed;
@@ -374,6 +405,15 @@ h1 {
   .menu:hover {
     width: 14rem;
   }
+
+}
+
+@media only screen and (min-width: 1191px) {
+.producto > div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 }
 
@@ -461,4 +501,6 @@ h1 {
   .buscador_buscar-agregar {
     font-size: 100%;
   }
+
+
 }

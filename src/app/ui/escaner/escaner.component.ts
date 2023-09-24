@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Tickets_Service } from '../services/imprimirTicker.service';
 
 import { HttpClient } from '@angular/common/http';
 import { EscanerUseCase } from '../../domain/escaner-domain/client/escaner-usecase';
-import { Tickets_Service } from '../services/imprimirTicker.service';
 import { Datos_Locales } from '../services/DatosLocales.service';
+import { Venta_Service } from '../services/Lista_Ticket.service';
 
 export interface Agregar_Producto {
   ID: string;
   Nombre: string;
-  Precio: string;
+  Precio: number;
   Cantidad: number;
   Subtotal: number;
 }
@@ -28,9 +29,7 @@ export interface Producto {
   templateUrl: './escaner.component.html',
   styleUrls: ['./escaner.component.scss'],
 })
-
 export class EscanerComponent implements OnInit {
-
   public id_Producto_Input: string = '';
 
   public producto_Encontrado: Producto | any = [];
@@ -41,16 +40,21 @@ export class EscanerComponent implements OnInit {
   public mensaje_Aviso: string = '';
   public mostrar_Mensaje_Aviso = false;
 
-  public productosVenta: Agregar_Producto | any = [ ];
+  public productosVenta: Agregar_Producto[] | any = [];
 
   constructor(
     private http: HttpClient,
     private _escanerUseCase: EscanerUseCase,
     private ticketService: Tickets_Service,
     private cache: Datos_Locales,
+    private venta_Service: Venta_Service,
+    private cdr: ChangeDetectorRef
   ) {}
 
-  async ngOnInit() {}
+  async ngOnInit() {
+    this.venta_Service.reiniciarProductosEncontrados();
+    this.agregar_VentaProducto();
+  }
 
   limpiar_Input() {
     this.id_Producto_Input = '';
@@ -69,7 +73,16 @@ export class EscanerComponent implements OnInit {
       } else {
         this.Mostrar_Producto = true;
         this.producto_Encontrado = obtener_busqueda;
-        this.cache.guardar_DatoLocal('producto_encontrado', this.producto_Encontrado);
+
+        const productoAgregado: Agregar_Producto = {
+          ID: this.producto_Encontrado.id,
+          Nombre: this.producto_Encontrado.nombre,
+          Precio: parseFloat(this.producto_Encontrado.precio),
+          Cantidad: 1,
+          Subtotal: parseFloat(this.producto_Encontrado.precio) * 1,
+        };
+
+        await this.venta_Service.agregarProductoEncontrado(productoAgregado);
       }
     }
 
@@ -78,8 +91,6 @@ export class EscanerComponent implements OnInit {
       this.mostrar_Mensaje_Aviso = false;
     }, 1000);
   }
-
-
 
   async buscar_Producto_BD(producto_deseado: string) {
     try {
@@ -98,35 +109,72 @@ export class EscanerComponent implements OnInit {
     }
   }
 
-  agregar_VentaProducto() {
-
-    let productoAgregado: Agregar_Producto | null = this.cache.obtener_DatoLocal('producto_encontrado');
-    console.log(productoAgregado)
-    productoAgregado = {
-      ID: this.producto_Encontrado.ID,
-      Nombre: this.producto_Encontrado.Nombre,
-      Precio: this.producto_Encontrado.Precio,
-      Cantidad: 1,
-      Subtotal: parseFloat(this.producto_Encontrado.Precio),
-    };
-
-    this.productosVenta.push(productoAgregado);
+  async agregar_VentaProducto() {
+    this.productosVenta = await this.Obtener_Lista_Productos();
     this.producto_Encontrado = null;
     this.id_Producto_Input = '';
+    this.cdr.markForCheck();
+  }
+
+  async Obtener_Lista_Productos() {
+    return await this.venta_Service.obtenerProductosEncontrados();
   }
 
   eliminar_VentaProducto(producto: Agregar_Producto): void {
     const index = this.productosVenta.indexOf(producto);
     if (index !== -1) {
       this.productosVenta.splice(index, 1);
+
+      this.venta_Service.actualizarProductosEncontrados(this.productosVenta);
     }
   }
 
   actualizarSubtotal(producto: Agregar_Producto) {
-    producto.Subtotal = parseFloat(producto.Precio) * producto.Cantidad;
+    producto.Subtotal = producto.Precio * producto.Cantidad;
   }
 
   generar_Ticket() {
-    this.ticketService.imprimirEtiqueta();
+    // Calcular el total
+    const total = this.calcularTotal();
+    // Calcular el cambio
+    const cambio = this.montoAPagar - total;
+
+    // Crear el ticket con los datos
+    const ticket = {
+      logoUrl: '../../../assets/Imagenes/logo.png',
+      tienda: 'Como perros y gatos',
+      fecha: '19/09/2023',
+      productos: this.productosVenta.map((producto: Agregar_Producto) => {
+        return {
+          cantidad: producto.Cantidad,
+          nombre: producto.Nombre,
+          precio: `$${producto.Precio.toFixed(2)}`,
+        };
+      }),
+      total: `$${total.toFixed(2)}`,
+      montoPagado: this.montoAPagar, // Pasar el monto a pagar
+      cambio: cambio, // Pasar el cambio
+    };
+
+    // Imprimir el ticket
+    this.ticketService.imprimir(ticket);
+
+    // Reiniciar productos
+    this.venta_Service.reiniciarProductosEncontrados();
+  }
+
+
+  public montoAPagar: number = 0;
+  public cambio: number = 0;
+
+  calcularCambio() {
+    this.cambio = this.montoAPagar - this.calcularTotal();
+  }
+
+  calcularTotal(): number {
+    return this.productosVenta.reduce(
+      (total: any, producto: any) => total + producto.Subtotal,
+      0
+    );
   }
 }
