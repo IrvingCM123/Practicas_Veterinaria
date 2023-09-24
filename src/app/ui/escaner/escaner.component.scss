@@ -185,12 +185,11 @@ h1 {
 }
 
 .cambio_venta input {
-  border: 1px;
-  border-radius: 5px;
-  border-style: groove;
-  border-color: #0b132b;
+  border: 0px;
 
   width: 70%;
+  font-size: 115%;
+  font-weight: 600;
 }
 
 .generar_ticket {
