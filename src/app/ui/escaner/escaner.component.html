@@ -20,12 +20,8 @@
 
       <div class="buscador_buscar-input">
         <div class="input-container">
-          <input
-            type="text"
-            (keydown.enter)="buscar_Producto()"
-            [(ngModel)]="id_Producto_Input"
-            placeholder="Escribe tu búsqueda..."
-          />
+          <input type="text" (keydown.enter)="buscar_Producto()" [(ngModel)]="id_Producto_Input"
+            placeholder="Escribe tu búsqueda..." />
           <i class="fa fa-times clear-icon" (click)="limpiar_Input()"></i>
         </div>
 
@@ -37,10 +33,8 @@
 
     <div class="producto">
       <div *ngIf="Mostrar_Producto">
-        <img
-          src="https://th.bing.com/th/id/R.7a864f07681f187fb572468bfc949977?rik=3fUik6Pc6xTrHQ&pid=ImgRaw&r=0"
-          alt=""
-        />
+        <img src="https://th.bing.com/th/id/R.7a864f07681f187fb572468bfc949977?rik=3fUik6Pc6xTrHQ&pid=ImgRaw&r=0"
+          alt="" />
         <div>
           <p>
             Nombre:
@@ -80,13 +74,8 @@
             <td>{{ producto.Nombre }} </td>
             <td>{{ producto.Precio }}</td>
             <td>
-              <input
-                class="input_productos"
-                type="number"
-                [(ngModel)]="producto.Cantidad"
-                (change)="actualizarSubtotal(producto)"
-                min="1"
-              />
+              <input style="font-size: 95%; font-weight: 600;" class="input_productos" type="number" [(ngModel)]="producto.Cantidad"
+                (change)="actualizarSubtotal(producto)" min="1" />
             </td>
             <td>{{ producto.Subtotal }}</td>
             <td>
@@ -104,9 +93,7 @@
       <div class="total_venta">
         <p>
           Total:
-          <span
-            style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%"
-          >
+          <span style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%">
             $ {{ calcularTotal() }}
           </span>
         </p>
@@ -118,7 +105,7 @@
 
         <input id="Total" type="number" [(ngModel)]="montoAPagar" (change)="calcularCambio()" />
 
-  <p style="padding-top: 2px">Cambio: ${{ cambio }}</p>
+        <p style="padding-top: 2px">Cambio: ${{ cambio }}</p>
       </div>
 
       <button class="generar_ticket" (click)="generar_Ticket()">

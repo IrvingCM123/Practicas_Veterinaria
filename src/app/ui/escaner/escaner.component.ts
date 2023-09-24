@@ -187,4 +187,5 @@ export class EscanerComponent implements OnInit {
       0
     );
   }
+
 }
