@@ -106,22 +106,25 @@
     </div>
 
     <section class="ticket">
+
       <div class="total_venta">
         <p>
           Total:
           <span
             style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%"
           >
-            $ 200
+            $ {{ calcularTotal() }}
           </span>
         </p>
       </div>
 
-      <div class="cambio_venta">
-        <label for="Total"> Paga con: </label>
-        <input id="Total" type="text" />
 
-        <p style="padding-top: 2px">Cambio:</p>
+      <div class="cambio_venta">
+        <label for="Total"> Paga con: $</label>
+
+        <input id="Total" type="number" [(ngModel)]="montoAPagar" (change)="calcularCambio()" />
+
+  <p style="padding-top: 2px">Cambio: ${{ cambio }}</p>
       </div>
 
       <button class="generar_ticket" (click)="generar_Ticket()">

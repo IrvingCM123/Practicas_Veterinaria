@@ -1,8 +1,8 @@
 import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Tickets_Service } from '../services/imprimirTicker.service';
 
 import { HttpClient } from '@angular/common/http';
 import { EscanerUseCase } from '../../domain/escaner-domain/client/escaner-usecase';
-import { Tickets_Service } from '../services/imprimirTicker.service';
 import { Datos_Locales } from '../services/DatosLocales.service';
 import { Venta_Service } from '../services/Lista_Ticket.service';
 
@@ -52,6 +52,7 @@ export class EscanerComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.venta_Service.reiniciarProductosEncontrados();
     this.agregar_VentaProducto();
   }
 
@@ -123,6 +124,8 @@ export class EscanerComponent implements OnInit {
     const index = this.productosVenta.indexOf(producto);
     if (index !== -1) {
       this.productosVenta.splice(index, 1);
+
+      this.venta_Service.actualizarProductosEncontrados(this.productosVenta);
     }
   }
 
@@ -131,6 +134,47 @@ export class EscanerComponent implements OnInit {
   }
 
   generar_Ticket() {
-    this.ticketService.imprimirEtiqueta();
+    // Calcular el total
+    const total = this.calcularTotal();
+    // Calcular el cambio
+    const cambio = this.montoAPagar - total;
+
+    // Crear el ticket con los datos
+    const ticket = {
+      logoUrl: '../../../assets/Imagenes/logo.png',
+      tienda: 'Como perros y gatos',
+      fecha: '19/09/2023',
+      productos: this.productosVenta.map((producto: Agregar_Producto) => {
+        return {
+          cantidad: producto.Cantidad,
+          nombre: producto.Nombre,
+          precio: `$${producto.Precio.toFixed(2)}`,
+        };
+      }),
+      total: `$${total.toFixed(2)}`,
+      montoPagado: this.montoAPagar, // Pasar el monto a pagar
+      cambio: cambio, // Pasar el cambio
+    };
+
+    // Imprimir el ticket
+    this.ticketService.imprimir(ticket);
+
+    // Reiniciar productos
+    this.venta_Service.reiniciarProductosEncontrados();
+  }
+
+
+  public montoAPagar: number = 0;
+  public cambio: number = 0;
+
+  calcularCambio() {
+    this.cambio = this.montoAPagar - this.calcularTotal();
+  }
+
+  calcularTotal(): number {
+    return this.productosVenta.reduce(
+      (total: any, producto: any) => total + producto.Subtotal,
+      0
+    );
   }
 }

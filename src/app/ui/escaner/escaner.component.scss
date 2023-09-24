@@ -324,6 +324,12 @@ h1 {
   border: #0b132b;
 }
 
+.input_productos {
+  appearance: textfield; /* Esto oculta las flechas de incremento/decremento en algunos navegadores */
+  -webkit-appearance: textfield; /* Esto oculta las flechas de incremento/decremento en Safari */
+}
+
+
 .scan-success-message {
   position: fixed;
   top: 50px;
