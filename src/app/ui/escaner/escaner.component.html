@@ -1,8 +1,11 @@
 <div class="interfaz">
+  <div *ngIf="mostrar_Mensaje_Aviso" class="scan-success-message">
+    {{ mensaje_Aviso }}
+  </div>
 
   <div class="menu">
     <nav>
-      Veterna
+      Veterinaria
       <ul>
         <li><a href="#">Historial</a></li>
         <li><a href="#">Registro Venta</a></li>
@@ -12,66 +15,121 @@
   </div>
 
   <div class="container">
-
     <div class="buscador">
-
-      <p class="buscador-titulo"> Registro Ventas </p>
+      <p class="buscador-titulo">Registro Ventas</p>
 
       <div class="buscador_buscar-input">
-
         <div class="input-container">
-          <input type="text" (keydown.enter)="buscar_Producto()" [(ngModel)]="id_Producto_Input" placeholder="Escribe tu búsqueda..." />
+          <input
+            type="text"
+            (keydown.enter)="buscar_Producto()"
+            [(ngModel)]="id_Producto_Input"
+            placeholder="Escribe tu búsqueda..."
+          />
           <i class="fa fa-times clear-icon" (click)="limpiar_Input()"></i>
         </div>
 
-        <button class="buscador_buscar-limpiar" (click)="limpiar_Input()">Borrar</button>
-        <button class="buscador_buscar-agregar" (click)="agregar_VentaProducto()" >Agregar</button>
-
+        <button class="buscador_buscar-limpiar" (click)="limpiar_Input()">
+          Borrar
+        </button>
+        <button
+          class="buscador_buscar-agregar"
+          (click)="agregar_VentaProducto()"
+        >
+          Agregar
+        </button>
       </div>
-
     </div>
 
     <div class="producto">
       <div *ngIf="Mostrar_Producto">
-        {{producto_Encontrado[0].nombre}}
+        <img
+          src="https://th.bing.com/th/id/R.7a864f07681f187fb572468bfc949977?rik=3fUik6Pc6xTrHQ&pid=ImgRaw&r=0"
+          alt=""
+        />
+        <div>
+          <p>
+            Nombre:
+            <span style="color: blue"> {{ producto_Encontrado.nombre }} </span>
+          </p>
+          <p>
+            Precio:
+            <span style="color: blue"> {{ producto_Encontrado.precio }} </span>
+          </p>
+          <p>
+            Tipo:
+            <span style="color: blue"> {{ producto_Encontrado.tipo }} </span>
+          </p>
+          <p>
+            Marca:
+            <span style="color: blue"> {{ producto_Encontrado.marca }} </span>
+          </p>
+        </div>
       </div>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum et sint iusto velit rem. Facilis veritatis repellat
-      </p>
     </div>
 
     <div class="tabla">
-
-      <table style="width: 100%;">
+      <table class="table" style="width: 100%">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Producto</th>
             <th scope="col">Precio</th>
-            <th scope="col">Cantidad</th>
+            <th scope="col">Cantidad Venta</th>
             <th scope="col">Subtotal</th>
-            <th scope="col">Quitar </th>
+            <th scope="col">Quitar</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let producto of productosVenta; let i = index">
+          <tr async *ngFor="let producto of productosVenta; let i = index">
             <th scope="row">{{ i + 1 }}</th>
-            <td>{{ producto.nombre }}</td>
-            <td>{{ producto.precio }}</td>
-            <td><input class="input_productos" type="number" [(ngModel)]="producto.cantidad" min="1"></td>
-            <td></td>
-            <td><button (click)="eliminar_VentaProducto(producto)"><i class="fa fa-times"></i></button></td>
+            <td>{{ producto.Nombre }} </td>
+            <td>{{ producto.Precio }}</td>
+            <td>
+              <input
+                class="input_productos"
+                type="number"
+                [(ngModel)]="producto.Cantidad"
+                (change)="actualizarSubtotal(producto)"
+                min="1"
+              />
+            </td>
+            <td>{{ producto.Subtotal }}</td>
+            <td>
+              <button (click)="eliminar_VentaProducto(producto)">
+                <i class="fa fa-times"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
-
     </div>
 
+    <section class="ticket">
 
+      <div class="total_venta">
+        <p>
+          Total:
+          <span
+            style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%"
+          >
+            $ {{ calcularTotal() }}
+          </span>
+        </p>
+      </div>
+
+
+      <div class="cambio_venta">
+        <label for="Total"> Paga con: $</label>
+
+        <input id="Total" type="number" [(ngModel)]="montoAPagar" (change)="calcularCambio()" />
+
+  <p style="padding-top: 2px">Cambio: ${{ cambio }}</p>
+      </div>
+
+      <button class="generar_ticket" (click)="generar_Ticket()">
+        Generar Ticket
+      </button>
+    </section>
   </div>
-
-</div>
-
-<div *ngIf="mostrar_Mensaje_Aviso" class="scan-success-message">
-  {{mensaje_Aviso}}
 </div>
