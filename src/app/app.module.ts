@@ -12,12 +12,14 @@ import { EscanerAdapter } from './config/adaptadores/escaner-adapter/escaner-ada
 import { CommonModule } from '@angular/common';
 import { GenerarCodigoBarrasComponent } from './ui/generar-codigo-barras/generar-codigo-barras.component';
 import { HeaderComponent } from './ui/header/header.component';
+import { FooterComponent } from './ui/footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
     EscanerComponent,
     GenerarCodigoBarrasComponent,
     HeaderComponent,
+    FooterComponent,
 
   ],
   imports: [
