@@ -35,11 +35,12 @@
 }
 
 .Contenedor_Legacy{
-  background-color: rgb(154, 158, 158);
-  grid-row: 3/4;
+  grid-row: 3/5;
   grid-column: 1/4;
-  overflow-y: auto;
-  overflow-x: auto;
   white-space: nowrap;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
