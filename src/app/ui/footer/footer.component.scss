@@ -1,0 +1,45 @@
+
+.footer {
+  color: black;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  max-height: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.left, .center, .right {
+  flex: 1;
+  padding: 0 10px;
+  margin: 0;
+}
+
+.left h3, .center h3, .right h3 {
+  font-size: 16px;
+  margin: 0;
+  color: rgb(89, 79, 79);
+}
+
+.left span, .center span, .right span {
+  font-size: 15px;
+  padding: 0 3px;
+  color: black;
+}
+
+.left p, .center p, .right p {
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+}
