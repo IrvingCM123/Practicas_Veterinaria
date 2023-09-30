@@ -3,6 +3,7 @@ import { Tickets_Service } from '../services/imprimirTicker.service';
 
 import { HttpClient } from '@angular/common/http';
 import { EscanerUseCase } from '../../domain/escaner-domain/client/escaner-usecase';
+import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
 import { Datos_Locales } from '../services/DatosLocales.service';
 import { Venta_Service } from '../services/Lista_Ticket.service';
 
@@ -25,6 +26,13 @@ export interface Producto {
   Categoria: string;
 }
 
+export interface ProductoVenta {
+  Nombre: string;
+  Precio: number;
+  Cantidad: number;
+  Subtotal: number;
+}
+
 @Component({
   selector: 'app-escaner',
   templateUrl: './escaner.component.html',
@@ -34,8 +42,6 @@ export class EscanerComponent implements OnInit {
   public id_Producto_Input: string = '';
 
   public producto_Encontrado: Producto | any = [];
-  private producto_Mostar: Producto | undefined;
-  private producto_Agregar: Agregar_Producto | undefined;
 
   public Mostrar_Producto = false;
   public mensaje_Aviso: string = '';
@@ -49,7 +55,8 @@ export class EscanerComponent implements OnInit {
     private ticketService: Tickets_Service,
     private cache: Datos_Locales,
     private venta_Service: Venta_Service,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private _ventaUseCase: VentaUseCase
   ) {}
 
   async ngOnInit() {
@@ -60,6 +67,7 @@ export class EscanerComponent implements OnInit {
   limpiar_Input() {
     this.id_Producto_Input = '';
   }
+
   async buscar_Producto() {
     if (this.id_Producto_Input.trim() === '') {
       this.mensaje_Aviso = 'Por favor, ingresa un término de búsqueda.';
@@ -67,6 +75,7 @@ export class EscanerComponent implements OnInit {
       let obtener_busqueda: Producto | boolean = await this.buscar_Producto_BD(
         this.id_Producto_Input
       );
+
       if (obtener_busqueda === false) {
         this.mensaje_Aviso = 'No se encontró el producto';
         this.Mostrar_Producto = false;
@@ -74,7 +83,7 @@ export class EscanerComponent implements OnInit {
       } else {
         this.Mostrar_Producto = true;
         this.producto_Encontrado = obtener_busqueda;
-        console.log(obtener_busqueda);
+
         const productoAgregado: Agregar_Producto = {
           ID: this.producto_Encontrado.id,
           Nombre: this.producto_Encontrado.nombre,
@@ -100,13 +109,12 @@ export class EscanerComponent implements OnInit {
         .getProductoEscaneado(producto_deseado)
         .toPromise();
 
-      if (busquedaProducto_obtenido && busquedaProducto_obtenido.length > 0) {
-        return busquedaProducto_obtenido[0];
+      if (busquedaProducto_obtenido) {
+        return busquedaProducto_obtenido;
       } else {
         return false;
       }
     } catch (error) {
-      console.error('Error al buscar producto:', error);
       return false;
     }
   }
@@ -147,6 +155,7 @@ export class EscanerComponent implements OnInit {
       logoUrl: '../../../assets/Imagenes/logo.png',
       tienda: 'Como perros y gatos',
       fecha: `${fechaFormateada} ${horaFormateada}`,
+
       productos: this.productosVenta.map((producto: Agregar_Producto) => {
         return {
           cantidad: producto.Cantidad,
@@ -156,6 +165,7 @@ export class EscanerComponent implements OnInit {
           marca: producto.Marca,
         };
       }),
+
       total: `$${total.toFixed(2)}`,
       montoPagado: this.montoAPagar,
       cambio: cambio,
@@ -170,8 +180,9 @@ export class EscanerComponent implements OnInit {
     };
 
     this.ticketService.imprimir(ticket);
-
+    this.guardarVenta();
     this.venta_Service.reiniciarProductosEncontrados();
+    this.limpiarPantalla();
   }
 
   public montoAPagar: number = 0;
@@ -187,5 +198,51 @@ export class EscanerComponent implements OnInit {
       0
     );
   }
+  async guardarVenta() {
+    try {
+      const fechaActual = new Date();
+      const fechaVenta = `${fechaActual
+        .toISOString()
+        .slice(0, 10)} ${fechaActual.toLocaleTimeString()}`;
+      const total = this.calcularTotal();
 
+      const ventaGuardada = {
+        ProductosVendidos: this.productosVenta.map(
+          (producto: Agregar_Producto) => {
+            return {
+              Nombre: producto.Nombre,
+              Precio: producto.Precio,
+              Cantidad: producto.Cantidad,
+              Subtotal: producto.Subtotal,
+            };
+          }
+        ),
+        TotalVenta: `${total.toFixed(2)}`,
+        TotalProductosVendidos: this.productosVenta.length,
+        FechaVenta: fechaVenta,
+      };
+
+      await this._ventaUseCase.postVentaProducto(ventaGuardada).toPromise();
+
+      this.mensaje_Aviso = 'Venta registrada';
+
+      this.limpiarPantalla();
+      return true;
+    } catch (error) {
+      this.mensaje_Aviso = 'Error al registrar la venta';
+      return false;
+    } finally {
+      this.mostrar_Mensaje_Aviso = true;
+      setTimeout(() => {
+        this.mostrar_Mensaje_Aviso = false;
+      }, 1000);
+    }
+  }
+
+  limpiarPantalla() {
+    this.productosVenta = [];
+    this.montoAPagar = 0;
+    this.cambio = 0;
+    this.limpiar_Input();
+  }
 }
