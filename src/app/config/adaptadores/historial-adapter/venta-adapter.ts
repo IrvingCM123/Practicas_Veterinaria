@@ -17,8 +17,6 @@ export class VentaAdapter extends VentaPort {
   }
 
   postVenta(venta: any): Observable<[] | any> {
-    console.log("venta: ", venta)
-    console.log(this.api_url)
     return this._http.post<any>(`${this.api_url}`, venta);
   }
 }
