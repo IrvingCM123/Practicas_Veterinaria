@@ -66,6 +66,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "proxyConfig": "proxy.conf.json",
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
@@ -74,6 +75,9 @@
             "development": {
               "browserTarget": "Veterinaria:build:development"
             }
+          },
+          "options": {
+            "proxyConfig": "src/proxy.conf.json"
           },
           "defaultConfiguration": "development"
         },
