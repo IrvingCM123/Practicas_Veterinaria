@@ -36,4 +36,9 @@ export class HistorialComponent implements OnInit {
       console.error('Error al obtener los datos:', error);
     }
   }
+
+  async seleccionarFecha() {
+    let resultado = await this._ventaUseCase.getVentaRegistrada(this.fecha);
+    console.log(resultado);
+  }
 }

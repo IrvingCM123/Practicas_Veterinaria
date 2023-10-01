@@ -16,14 +16,22 @@
     <div class="Buscador">
 
       <div class="mb-3">
+        <!-- Etiqueta del campo Fecha Venta -->
         <label class="form-label"> Fecha Venta: </label>
-        <select style="margin-left: 1%;" class="form-select" aria-label="Default select example" [(ngModel)]="fecha">
+        <!-- Elemento de selección (select) para la fecha de venta -->
+        <!-- Enlace bidireccional con la variable 'fecha' en el componente -->
+        <select style="margin-left: 1%;" class="form-select" aria-label="Default select example" [(ngModel)]="fecha"
+          (change)="seleccionarFecha()">  <!-- Evento que se activa cuando se cambia la selección -->
+          <!-- Opción por defecto -->
           <option selected>Selecciona una fecha: </option>
-          <ng-container *ngFor="let item of Array_Fecha" >
-            <option value={{item}}> {{item}} </option>
+          <!-- Recorre el array 'Array_Fecha' para crear opciones dinámicas -->
+          <ng-container *ngFor="let item of Array_Fecha">
+            <!-- Asigna el valor de 'item' a la opción utilizando [ngValue] -->
+            <option [ngValue]="item"> {{ item }} </option>
           </ng-container>
         </select>
       </div>
+
     </div>
 
     <div class="table-responsive">
