@@ -91,7 +91,7 @@ h1 {
 .container {
   display: grid;
 
-  grid-template-rows:1.2fr 4fr;
+  grid-template-rows: 0.4fr 3fr;
   grid-template-columns: 5fr;
   grid-template-areas:
     "buscador buscador"
@@ -119,7 +119,56 @@ table {
   grid-area: tabla;
 }
 
+.Titulos {
+  font-size: 120%;
+  color: #0b132b;
+  font-weight: 700;
+}
 
+.tabla {
+  background: rgba(8, 29, 91, 0.882);
+  border-radius: 10px;
+}
+
+.tabla tr th {
+  color: #eee;
+  font-size: 110%;
+}
+
+table tbody tr td {
+  color: #0b132b;
+  font-size: 110%;
+  font-weight: 500;
+}
+
+.tablafooter {
+  background: rgba(8, 29, 91, 0.882);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.tablafooter p, .tablafooter p strong {
+  color: #eee;
+  font-size: 110%;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilo predeterminado del select */
+select {
+  color: #0b132b;
+  font-size: 110%;
+  font-weight: 700;
+  border: 1px groove #0b132b;
+  border-radius: 10px;
+  width: fit-content + 10px;
+}
+
+select.selected {
+  border: none;
+}
 
 
 
