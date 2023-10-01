@@ -21,10 +21,10 @@
       <div class="mb-3">
         <label class="form-label"> Fecha Venta: </label>
         <select style="margin-left: 1%;" class="form-select" aria-label="Default select example" [(ngModel)]="fecha">
-          <option selected>Selecciona un edificio</option>
-          <option value="Edificio 1">Edificio 1</option>
-          <option value="Edificio 2">Edificio 2</option>
-          <option value="Edificio 3">Edificio 3</option>
+          <option selected>Selecciona una fecha: </option>
+          <ng-container *ngFor="let item of Array_Fecha" >
+            <option value="Edificio 1"> {{item}} </option>
+          </ng-container>
         </select>
       </div>
     </div>

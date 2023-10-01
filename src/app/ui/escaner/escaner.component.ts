@@ -201,9 +201,11 @@ export class EscanerComponent implements OnInit {
   async guardarVenta() {
     try {
       const fechaActual = new Date();
-      const fechaVenta = `${fechaActual
-        .toISOString()
-        .slice(0, 10)} ${fechaActual.toLocaleTimeString()}`;
+      const año = fechaActual.getFullYear();
+      const mes = fechaActual.getMonth() + 1; // Los meses en JavaScript van de 0 a 11, por lo que sumamos 1
+      const dia = fechaActual.getDate();
+
+      const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${ dia < 10 ? '0' : '' }${dia}`;
       const total = this.calcularTotal();
 
       const ventaGuardada = {
