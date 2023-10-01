@@ -108,7 +108,7 @@ export class EscanerComponent implements OnInit {
       const busquedaProducto_obtenido: any = await this._escanerUseCase
         .getProductoEscaneado(producto_deseado)
         .toPromise();
-      console.log(busquedaProducto_obtenido)
+
       if (busquedaProducto_obtenido) {
         return busquedaProducto_obtenido;
       } else {

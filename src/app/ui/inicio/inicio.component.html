@@ -1,11 +1,40 @@
 <div class="container">
-  <div class="carousel-item">
-    <img src="../../../assets/Imagenes/logo.png" alt="wd" />
-    <div class="carousel-caption d-none d-md-block">
-      <h5>adwdwa</h5>
-      <p>dwadw</p>
+  <section>
+    <div class="contenedor">
+      <div class="carousel">
+        <input
+          *ngFor="let image of images; let i = index"
+          type="radio"
+          [name]="'slides'"
+          [id]="'slide-' + (i + 1)"
+          [checked]="i === 0"
+        />
+        <ul class="carousel__slides">
+          <li
+            class="carousel__slide"
+            *ngFor="let image of images; let i = index"
+          >
+            <figure>
+              <div>
+                <img [src]="image.imageUrl" alt="" />
+              </div>
+              <figcaption>
+                {{ image.caption }}
+                <span class="credit">{{ image.credit }}</span>
+              </figcaption>
+            </figure>
+          </li>
+        </ul>
+        <ul class="carousel__thumbnails">
+          <li *ngFor="let image of images; let i = index">
+            <label [for]="'slide-' + (i + 1)">
+              <img [src]="image.imageUrl" alt="" />
+            </label>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</div>
+  </section>
 
-sadasd
+  <div>daw</div>
+</div>
