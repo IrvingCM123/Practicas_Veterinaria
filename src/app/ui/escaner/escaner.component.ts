@@ -247,5 +247,6 @@ export class EscanerComponent implements OnInit {
     this.montoAPagar = 0;
     this.cambio = 0;
     this.limpiar_Input();
+    window.location.reload();
   }
 }
