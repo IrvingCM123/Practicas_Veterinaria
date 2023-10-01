@@ -16,6 +16,7 @@ import { HistorialVentasComponent } from './historial-ventas/historial-ventas.co
 import { VentaPort } from './config/puertos/venta-puertos/venta-ports';
 import { VentaAdapter } from './config/adaptadores/historial-adapter/venta-adapter';
 import { HistorialComponent } from './ui/historial/historial.component';
+import { GraficasComponent } from './ui/graficas/graficas.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,7 @@ import { HistorialComponent } from './ui/historial/historial.component';
     FooterComponent,
     HistorialVentasComponent,
     HistorialComponent,
+    GraficasComponent,
 
   ],
   imports: [
