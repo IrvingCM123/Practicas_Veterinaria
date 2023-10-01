@@ -15,4 +15,12 @@ export class VentaUseCase {
     return this._ventaPort.postVenta(venta);
   }
 
+  getVentaRegistrada(fecha: string): Observable<any> {
+    return this._ventaPort.getVentas(fecha);
+  }
+
+  getFechasVentaRegistrada(): Observable<any> {
+    return this._ventaPort.getFechaVentas();
+  }
+  
 }

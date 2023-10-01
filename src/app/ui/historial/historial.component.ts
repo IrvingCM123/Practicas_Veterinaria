@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { VentaUseCase } from 'src/app/domain/historial-domain/client/venta-usecase';
 
 @Component({
   selector: 'app-historial',
@@ -7,9 +8,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistorialComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _ventaUseCase: VentaUseCase
+  ) { }
 
-  ngOnInit(): void {
+  public fecha: any;
+  public Array_Fecha: any = [];
+
+  async ngOnInit() {
+    try {
+      // Realiza la solicitud para obtener la respuesta
+      const response = await this._ventaUseCase.getFechasVentaRegistrada().toPromise();
+
+      // Verifica que response sea un objeto con la propiedad 'nombresDocumentos'
+      if (typeof response === 'object' && Array.isArray(response.nombresDocumentos)) {
+        // Obtén los nombres de documentos del campo 'nombresDocumentos'
+        this.Array_Fecha = response.nombresDocumentos;
+      } else {
+        console.error('La respuesta no contiene la propiedad "nombresDocumentos":', response);
+      }
+
+      // Verifica el contenido de Array_Fecha
+      console.log(this.Array_Fecha);
+    } catch (error) {
+      console.error('Error al obtener los datos:', error);
+    }
   }
+
+
 
 }

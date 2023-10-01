@@ -88,18 +88,15 @@ h1 {
   color: #bbb;
 }
 
-
-
 .container {
   display: grid;
 
-  grid-template-rows: 1.5fr 4fr 4fr 0.5fr;
-  grid-template-columns: 1fr 5fr 3fr;
+  grid-template-rows:1.2fr 4fr;
+  grid-template-columns: 5fr;
   grid-template-areas:
-    "buscador buscador producto"
-    "tabla tabla producto"
-    "tabla tabla producto"
-    "ticket ticket producto";
+    "buscador buscador"
+    "tabla tabla"
+    "tabla tabla";
   width: fit-content;
   min-width: 90vw;
   max-height: 74vh;
@@ -113,7 +110,14 @@ h1 {
   overflow-y: auto;
 }
 
+.Buscador {
+  grid-area: buscador;
+  margin-top: 2%;
+}
 
+table {
+  grid-area: tabla;
+}
 
 
 
