@@ -11,6 +11,7 @@ export class HistorialComponent implements OnInit {
 
   public fecha: any;
   public Array_Fecha: any = [];
+  public Array_Venta: any = [];
 
   async ngOnInit() {
     try {
@@ -38,7 +39,7 @@ export class HistorialComponent implements OnInit {
   }
 
   async seleccionarFecha() {
-    let resultado = await this._ventaUseCase.getVentaRegistrada(this.fecha);
+    let resultado = await this._ventaUseCase.getVentaRegistrada(this.fecha).toPromise();
     console.log(resultado);
   }
 }
