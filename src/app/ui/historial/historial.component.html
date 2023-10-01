@@ -17,7 +17,7 @@
 
       <div class="mb-3">
         <!-- Etiqueta del campo Fecha Venta -->
-        <label class="form-label"> Fecha Venta: </label>
+        <label class="form-label Titulos"> Fecha Venta: </label>
         <!-- Elemento de selección (select) para la fecha de venta -->
         <!-- Enlace bidireccional con la variable 'fecha' en el componente -->
         <select style="margin-left: 1%;" class="form-select" aria-label="Default select example" [(ngModel)]="fecha"
@@ -32,11 +32,15 @@
         </select>
       </div>
 
+      <button style="cursor: pointer;" *ngIf="Datos_Recibidos">
+        Generar Reporte
+      </button>
+
     </div>
 
     <div class="table-responsive"  *ngIf="Datos_Recibidos" >
       <table class="table">
-        <thead class="thead-dark">
+        <thead >
           <tr>
             <th scope="col">#</th>
             <th scope="col">Nombre</th>
