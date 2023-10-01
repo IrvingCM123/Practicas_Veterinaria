@@ -40,7 +40,7 @@
 
     <div class="table-responsive"  *ngIf="Datos_Recibidos" >
       <table class="table">
-        <thead >
+        <thead class="tabla">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Nombre</th>
@@ -61,13 +61,15 @@
         </tbody>
       </table>
 
-      <p>
-        <strong> Total: $</strong> {{Array_Venta.TotalVenta}}
-      </p>
+      <div class="tablafooter">
+        <p>
+          <strong> Total: $</strong> {{Array_Venta.TotalVenta}}
+        </p>
 
-      <p>
-        <strong> Fecha: </strong> {{Array_Venta.FechaVenta}}
-      </p>
+        <p>
+          <strong> Fecha: </strong> {{Array_Venta.FechaVenta}}
+        </p>
+      </div>
     </div>
   </div>
 

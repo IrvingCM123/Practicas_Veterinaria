@@ -125,6 +125,22 @@ table {
   font-weight: 700;
 }
 
+.tabla {
+  background: rgba(8, 29, 91, 0.882);
+  border-radius: 10px;
+}
+
+.tabla tr th {
+  color: #eee;
+}
+
+.tablafooter {
+  background: rgba(8, 29, 91, 0.882);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 @keyframes fadeInOut {
   0% {
     opacity: 0;
