@@ -224,6 +224,7 @@ export class EscanerComponent implements OnInit {
         FechaVenta: fechaVenta,
       };
 
+      console.log(ventaGuardada)
       await this._ventaUseCase.postVentaProducto(ventaGuardada).toPromise();
 
       this.mensaje_Aviso = 'Venta registrada';
