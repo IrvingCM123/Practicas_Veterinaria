@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: 16.x
       - name: npm install
-        run: npm install
+        run: npm install --force
 #      - name: Test
 #        run: |
 #          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
