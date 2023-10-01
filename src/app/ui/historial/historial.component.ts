@@ -12,6 +12,7 @@ export class HistorialComponent implements OnInit {
   public fecha: any;
   public Array_Fecha: any = [];
   public Array_Venta: any = [];
+  public Datos_Recibidos: boolean = false;
 
   async ngOnInit() {
     try {
@@ -39,7 +40,23 @@ export class HistorialComponent implements OnInit {
   }
 
   async seleccionarFecha() {
-    let resultado = await this._ventaUseCase.getVentaRegistrada(this.fecha).toPromise();
-    console.log(resultado);
+    try {
+      const resultado = await this._ventaUseCase
+        .getVentaRegistrada(this.fecha)
+        .toPromise();
+
+      // Verificamos que los datos sean válidos antes de asignarlos al array
+      if (resultado && resultado.datosDocumento) {
+        this.Array_Venta = resultado.datosDocumento;
+        this.Datos_Recibidos = true;
+        console.log(this.Array_Venta);
+      } else {
+        // Manejo de error si los datos no son válidos
+        console.error('Datos de venta no válidos:', resultado);
+      }
+    } catch (error) {
+      // Manejo de error si la solicitud falla
+      console.error('Error al obtener la venta:', error);
+    }
   }
 }
