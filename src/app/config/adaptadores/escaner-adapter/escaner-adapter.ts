@@ -10,7 +10,7 @@ import { escaner } from "src/app/domain/escaner-domain/models/escaner.entity";
 })
 export class EscanerAdapter extends EscanerPort {
 
-    api_url = environment.url + "/Productos/"
+    api_url = environment.url + "/productosid/"
 
     constructor(private _http: HttpClient) {
       super();
@@ -22,6 +22,7 @@ export class EscanerAdapter extends EscanerPort {
 
       });
       const options = { headers: headers };
+      console.log(this.api_url + producto_escaneadoID);
       return this._http.get<escaner>(this.api_url + producto_escaneadoID, options);
     }
 

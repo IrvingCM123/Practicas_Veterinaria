@@ -1,0 +1,102 @@
+<div class="interfaz">
+
+  <div class="menu">
+    <nav>
+      Veterinaria
+      <ul>
+        <li><a href="historial_venta">Historial</a></li>
+        <li><a href="ventas">Venta</a></li>
+        <li><a href="#">Estadisticas</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container">
+
+    <div class="Buscador">
+
+      <div class="mb-3">
+        <!-- Etiqueta del campo Fecha Venta -->
+        <label class="form-label"> Fecha Venta: </label>
+        <!-- Elemento de selección (select) para la fecha de venta -->
+        <!-- Enlace bidireccional con la variable 'fecha' en el componente -->
+        <select style="margin-left: 1%;" class="form-select" aria-label="Default select example" [(ngModel)]="fecha"
+          (change)="seleccionarFecha()">  <!-- Evento que se activa cuando se cambia la selección -->
+          <!-- Opción por defecto -->
+          <option selected>Selecciona una fecha: </option>
+          <!-- Recorre el array 'Array_Fecha' para crear opciones dinámicas -->
+          <ng-container *ngFor="let item of Array_Fecha">
+            <!-- Asigna el valor de 'item' a la opción utilizando [ngValue] -->
+            <option [ngValue]="item"> {{ item }} </option>
+          </ng-container>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

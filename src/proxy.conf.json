@@ -1,0 +1,6 @@
+{
+  "/api": {
+      "target": "https://veterinaria-service-irvingcm123.cloud.okteto.net",
+      "secure": false
+  }
+}
