@@ -19,8 +19,14 @@
                 <img [src]="image.imageUrl" alt="" />
               </div>
               <figcaption>
-                {{ image.caption }}
-                <span class="credit">{{ image.credit }}</span>
+                <h2>{{ image.raza }}</h2>
+                <p class="descripcion"> <span>Peso Ideal:</span> {{ image.peso_ideal }}</p>
+                <p class="descripcion"> <span>Altura Ideal:</span> {{ image.altura_ideal }}</p>
+                <p class="descripcion"> <span>Esperanza de Vida:</span> {{ image.esperanza_vida }}</p>
+                <p class="descripcion"> <span>Origen:</span> {{ image.origen }}</p>
+                <p class="descripcion"> <span>Características:</span> {{ image.caracter }}</p>
+                <p class="descripcion"> <span>Problemas de Salud:</span> {{ image.problemas_saludables }}</p>
+                <p class="descripcion"> <span>Condiciones Favorables:</span> {{ image.condiciones_favorables }}</p>
               </figcaption>
             </figure>
           </li>
@@ -36,5 +42,20 @@
     </div>
   </section>
 
-  <div>daw</div>
+  <div class="contenedor">
+    <header>
+      <h1>Bienvenido a la Veterinaria</h1>
+    </header>
+
+    <div>
+      <h1>Información de Relleno para una Página de Inicio</h1>
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
+        lectus ut tortor facilisis condimentum. Nullam a leo eget justo
+        Lorem ipsum dolor sit, amet consectetur adipisicing <br> elit. Modi libero nihil dicta,
+         dolor possimus quibusdam repudiandae dolorem aperiam earum, neque nulla
+          debitis culpa quis atque rerum quae eos iure odio.
+
+    </div>
+  </div>
 </div>

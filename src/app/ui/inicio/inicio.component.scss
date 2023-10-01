@@ -5,7 +5,7 @@
       display: block;
       content: "";
       width: 100%;
-      padding-top: ($height / $width) * 50%;
+      padding-top: ($height / $width) * 100%;
   }
 
   > img {
@@ -16,6 +16,7 @@
       bottom: 0;
       width: 100%;
       height: 100%;
+      border-radius: 20px;
   }
 }
 
@@ -26,9 +27,8 @@ section {
   padding: 10px 0;
 }
 
-.contenedor {
-  max-width: 100%;
-  width: 100vw;
+.container {
+  max-width: 1044px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -37,7 +37,7 @@ section {
   display: block;
   text-align: left;
   position: relative;
-  margin-bottom: 0px;
+  margin-bottom: 22px;
 
   > input {
       clip: rect(1px, 1px, 1px, 1px);
@@ -141,7 +141,7 @@ section {
   }
 
   figcaption {
-      align-self: flex-end;
+      align-self: flex-start;
       padding: 20px 20px 0 20px;
       flex: 0 0 auto;
       width: 25%;
@@ -201,8 +201,21 @@ section {
   }
 }
 
+
 .container {
   width: 100vw;
   min-width: 100%;
   height: 100%;
+}
+
+.descripcion {
+  color: rgb(4, 25, 146);
+  font-size: 100%;
+  font-weight: 500;
+}
+
+.descripcion span {
+  color: rgb(19, 92, 238);
+  font-size: 100%;
+  font-weight: 600;
 }
