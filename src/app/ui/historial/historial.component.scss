@@ -91,7 +91,7 @@ h1 {
 .container {
   display: grid;
 
-  grid-template-rows:1.2fr 4fr;
+  grid-template-rows: 0.4fr 3fr;
   grid-template-columns: 5fr;
   grid-template-areas:
     "buscador buscador"
