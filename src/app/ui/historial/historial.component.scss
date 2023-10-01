@@ -132,6 +132,7 @@ table {
 
 .tabla tr th {
   color: #eee;
+  font-size: 110%;
 }
 
 table tbody tr td {
@@ -160,13 +161,13 @@ select {
   color: #0b132b;
   font-size: 110%;
   font-weight: 700;
-  border: 4px groove #0b132b; 
+  border: 1px groove #0b132b;
   border-radius: 10px;
   width: fit-content + 10px;
 }
 
 select.selected {
-  border: none; 
+  border: none;
 }
 
 
