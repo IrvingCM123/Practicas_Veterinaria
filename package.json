@@ -20,6 +20,7 @@
     "@angular/router": "^14.1.0",
     "bootstrap": "^5.3.1",
     "font-awesome": "^4.7.0",
+    "http-proxy-middleware": "^2.0.6",
     "i": "^0.3.7",
     "ngx-bootstrap": "^11.0.2",
     "npm": "^10.1.0",

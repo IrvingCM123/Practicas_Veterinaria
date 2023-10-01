@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EscanerPort } from './config/puertos/escaner-puertos/escaner-ports';
@@ -13,6 +12,11 @@ import { CommonModule } from '@angular/common';
 import { GenerarCodigoBarrasComponent } from './ui/generar-codigo-barras/generar-codigo-barras.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { FooterComponent } from './ui/footer/footer.component';
+import { HistorialVentasComponent } from './historial-ventas/historial-ventas.component';
+import { VentaPort } from './config/puertos/venta-puertos/venta-ports';
+import { VentaAdapter } from './config/adaptadores/historial-adapter/venta-adapter';
+import { HistorialComponent } from './ui/historial/historial.component';
+import { GraficasComponent } from './ui/graficas/graficas.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,18 +24,21 @@ import { FooterComponent } from './ui/footer/footer.component';
     GenerarCodigoBarrasComponent,
     HeaderComponent,
     FooterComponent,
+    HistorialVentasComponent,
+    HistorialComponent,
+    GraficasComponent,
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ZXingScannerModule,
     FormsModule,
     HttpClientModule,
     CommonModule,
   ],
   providers: [
     {provide: EscanerPort, useClass: EscanerAdapter},
+    {provide: VentaPort, useClass: VentaAdapter}
 
   ],
   bootstrap: [AppComponent]

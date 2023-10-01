@@ -75,6 +75,9 @@
               "browserTarget": "Veterinaria:build:development"
             }
           },
+          "options": {
+           
+          },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
