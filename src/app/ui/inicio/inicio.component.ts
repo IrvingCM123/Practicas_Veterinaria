@@ -67,9 +67,7 @@ export class InicioComponent implements OnInit {
       caracter: 'Valientes , Audaces, Devoto, Alertas, Entusiastas, Independientes, Sensibles al frio',
       problemas_saludables: 'Problemas Dentales, Luxación Rotuliana, Hipoglucemia, Problemas Respiratorios',
       condiciones_favorables: 'Apartamento, Casa con niños, Casa con patio',
-    }
-
-    // Agrega más objetos aquí para cada imagen
+    },
   ];
 
   constructor() { }
