@@ -201,9 +201,11 @@ export class EscanerComponent implements OnInit {
   async guardarVenta() {
     try {
       const fechaActual = new Date();
-      const fechaVenta = `${fechaActual
-        .toISOString()
-        .slice(0, 10)} ${fechaActual.toLocaleTimeString()}`;
+      const año = fechaActual.getFullYear();
+      const mes = fechaActual.getMonth() + 1;
+      const dia = fechaActual.getDate();
+
+      const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${ dia < 10 ? '0' : '' }${dia}`;
       const total = this.calcularTotal();
 
       const ventaGuardada = {
@@ -222,6 +224,7 @@ export class EscanerComponent implements OnInit {
         FechaVenta: fechaVenta,
       };
 
+      console.log(ventaGuardada)
       await this._ventaUseCase.postVentaProducto(ventaGuardada).toPromise();
 
       this.mensaje_Aviso = 'Venta registrada';
@@ -244,5 +247,6 @@ export class EscanerComponent implements OnInit {
     this.montoAPagar = 0;
     this.cambio = 0;
     this.limpiar_Input();
+    window.location.reload();
   }
 }

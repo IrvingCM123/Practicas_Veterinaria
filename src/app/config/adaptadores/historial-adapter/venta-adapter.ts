@@ -10,13 +10,36 @@ import { venta } from 'src/app/domain/historial-domain/models/venta.entity';
   providedIn: 'root',
 })
 export class VentaAdapter extends VentaPort {
-  api_url = environment.url + '/ventas';
+
+  api_url = environment.url;
 
   constructor(private _http: HttpClient) {
     super();
   }
 
   postVenta(venta: any): Observable<[] | any> {
-    return this._http.post<any>(`${this.api_url}`, venta);
+    return this._http.post<any>(`${this.api_url}` + '/ventas', venta);
   }
+
+  getVentas(fecha: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    });
+    const options = { headers: headers };
+
+    return this._http.get<any>(`${this.api_url}` + '/ventasid/' + fecha, options);
+  }
+
+  getFechaVentas(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    });
+    const options = { headers: headers };
+
+    return this._http.get<any>(`${this.api_url}` + '/ventas', options);
+  }
+
+
 }
