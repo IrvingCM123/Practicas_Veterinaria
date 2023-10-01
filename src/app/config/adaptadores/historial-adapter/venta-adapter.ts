@@ -32,13 +32,16 @@ export class VentaAdapter extends VentaPort {
   }
 
   getFechaVentas(): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Origin': 'https://practicas-veterinaria-j4pmzhsb3-irvingconde.vercel.app', // Agrega el origen de tu aplicación
+        'mode': "cors",
+        'Access-Control-Allow-Origin': '*',
+      })
+    };
 
-    });
-    const options = { headers: headers };
-
-    return this._http.get<any>(`${this.api_url}` + '/ventas', options);
+    return this._http.get<any>(`${this.api_url}` + '/ventas', httpOptions);
   }
 
 
