@@ -17,16 +17,13 @@ export class EscanerAdapter extends EscanerPort {
     }
 
     getEscaner(producto_escaneadoID: string): Observable<escaner> {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'mode': "cors",
-          'Access-Control-Allow-Origin': '*',
-          'credentials': 'include'
-        })
-      };
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+
+      });
+      const options = { headers: headers };
       console.log(this.api_url + producto_escaneadoID);
-      return this._http.get<escaner>(this.api_url + producto_escaneadoID, httpOptions);
+      return this._http.get<escaner>(this.api_url + producto_escaneadoID, options);
     }
 
   }
