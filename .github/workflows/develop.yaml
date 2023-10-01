@@ -24,21 +24,21 @@ jobs:
           file_name: .env
           fail_on_empty: false
 
-      - name: build mycv, output in dist
+      - name: build veterinaria, output in dist
         run: |
           npm run build
 
       - name: show dir, .env file
         run: |
-          ls -la dist/mycv
+          ls -la dist/veterinaria
 
       - name: download, run httpd image, container name serving_base
         run: |
           docker run -d --name serving_base httpd
 
-      - name: cp mycv dist to container
+      - name: cp veterinaria dist to container
         run: |
-          docker cp dist/mycv/.  serving_base:/usr/local/apache2/htdocs
+          docker cp dist/veterinaria/.  serving_base:/usr/local/apache2/htdocs
 
       - name: Build the custom Docker image
         run: docker commit --change "ENV MODEL_NAME ${{secrets.MODEL_NAME}}" serving_base ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}}
