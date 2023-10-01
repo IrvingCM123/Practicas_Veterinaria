@@ -20,7 +20,7 @@
         <label class="form-label Titulos"> Fecha Venta: </label>
         <!-- Elemento de selección (select) para la fecha de venta -->
         <!-- Enlace bidireccional con la variable 'fecha' en el componente -->
-        <select style="margin-left: 1%;" class="form-select" aria-label="Default select example" [(ngModel)]="fecha"
+        <select style="margin-left: 1%;" class="form-select input" aria-label="Default select example" [(ngModel)]="fecha" (change)="handleSelectChange($event)"
           (change)="seleccionarFecha()">  <!-- Evento que se activa cuando se cambia la selección -->
           <!-- Opción por defecto -->
           <option selected>Selecciona una fecha: </option>

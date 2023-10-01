@@ -67,4 +67,18 @@ export class HistorialComponent implements OnInit {
       console.error('Error al obtener la venta:', error);
     }
   }
+
+  handleSelectChange(event: Event) {
+    // Obtén una referencia al select
+    const select = event.target as HTMLSelectElement;
+
+    // Si se selecciona una opción (diferente de "Selecciona una fecha")
+    if (select.selectedIndex !== 0) {
+      // Agrega una clase al select
+      select.classList.add('selected');
+    } else {
+      // Si se selecciona la opción predeterminada, elimina la clase
+      select.classList.remove('selected');
+    }
+  }
 }
