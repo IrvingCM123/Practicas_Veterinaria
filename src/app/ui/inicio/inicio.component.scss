@@ -1,211 +1,118 @@
-@mixin aspect-ratio($width, $height) {
-  position: relative;
-
-  &:before {
-      display: block;
-      content: "";
-      width: 100%;
-      padding-top: ($height / $width) * 100%;
-  }
-
-  > img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 20px;
-  }
+@mixin setImage($a, $x) {
+  --name: float-up-#{$a};
+  --duration: calc(20s * #{$a});
+  left: #{$x}vw;
+  z-index: -1 * $a;
 }
 
-// Styling
-
-section {
-  background: #f4f4f4;
-  padding: 10px 0;
-}
-
-.container {
-  max-width: 1044px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.carousel {
-  display: block;
-  text-align: left;
-  position: relative;
-  margin-bottom: 22px;
-
-  > input {
-      clip: rect(1px, 1px, 1px, 1px);
-      clip-path: inset(50%);
-      height: 1px;
-      width: 1px;
-      margin: -1px;
-      overflow: hidden;
-      padding: 0;
-      position: absolute;
-
-      &:nth-of-type(6):checked
-          ~ .carousel__slides
-          .carousel__slide:first-of-type {
-          margin-left: -500%;
-      }
-      &:nth-of-type(5):checked
-          ~ .carousel__slides
-          .carousel__slide:first-of-type {
-          margin-left: -400%;
-      }
-      &:nth-of-type(4):checked
-          ~ .carousel__slides
-          .carousel__slide:first-of-type {
-          margin-left: -300%;
-      }
-      &:nth-of-type(3):checked
-          ~ .carousel__slides
-          .carousel__slide:first-of-type {
-          margin-left: -200%;
-      }
-      &:nth-of-type(2):checked
-          ~ .carousel__slides
-          .carousel__slide:first-of-type {
-          margin-left: -100%;
-      }
-      &:nth-of-type(1):checked
-          ~ .carousel__slides
-          .carousel__slide:first-of-type {
-          margin-left: 0%;
-      }
-
-      &:nth-of-type(1):checked ~ .carousel__thumbnails li:nth-of-type(1) {
-          box-shadow: 0px 0px 0px 5px rgba(0, 0, 255, 0.5);
-      }
-      &:nth-of-type(2):checked ~ .carousel__thumbnails li:nth-of-type(2) {
-          box-shadow: 0px 0px 0px 5px rgba(0, 0, 255, 0.5);
-      }
-      &:nth-of-type(3):checked ~ .carousel__thumbnails li:nth-of-type(3) {
-          box-shadow: 0px 0px 0px 5px rgba(0, 0, 255, 0.5);
-      }
-      &:nth-of-type(4):checked ~ .carousel__thumbnails li:nth-of-type(4) {
-          box-shadow: 0px 0px 0px 5px rgba(0, 0, 255, 0.5);
-      }
-      &:nth-of-type(5):checked ~ .carousel__thumbnails li:nth-of-type(5) {
-          box-shadow: 0px 0px 0px 5px rgba(0, 0, 255, 0.5);
-      }
-      &:nth-of-type(6):checked ~ .carousel__thumbnails li:nth-of-type(6) {
-          box-shadow: 0px 0px 0px 5px rgba(0, 0, 255, 0.5);
-      }
-  }
-}
-
-.carousel__slides {
-  position: relative;
+img {
+  --duration: 40s;
+  --name: float-up-1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 33vw;
+  transform: translateY(200vh);
+  animation: var(--name) var(--duration) linear infinite;
+  box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5);
   z-index: 1;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  box-sizing: border-box;
-  display: flex;
-}
+  opacity: 0.7;
 
-.carousel__slide {
-  position: relative;
-  display: block;
-  flex: 1 0 100%;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  transition: all 300ms ease-out;
-  vertical-align: top;
-  box-sizing: border-box;
-  white-space: normal;
-
-  figure {
-      display: flex;
-      margin: 0;
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: ($i - 1) * -3s;
+    }
   }
 
-  div {
-      @include aspect-ratio(3, 2);
-      width: 100%;
+  &:nth-child(1) {
+    @include setImage(1, 0);
   }
-
-  img {
-      display: block;
-      flex: 1 1 auto;
-      object-fit: cover;
+  &:nth-child(2) {
+    @include setImage(3, 10);
   }
-
-  figcaption {
-      align-self: flex-start;
-      padding: 20px 20px 0 20px;
-      flex: 0 0 auto;
-      width: 25%;
-      min-width: 150px;
+  &:nth-child(3) {
+    @include setImage(2, 90);
   }
-
-  .credit {
-      margin-top: 1rem;
-      color: rgba(0, 0, 0, 0.5);
-      display: block;
+  &:nth-child(4) {
+    @include setImage(1, 36);
   }
-
-  &.scrollable {
-      overflow-y: scroll;
+  &:nth-child(5) {
+    @include setImage(3, 62);
+  }
+  &:nth-child(6) {
+    @include setImage(2, 15);
+  }
+  &:nth-child(7) {
+    @include setImage(2, 55);
+  }
+  &:nth-child(8) {
+    @include setImage(3, -20);
+  }
+  &:nth-child(9) {
+    @include setImage(1, 68);
+  }
+  &:nth-child(10) {
+    @include setImage(2, 0);
   }
 }
 
-.carousel__thumbnails {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-
-  margin: 0 -10px;
-
-  .carousel__slides + & {
-      margin-top: 20px;
+@keyframes float-up-3 {
+  from {
+    transform: translateY(200vh) translateZ(-50vh);
   }
-
-  li {
-      flex: 1 1 auto;
-      max-width: calc((100% / 6) - 20px);
-      margin: 0 10px;
-      transition: all 300ms ease-in-out;
-  }
-
-  label {
-      display: block;
-      @include aspect-ratio(1, 1);
-
-      &:hover,
-      &:focus {
-          cursor: pointer;
-
-          img {
-              box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25);
-              transition: all 300ms ease-in-out;
-          }
-      }
-  }
-
-  img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+  to {
+    transform: translateY(-200vh) translateZ(-50vh);
   }
 }
 
+@keyframes float-up-2 {
+  from {
+    transform: translateY(150vh) translateZ(-25vh);
+  }
+  to {
+    transform: translateY(-30vh) translateZ(-25vh);
+  }
+}
+
+@keyframes float-up-1 {
+  from {
+    transform: translateY(100vh);
+  }
+  to {
+    transform: translateY(-100vh);
+  }
+}
+
+@keyframes spin {
+  10%,
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes shrink {
+  0% {
+    transform: scale(1) translateX(0);
+  }
+  2.5% {
+    transform: scale(0.75) translateX(5%);
+  }
+  7.5% {
+    transform: scale(0.75) translateX(-5%);
+  }
+  10%,
+  100% {
+    transform: scale(1);
+  }
+}
 
 .container {
   width: 100vw;
   min-width: 100%;
-  height: 100%;
+  height: 100vh;
+  max-height: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 .descripcion {
@@ -219,3 +126,22 @@ section {
   font-size: 100%;
   font-weight: 600;
 }
+
+.contenedor {
+  margin: 100px 40px;
+}
+
+.contenedor header h3 {
+  font-size: 2.5em;
+  font-weight: 600;
+  color: rgb(4, 25, 146);
+}
+
+.contenedor header h1{
+  font-size: 3em;
+  font-weight: 600;
+  color: rgb(0, 0, 0);
+  margin: 20px 0;
+}
+
+
