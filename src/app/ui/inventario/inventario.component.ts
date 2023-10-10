@@ -1,11 +1,11 @@
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
   styleUrls: ['./inventario.component.scss']
 })
-export class InventarioComponent  implements AfterViewInit {
+export class InventarioComponent implements OnInit  {
 
   productos: any = [
     {
@@ -143,41 +143,68 @@ export class InventarioComponent  implements AfterViewInit {
 
   ];
 
-  @ViewChild('contenedorperros') contenedorProductos!: ElementRef;
-
   constructor() { }
 
-  ngAfterViewInit(): void {
-    this.addMouseDragScroll();
+  ngOnInit() {
+    this.marcasUnicas = this.obtenerMarcasUnicas();
   }
 
-  addMouseDragScroll() {
-    const contenedor = this.contenedorProductos.nativeElement;
+  mostar_todos = true;
+  mostrar_marca = false;
+  mostrar_nombre = false;
+  ordenSeleccionado: string = 'Rango Precio';
+  marcaSeleccionada: string = 'Todas';
+  productosFiltradosMarcas: any[] = this.productos;
+  productosFiltradosNombre: any[] = this.productos;
+  marcasUnicas: string[] = [];
+  nombreProducto: string = '';
 
-    let isDragging = false;
-    let startX = 0;
-    let scrollLeft = 0;
 
-    contenedor.addEventListener('mousedown', (e: any) => {
-      isDragging = true;
-      startX = e.pageX - contenedor.offsetLeft;
-      scrollLeft = contenedor.scrollLeft;
+  obtenerMarcasUnicas() {
+    const marcasUnicas = new Set<string>();
+    this.productos.forEach((producto: any) => {
+      marcasUnicas.add(producto.id_marca);
     });
-
-    contenedor.addEventListener('mouseleave', () => {
-      isDragging = false;
-    });
-
-    contenedor.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
-
-    contenedor.addEventListener('mousemove', (e: any) => {
-      if (!isDragging) return;
-      e.preventDefault();
-      const x = e.pageX - contenedor.offsetLeft;
-      const walk = (x - startX) * 2; // Ajusta la velocidad de desplazamiento
-      contenedor.scrollLeft = scrollLeft - walk;
-    });
+    return Array.from(marcasUnicas);
   }
+
+
+  ordenarProductos() {
+    if (this.ordenSeleccionado === 'mayor') {
+      this.productos.sort((a: any, b: any) => parseFloat(b.precio) - parseFloat(a.precio));
+    } else {
+      this.productos.sort((a: any, b: any) => parseFloat(a.precio) - parseFloat(b.precio));
+    }
+  }
+
+  filtrarPorMarca() {
+    if (this.marcaSeleccionada === 'Todas') {
+      this.productosFiltradosMarcas = this.productos;
+      this.mostar_todos = true;
+      this.mostrar_marca = false;
+    } else {
+      this.mostar_todos = false;
+      this.mostrar_marca = true;
+      this.productosFiltradosMarcas = this.productos.filter((producto: any) => {
+        return producto.id_marca == this.marcaSeleccionada;
+      });
+    }
+  }
+
+  buscarPorNombre() {
+    if (!this.nombreProducto) {
+      this.mostar_todos = true;
+      this.mostrar_nombre = false;
+      this.productosFiltradosNombre = this.productos;
+    } else {
+      this.mostar_todos = false;
+      this.mostrar_nombre = true;
+      this.productosFiltradosNombre = this.productos.filter((producto: any) => {
+        console.log(producto.nombre.toLowerCase().includes(this.nombreProducto.toLowerCase()));
+        return producto.nombre.toLowerCase().includes(this.nombreProducto.toLowerCase());
+      });
+    }
+  }
+
+
 }

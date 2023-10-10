@@ -19,7 +19,7 @@
   grid-area: productos;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto auto; /* Cambiado a 'auto' para que las filas se ajusten al contenido */
+  grid-template-rows: auto auto;
   grid-template-areas:
     "producto-perro"
     "producto-gato";
@@ -32,8 +32,8 @@
 .contenedor-productos-perros{
   display: flex;
   flex-direction: row;
-  gap: 20px; /* Espacio entre los elementos de la lista */
-  margin-top: 0; /* Elimina el margen superior del título */
+  gap: 20px;
+  margin-top: 0;
 
   height: fit-content;
   min-height: 150px;
@@ -43,8 +43,8 @@
 .contenedor-productos-gatos{
   display: flex;
   flex-direction: row;
-  gap: 20px; /* Espacio entre los elementos de la lista */
-  margin-top: 0; /* Elimina el margen superior del título */
+  gap: 20px;
+  margin-top: 0;
 
   height: fit-content;
   min-height: 150px;
@@ -76,16 +76,14 @@
 
 .contenedor-perros::-webkit-scrollbar-thumb,
 .contenedor-gatos::-webkit-scrollbar-thumb {
-  background-color: #007bff; /* Color del pulgar de la barra de desplazamiento */
-  border-radius: 1px; /* Radio de borde del pulgar */
+  background-color: #007bff;
+  border-radius: 1px;
 }
 
 .contenedor-perros::-webkit-scrollbar-thumb:hover,
 .contenedor-gatos::-webkit-scrollbar-thumb:hover {
-  background-color: #0056b3; /* Cambio de color al pasar el mouse sobre el pulgar */
+  background-color: #0056b3;
 }
-
-
 
 .nft{
   user-select:none;
@@ -93,7 +91,7 @@
   margin: 1rem auto;
   border: 1px solid #0b05b022;
   background-color: #7e92c3;
-  background: linear-gradient(0deg, rgb(38, 75, 112) 0%, rgba(123, 117, 128, 0.5) 100%);
+  background: linear-gradient(0deg, rgb(38, 75, 112) 0%, rgba(56, 141, 232, 0.5) 100%);
   box-shadow: 0 7px 20px 5px #02385a88;
   border-radius: .7rem;
   backdrop-filter: blur(7px);
@@ -122,7 +120,9 @@
     }
     .description{
       margin: .5rem 0;
-      color: #a89ec9;
+      color: #1c1a1a;
+      font-weight: 700;
+      font-size: 100%;
     }
     .tokenInfo{
       display: flex;
@@ -131,7 +131,7 @@
       .price{
         display: flex;
         align-items: center;
-        color: #ee83e5;
+        color: #ffffff;
         font-weight: 700;
         ins{
           margin-left: -.3rem;
@@ -141,7 +141,7 @@
       .duration{
         display: flex;
         align-items: center;
-        color: #a89ec9;
+        color: #ffffff;
         margin-right: .2rem;
         ins{
           margin: .5rem;
@@ -155,7 +155,8 @@
       margin-top: .2rem;
       margin-bottom: -.3rem;
       ins{
-        color: #a89ec9;
+        color: hsl(0, 0%, 100%);
+        font-size: 100%;
         text-decoration: none;
       }
       .wrapper{
