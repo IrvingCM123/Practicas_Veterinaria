@@ -19,6 +19,10 @@ import { HistorialComponent } from './ui/historial/historial.component';
 import { GraficasComponent } from './ui/graficas/graficas.component';
 import { InicioComponent } from './ui/inicio/inicio.component';
 import { InventarioComponent } from './ui/inventario/inventario.component';
+import { ProductoComponent } from './ui/producto/producto.component';
+import { InventarioPort } from './config/puertos/inventario-puertos/inventario-ports';
+import { InventarioAdapter } from './config/adaptadores/inventario-adapter/inventario-adapter';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +35,7 @@ import { InventarioComponent } from './ui/inventario/inventario.component';
     GraficasComponent,
     InicioComponent,
     InventarioComponent,
+    ProductoComponent,
 
   ],
   imports: [
@@ -42,7 +47,8 @@ import { InventarioComponent } from './ui/inventario/inventario.component';
   ],
   providers: [
     {provide: EscanerPort, useClass: EscanerAdapter},
-    {provide: VentaPort, useClass: VentaAdapter}
+    {provide: VentaPort, useClass: VentaAdapter},
+    {provide: InventarioPort, useClass: InventarioAdapter}
 
   ],
   bootstrap: [AppComponent]

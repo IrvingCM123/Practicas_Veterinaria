@@ -1,9 +1,9 @@
 name: develop CI, CD workflow
 on:
   push:
-    branches: [ "M_inventario"]
+    branches: [ "develop"]
   pull_request:
-    branches: [ "M_inventario"]
+    branches: [ "develop"]
 jobs:
   develop_ci_cd:
     runs-on: ubuntu-latest

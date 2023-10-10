@@ -7,7 +7,7 @@ import { InventarioPort } from "src/app/config/puertos/inventario-puertos/invent
 @Injectable({
   providedIn: 'root'
 })
-export class VentaUseCase {
+export class InventarioUseCase {
 
   constructor (private _inventarioPort: InventarioPort) {}
 
