@@ -282,7 +282,7 @@ nav ul li a {
   color: white;
   font-weight: 600;
 
-  margin: 0;
+  margin: 20px 0;
   padding: 0;
 }
 
@@ -365,6 +365,23 @@ h1 {
   .menu:hover {
     width: 14rem;
   }
+
+  .menu {
+    width: 4rem;
+    height: 50%;
+    margin-top: 13%;
+  }
+
+
+.menu nav ul li {
+  font-size: 120%;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+
+  margin: 500px 0;
+  padding: 0;
+}
 
 }
 
