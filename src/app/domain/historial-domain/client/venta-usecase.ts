@@ -22,5 +22,5 @@ export class VentaUseCase {
   getFechasVentaRegistrada(): Observable<any> {
     return this._ventaPort.getFechaVentas();
   }
-  
+
 }
