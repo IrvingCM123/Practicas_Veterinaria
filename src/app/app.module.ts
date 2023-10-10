@@ -18,6 +18,7 @@ import { VentaAdapter } from './config/adaptadores/historial-adapter/venta-adapt
 import { HistorialComponent } from './ui/historial/historial.component';
 import { GraficasComponent } from './ui/graficas/graficas.component';
 import { InicioComponent } from './ui/inicio/inicio.component';
+import { InventarioComponent } from './ui/inventario/inventario.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +30,7 @@ import { InicioComponent } from './ui/inicio/inicio.component';
     HistorialComponent,
     GraficasComponent,
     InicioComponent,
+    InventarioComponent,
 
   ],
   imports: [

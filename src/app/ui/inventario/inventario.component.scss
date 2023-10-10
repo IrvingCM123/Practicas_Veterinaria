@@ -1,0 +1,38 @@
+.contenedor {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 7fr;
+  grid-template-areas: "buscadores" "productos";
+}
+
+.contenedor-header {
+  grid-area: buscadores;
+  display: grid;
+}
+
+.contenedor-productos {
+  grid-area: productos;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: "producto-perro producto-gato";
+  gap: 1em;
+  padding: 1em;
+  overflow-x: auto;
+}
+
+.contenedor-productos-perros {
+  grid-area: producto-perro;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-rows: 1fr;
+  gap: 1em;
+}
+
+.contenedor-productos-gatos {
+  grid-area: producto-gato;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-rows: 1fr;
+  gap: 1em;
+}
