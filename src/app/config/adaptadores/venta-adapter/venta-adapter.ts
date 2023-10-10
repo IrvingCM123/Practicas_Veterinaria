@@ -12,6 +12,12 @@ export class VentasAdapter implements VentaPort {
   apiUrl = environment.url+"RegistrarUsuarios/";
 
   constructor(private http: HttpClient) {}
+  getVentas(fecha: string): Observable<any> {
+    throw new Error('Method not implemented.');
+  }
+  getFechaVentas(): Observable<any> {
+    throw new Error('Method not implemented.');
+  }
 
   postVenta(venta: any): Observable<venta_Entity> {
     return this.http.post<any>(`${this.apiUrl}`, venta);
