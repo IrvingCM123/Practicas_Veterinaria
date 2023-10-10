@@ -1,0 +1,173 @@
+<div class="interfaz">
+
+  <div class="menu">
+    <nav>
+      Veterinaria
+      <ul>
+        <li><a href="inventario">Inventario</a></li>
+        <li><a href="producto">Agregar</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container">
+
+    <section class="product" *ngIf="!mostrar_formulario">
+      <div class="product__photo">
+        <div class="photo-container">
+          <div class="photo-main">
+            <div class="controls">
+            </div>
+            <img
+              src="https://res.cloudinary.com/john-mantas/image/upload/v1537291846/codepen/delicious-apples/green-apple-with-slice.png"
+              alt="green apple slice">
+          </div>
+          <div class="photo-album">
+
+          </div>
+        </div>
+      </div>
+      <div class="product__info">
+        <div class="title">
+          <h1> {{producto_prueba.nombre}} </h1>
+          <span>COD: {{producto_prueba.id_producto}} </span>
+        </div>
+        <div class="price">
+          $ <span> {{producto_prueba.precio}} </span>
+        </div>
+        <div class="variant">
+          <h3>Informacion: </h3>
+          <ul>
+            <li> Marca: {{producto_prueba.id_marca}} </li>
+            <li> Cantidad: {{producto_prueba.cantidad}} </li>
+            <li> Proveedor: {{producto_prueba.id_proveedor}} </li>
+            <li> Categoria: {{producto_prueba.id_categoria}} </li>
+            <li> Descripcion: {{producto_prueba.descripcion}} </li>
+          </ul>
+        </div>
+        <div class="description">
+          <h3>Inventario: </h3>
+          <ul>
+            <li> Stock Máximo: {{producto_prueba.stock_maximo}} </li>
+            <li> Stock Mínimo: {{producto_prueba.stock_minimo}} </li>
+            <li> Stock Actual: {{producto_prueba.stock_actual}} </li>
+          </ul>
+        </div>
+        <button class="buy--btn" (click)="MostrarFormulario()" >MODIFICAR</button>
+        <button class="buy--btn">ELIMINAR</button>
+      </div>
+    </section>
+
+    <section style="padding: 0px 0 0 70px; margin: 0;" >
+
+      <div style="width: 80vw;" *ngIf="mostrar_formulario">
+        <form>
+          <div class="row">
+            <h4>Producto</h4>
+            <div class="input-group input-group-icon">
+              <input type="text" placeholder="Nombre Producto" />
+              <div class="input-icon"><i class="fa fa-product-hunt"></i></div>
+            </div>
+            <div class="input-group input-group-icon">
+              <input type="text" placeholder="Descripcion" />
+              <div class="input-icon"><i class="fa fa-book"></i></div>
+            </div>
+            <div class="input-group input-group-icon">
+              <input type="number" placeholder="Precio" />
+              <div class="input-icon"><i class="fa fa-dollar"></i></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-half">
+              <h4>  Marca / Proveedor / Categoria</h4>
+              <div class="input-group">
+                <div class="col-third">
+                  <select id="seleccionarMarca" [(ngModel)]="Marca" >
+                    <option value="Todas">Todas</option>
+                    <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
+                  </select>
+                </div>
+                <div class="col-third">
+                  <select id="seleccionarProveedor" [(ngModel)]="Marca" >
+                    <option value="Todas">Todas</option>
+                    <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
+                  </select>
+                </div>
+                <div class="col-third">
+                  <select id="seleccionarCategoria" [(ngModel)]="Marca" >
+                    <option value="Todas">Todas</option>
+                    <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-half">
+              <h4> Producto para:</h4>
+              <div class="input-group">
+                <input id="mascota-perro" type="radio" name="mascota" value="1" />
+                <label for="mascota-perro">Perro</label>
+                <input id="mascota-gato" type="radio" name="mascota" value="2" />
+                <label for="mascota-gato">Gato</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-half">
+              <h4>Stock Max. / Stock Min. / Stock Actual</h4>
+              <div class="input-group">
+                <div class="col-third">
+                  <select id="stock_maximo" [(ngModel)]="Marca" >
+                    <option value="Todas">Stock Maximo</option>
+                    <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
+                  </select>
+                </div>
+                <div class="col-third">
+                  <select id="stock_minimo" [(ngModel)]="Marca" >
+                    <option value="Todas">Todas</option>
+                    <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
+                  </select>
+                </div>
+                <div class="col-third">
+                  <select id="stock_actual" [(ngModel)]="Marca" >
+                    <option value="Todas">Todas</option>
+                    <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-half">
+              <h4>Venta por: </h4>
+              <div class="input-group">
+                <input id="venta_granel" type="radio" name="venta_granel" value="1" />
+                <label for="venta_granel">Granel</label>
+                <input id="venta_pieza" type="radio" name="venta_pieza" value="2" />
+                <label for="venta_pieza">Pieza</label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <h4>Imagen Producto</h4>
+
+            <input type="file">
+
+
+          </div>
+          <div class="row">
+            <h4>Confirmar solicitud cambio</h4>
+            <div class="input-group">
+              <input id="terms" type="checkbox" />
+              <label for="terms">Estoy consiente de realizar cambios en este producto</label>
+            </div>
+            <button class="buy--btn" (click)="OcultarFormulario()" >Cancelar</button>
+            <button class="buy--btn" (click)="OcultarFormulario()" >Aceptar</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </div>
+
+</div>
