@@ -8,6 +8,7 @@ import { Inventario } from 'src/app/domain/inventario-domain/models/inventario.e
 @Injectable({
   providedIn: 'root'
 })
+
 export class InventarioAdapter implements InventarioPort {
   apiUrl = environment.url + "productos/";
 
