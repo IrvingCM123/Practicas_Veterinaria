@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Datos_Locales } from '../services/DatosLocales.service';
 
 @Component({
   selector: 'app-inventario',
@@ -16,7 +18,7 @@ export class InventarioComponent implements OnInit  {
       id_marca: 1,
       id_proveedor: 101,
       id_categoria: 201,
-      imagen: "perro_comida_1.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "1000g"
     },
     {
@@ -27,7 +29,7 @@ export class InventarioComponent implements OnInit  {
       id_marca: 2,
       id_proveedor: 102,
       id_categoria: 202,
-      imagen: "gato_arena_1.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "5kg"
     },
     {
@@ -38,7 +40,7 @@ export class InventarioComponent implements OnInit  {
       id_marca: 3,
       id_proveedor: 103,
       id_categoria: 201,
-      imagen: "perro_pelota_1.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "1 unidad"
     },
     {
@@ -49,7 +51,7 @@ export class InventarioComponent implements OnInit  {
       id_marca: 4,
       id_proveedor: 104,
       id_categoria: 202,
-      imagen: "gato_comida_2.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "800g"
     },
     {
@@ -60,7 +62,7 @@ export class InventarioComponent implements OnInit  {
       id_marca: 5,
       id_proveedor: 105,
       id_categoria: 201,
-      imagen: "perro_collar_1.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "1 unidad"
     },
     {
@@ -71,7 +73,7 @@ export class InventarioComponent implements OnInit  {
       id_marca: 2,
       id_proveedor: 102,
       id_categoria: 202,
-      imagen: "gato_arena_2.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "4kg"
     },
     {
@@ -82,7 +84,7 @@ export class InventarioComponent implements OnInit  {
       id_marca: 6,
       id_proveedor: 106,
       id_categoria: 201,
-      imagen: "perro_peluche_1.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "1 unidad"
     },
     {
@@ -93,7 +95,7 @@ export class InventarioComponent implements OnInit  {
       id_marca: 7,
       id_proveedor: 107,
       id_categoria: 202,
-      imagen: "gato_comida_3.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "900g"
     },
     {
@@ -104,7 +106,7 @@ export class InventarioComponent implements OnInit  {
       id_marca: 8,
       id_proveedor: 108,
       id_categoria: 201,
-      imagen: "perro_correa_1.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "1 unidad"
     },
     {
@@ -115,7 +117,7 @@ export class InventarioComponent implements OnInit  {
       id_marca: 2,
       id_proveedor: 102,
       id_categoria: 202,
-      imagen: "gato_arena_3.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "5kg"
     },
     {
@@ -126,7 +128,7 @@ export class InventarioComponent implements OnInit  {
       id_marca: 9,
       id_proveedor: 109,
       id_categoria: 201,
-      imagen: "perro_pelota_2.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "1 unidad"
     },
     {
@@ -137,13 +139,14 @@ export class InventarioComponent implements OnInit  {
       id_marca: 2,
       id_proveedor: 102,
       id_categoria: 202,
-      imagen: "gato_arena_3.jpg",
+      imagen: "https://th.bing.com/th/id/OIP.eTCbdR_AFzbqHMPXhrJWUQHaEK?pid=ImgDet&rs=1",
       cantidad: "5kg"
     }
 
   ];
 
-  constructor() { }
+  constructor(private router: Router,
+    private cache: Datos_Locales) { }
 
   ngOnInit() {
     this.marcasUnicas = this.obtenerMarcasUnicas();
@@ -206,5 +209,9 @@ export class InventarioComponent implements OnInit  {
     }
   }
 
+  SeleccionarProducto() {
+    this.cache.guardar_ArregloLocal('producto', this.productosFiltradosNombre);
+    this.router.navigate(['/producto']);
+  }
 
 }

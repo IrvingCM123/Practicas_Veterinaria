@@ -1,18 +1,25 @@
-import { EscanerComponent } from './ui/escaner/escaner.component';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+
+import { AngularFireAuthModule  } from '@angular/fire/compat/auth';
+import { FirestoreModule } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+import { environment } from 'src/environments/environment';
+import { CommonModule } from '@angular/common';
 import { EscanerPort } from './config/puertos/escaner-puertos/escaner-ports';
 import { EscanerAdapter } from './config/adaptadores/escaner-adapter/escaner-adapter';
-import { CommonModule } from '@angular/common';
 import { GenerarCodigoBarrasComponent } from './ui/generar-codigo-barras/generar-codigo-barras.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { FooterComponent } from './ui/footer/footer.component';
-import { HistorialVentasComponent } from './historial-ventas/historial-ventas.component';
+import { HistorialVentasComponent } from './ui/historial-ventas/historial-ventas.component';
 import { VentaPort } from './config/puertos/venta-puertos/venta-ports';
 import { VentaAdapter } from './config/adaptadores/historial-adapter/venta-adapter';
 import { HistorialComponent } from './ui/historial/historial.component';
@@ -22,6 +29,10 @@ import { InventarioComponent } from './ui/inventario/inventario.component';
 import { ProductoComponent } from './ui/producto/producto.component';
 import { InventarioPort } from './config/puertos/inventario-puertos/inventario-ports';
 import { InventarioAdapter } from './config/adaptadores/inventario-adapter/inventario-adapter';
+import { AgregarComponent } from './ui/agregar/agregar.component';
+import { EscanerComponent } from './ui/escaner/escaner.component';
+
+
 
 @NgModule({
   declarations: [
@@ -36,13 +47,19 @@ import { InventarioAdapter } from './config/adaptadores/inventario-adapter/inven
     InicioComponent,
     InventarioComponent,
     ProductoComponent,
-
+    AgregarComponent
   ],
   imports: [
+    AngularFireAuthModule,
+    FirestoreModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     CommonModule,
   ],
   providers: [
