@@ -4,18 +4,21 @@ import { Location } from '@angular/common';
 
 import { ProductoUseCase } from 'src/app/domain/producto-domain/client/producto-usecase';
 import { InventarioUseCase } from 'src/app/domain/inventario-domain/client/inventario-usecase';
+import { InfoProdUseCase } from 'src/app/domain/infoProd-domain/client/InfoProd-usecase';
 
 interface ProductoInterface {
   nombre: string;
+  precio: string;
+  cantidad: string;
   descripcion: string;
-  precio: number;
-  marca: string;
-  provedor: string;
-  categoria: string;
-  animal: string;
   url_imagen: string;
-  cantidad: number;
-  tipo_cantidad: string;
+  nomenclaturaMarca: string;
+  nomenclaturaCategoria: string;
+  nomenclaturaProveedor: string;
+  nomenclaturaAnimal: string;
+  nomenclaturaTipoCantidad: string;
+  precio_granel?: string | null;
+  venta_granel: boolean
 }
 
 interface InventarioInterface {
@@ -25,6 +28,12 @@ interface InventarioInterface {
   stock_maximo: number;
 }
 
+interface InformacionInterface {
+  id_informacion: number;
+  nombre: string;
+  nomenclatura: string;
+}
+
 @Component({
   selector: 'app-agregar',
   templateUrl: './agregar.component.html',
@@ -32,35 +41,87 @@ interface InventarioInterface {
 })
 export class AgregarComponent implements OnInit {
 
-  public nombre_producto: string | any;
-  public descripcion_producto: string | any;
-  public precio_producto: number | any;
-  public marca_producto: string | any;
-  public proveedor_producto: string | any;
-  public categoria_producto: string | any;
-  public animal_producto: string | any;
-  public url_imagen: string | any;
-  public cantidad_producto: number | any;
-  public tipo_cantidad_producto: string | any;
+  //Variables para crear un producto
+  public nombre_producto: string | any = "";
+  public descripcion_producto: string | any = "";
+  public precio_producto: number | any = "";
+  public marca_producto: string | any = "";
+  public proveedor_producto: string | any = "";
+  public categoria_producto: string | any = "";
+  public animal_producto: string | any = "";
+  public tipo_cantidad_producto: string | any = "";
+  public url_imagen: string | any = "";
+  public cantidad_producto: number | any = "";
+  public precio_granel_producto: string | any = "";
+  public venta_granel_producto: boolean | any = false;
 
+  //Variables para crear un inventario
   private id_producto: string | any;
-  public existencias_producto: number | any;
-  public stock_minimo_producto: number | any;
-  public stock_maximo_producto: number | any;
+  public existencias_producto: number | any = "";
+  public stock_minimo_producto: number | any = "";
+  public stock_maximo_producto: number | any = "";
 
+  //Variable para almacenar una imagen
   public archivo_imagen: File | any = null;
+
+  //Variables para obtener las marcas
+  public marcas: InformacionInterface = {
+    id_informacion: 0,
+    nombre: '',
+    nomenclatura: ''
+  };
+
+  public arreglo_marcas: [] | any;
+
+  //Variable para obtener los proveedores
+  public proveedores: InformacionInterface= {
+    id_informacion: 0,
+    nombre: '',
+    nomenclatura: ''
+  };
+
+  public arreglo_proveedores: [] | any;
+
+  //Variable para obtener las categorias
+  public categorias: InformacionInterface | [] = {
+    id_informacion: 0,
+    nombre: '',
+    nomenclatura: ''
+  };
+
+  public arrelo_categorias: [] | any;
+
+  //Variable para obtener los animales
+  public animales: InformacionInterface | [] = {
+    id_informacion: 0,
+    nombre: '',
+    nomenclatura: ''
+  };
+
+  public arreglo_animales: [] | any;
+
+  //Variable para obtener los tipos de cantidad
+  public tipos_cantidad: InformacionInterface | [] = {
+    id_informacion: 0,
+    nombre: '',
+    nomenclatura: ''
+  };
+
+  public arreglo_tipos_cantidad: [] | any;
 
   private Producto: ProductoInterface = {
     nombre: '',
+    precio: '',
+    cantidad: '',
     descripcion: '',
-    precio: 0,
-    marca: '',
-    provedor: '',
-    categoria: '',
-    animal: '',
     url_imagen: '',
-    cantidad: 0,
-    tipo_cantidad: ''
+    nomenclaturaMarca: '',
+    nomenclaturaCategoria: '',
+    nomenclaturaProveedor: '',
+    nomenclaturaAnimal: '',
+    nomenclaturaTipoCantidad: '',
+    precio_granel: '',
+    venta_granel: false,
   };
 
   private Inventario: InventarioInterface = {
@@ -70,29 +131,34 @@ export class AgregarComponent implements OnInit {
     stock_maximo: 0
   };
 
+  public mostar_input_precio : boolean = false;
+
   constructor(
     private storage: AngularFireStorage,
-    private productoUseCase: ProductoUseCase,
-    private location: Location
+    private _productoUseCase: ProductoUseCase,
+    private _location: Location,
+    private _inventarioUseCase: InventarioUseCase,
+    private _info: InfoProdUseCase
   ) { }
 
   ngOnInit(): void {
+    this.LlenarDatos();
   }
 
-  public Marca: any;
-  public marcasUnicas: any;
 
   CrearProducto() {
     this.Producto.nombre = this.nombre_producto;
-    this.Producto.descripcion = this.descripcion_producto;
     this.Producto.precio = this.precio_producto;
-    this.Producto.marca = this.marca_producto;
-    this.Producto.provedor = this.proveedor_producto;
-    this.Producto.categoria = this.categoria_producto;
-    this.Producto.animal = this.animal_producto;
-    this.Producto.url_imagen = this.url_imagen;
     this.Producto.cantidad = this.cantidad_producto;
-    this.Producto.tipo_cantidad = this.tipo_cantidad_producto;
+    this.Producto.descripcion = this.descripcion_producto;
+    this.Producto.url_imagen = this.url_imagen;
+    this.Producto.nomenclaturaMarca = this.marca_producto;
+    this.Producto.nomenclaturaCategoria = this.categoria_producto;
+    this.Producto.nomenclaturaProveedor = this.proveedor_producto;
+    this.Producto.nomenclaturaAnimal = this.animal_producto;
+    this.Producto.nomenclaturaTipoCantidad = this.tipo_cantidad_producto;
+    this.Producto.precio_granel = this.precio_granel_producto;
+    this.Producto.venta_granel = this.venta_granel_producto;
   }
 
   CrearProductoInventario() {
@@ -106,15 +172,15 @@ export class AgregarComponent implements OnInit {
     await this.SubirImagenFirestore();
 
     this.CrearProducto();
-
-    await this.productoUseCase.postProducto(this.Producto).subscribe(
+    console.log(this.Producto);
+    /*await this._productoUseCase.postProducto(this.Producto).subscribe(
       (response) => {
         this.id_producto = response.id;
       },
       (error) => {
         console.log(error);
       }
-    );
+    );*/
 
     await this.CrearProductoInventario();
   }
@@ -144,6 +210,57 @@ export class AgregarComponent implements OnInit {
       this.url_imagen = e.target.result;
     };
     reader.readAsDataURL(file);
+  }
+
+  async LlenarDatos() {
+    await this._info.getMarcas().subscribe(
+      (response: any) => {
+        console.log(response);
+        this.arreglo_marcas = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this._info.getProveedores().subscribe(
+      (response: any) => {
+        console.log(response);
+        this.arreglo_proveedores = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this._info.getCategorias().subscribe(
+      (response: any) => {
+        console.log(response);
+        this.arrelo_categorias = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this._info.getAnimales().subscribe(
+      (response: any) => {
+        this.arreglo_animales = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this._info.getTipoCantidad().subscribe(
+      (response: any) => {
+        this.arreglo_tipos_cantidad = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
   }
 
   actualizarNombre(event: Event): void {
@@ -194,10 +311,19 @@ export class AgregarComponent implements OnInit {
     this.stock_maximo_producto = +(event.target as HTMLInputElement).value;
   }
 
-  actualizarMarcaUnica(event: Event): void {
-    this.Marca = (event.target as HTMLInputElement).value;
+  actualizarPrecioGranel(event: Event): void {
+    this.precio_granel_producto = (event.target as HTMLInputElement).value;
   }
 
-  
+  actualizarVentaGranel(event: Event): void {
+    this.venta_granel_producto = (event.target as HTMLInputElement).value;
 
+    if(this.venta_granel_producto == "true"){
+      this.mostar_input_precio = true
+    } else {
+      this.mostar_input_precio = false
+    }
+
+
+  }
 }

@@ -31,6 +31,10 @@ import { InventarioPort } from './config/puertos/inventario-puertos/inventario-p
 import { InventarioAdapter } from './config/adaptadores/inventario-adapter/inventario-adapter';
 import { AgregarComponent } from './ui/agregar/agregar.component';
 import { EscanerComponent } from './ui/escaner/escaner.component';
+import { ProductoPort } from './config/puertos/producto-puertos/producto-puerto';
+import { ProductoAdapter } from './config/adaptadores/producto-adapter/producto-adapter';
+import { InfoProdPort } from './config/puertos/infoProd-puertos/infoProd-ports';
+import { InfoProdAdapter } from './config/adaptadores/infoProd-adapter/infoProd-adapter';
 
 
 
@@ -65,7 +69,9 @@ import { EscanerComponent } from './ui/escaner/escaner.component';
   providers: [
     {provide: EscanerPort, useClass: EscanerAdapter},
     {provide: VentaPort, useClass: VentaAdapter},
-    {provide: InventarioPort, useClass: InventarioAdapter}
+    {provide: InventarioPort, useClass: InventarioAdapter},
+    {provide: ProductoPort, useClass: ProductoAdapter},
+    {provide: InfoProdPort, useClass: InfoProdAdapter}
 
   ],
   bootstrap: [AppComponent]

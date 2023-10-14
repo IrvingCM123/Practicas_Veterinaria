@@ -10,38 +10,33 @@ import { InfoProdPort } from '../../puertos/infoProd-puertos/infoProd-ports';
 
 export class InfoProdAdapter implements InfoProdPort {
   apiUrl = environment.url;
-  url_marca = this.apiUrl + "marcas";
-  url_proveedor = this.apiUrl + "proveedores";
-  url_categoria = this.apiUrl + "categorias";
-  url_animal = this.apiUrl + "animales";
-  url_tipoProducto = this.apiUrl + "tipoProductos";
-  url_tipoCantidad = this.apiUrl + "tipoCantidades";
+  url_marca = this.apiUrl + "/marcas";
+  url_proveedor = this.apiUrl + "/proveedores";
+  url_categoria = this.apiUrl + "/categorias";
+  url_animal = this.apiUrl + "/animales";
+  url_tipoCantidad = this.apiUrl + "/tipos-cantidad";
 
   constructor(private http: HttpClient) { }
 
   getMarcas(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.url_marca);
 
   }
   getProveedores(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.url_proveedor);
 
   }
   getCategorias(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.url_categoria);
 
   }
   getAnimales(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.url_animal);
 
   }
-  getTipoProductos(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
 
-  }
   getTipoCantidad(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
-
+    return this.http.get<any[]>(this.url_tipoCantidad);
   }
 
 

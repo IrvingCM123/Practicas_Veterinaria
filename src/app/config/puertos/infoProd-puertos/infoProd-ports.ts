@@ -5,6 +5,5 @@ export abstract class InfoProdPort {
   abstract getProveedores(): Observable<any[]>;
   abstract getCategorias(): Observable<any[]>;
   abstract getAnimales(): Observable<any[]>;
-  abstract getTipoProductos(): Observable<any[]>;
   abstract getTipoCantidad(): Observable<any[]>;
 }

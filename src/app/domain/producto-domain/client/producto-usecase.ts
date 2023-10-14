@@ -3,6 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 import { Producto } from "src/app/ui/escaner/escaner.component";
+import { ProductoPort } from "src/app/config/puertos/producto-puertos/producto-puerto";
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,5 @@ export class ProductoUseCase {
   getProductoID(productoID: string): Observable<producto_Entity> {
     return this._productoPort.getProductoID(productoID);
   }
-  
+
 }

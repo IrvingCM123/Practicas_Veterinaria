@@ -12,12 +12,12 @@
   </div>
 
   <div class="container">
-    <div style="width: 80vw; margin: 20px 0;" >
+    <div style="width: 80vw; margin: 20px 0;">
       <form>
         <div class="row">
           <h4>Producto</h4>
           <div class="input-group input-group-icon">
-            <input type="text" placeholder="Nombre Producto" />
+            <input type="text" placeholder="Nombre Producto" (input)="actualizarNombre($event)" [value]="nombre_producto" />
             <div class="input-icon"><i class="fa fa-product-hunt"></i></div>
           </div>
           <div class="input-group input-group-icon">
@@ -31,24 +31,27 @@
         </div>
         <div class="row">
           <div class="col-half">
-            <h4>  Marca / Proveedor / Categoria</h4>
+            <h4> Marca / Proveedor / Categoria</h4>
             <div class="input-group">
               <div class="col-third">
-                <select id="seleccionarMarca" [(ngModel)]="Marca" >
+                <select id="seleccionarMarca" [(ngModel)]="arreglo_marcas" (input)="actualizarMarca($event)">
                   <option value="Todas">Todas</option>
-                  <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
+                  <option *ngFor="let marca of arreglo_marcas" [value]="marca.nomenclatura">{{ marca.nombre }} </option>
                 </select>
               </div>
               <div class="col-third">
-                <select id="seleccionarProveedor" [(ngModel)]="Marca" >
+                <select id="seleccionarProveedor" [(ngModel)]="arreglo_proveedores"
+                  (input)="actualizarProveedor($event)">
                   <option value="Todas">Todas</option>
-                  <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
+                  <option *ngFor="let proveedor of arreglo_proveedores" [value]="proveedor.nomenclatura">{{
+                    proveedor.nombre }}</option>
                 </select>
               </div>
               <div class="col-third">
-                <select id="seleccionarCategoria" [(ngModel)]="Marca" >
+                <select id="seleccionarCategoria" [(ngModel)]="arrelo_categorias" (input)="actualizarCategoria($event)">
                   <option value="Todas">Todas</option>
-                  <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
+                  <option *ngFor="let categoria of arrelo_categorias" [value]="categoria.nomenclatura">{{
+                    categoria.nombre }}</option>
                 </select>
               </div>
             </div>
@@ -56,10 +59,12 @@
           <div class="col-half">
             <h4> Producto para:</h4>
             <div class="input-group">
-              <input id="mascota-perro" type="radio" name="mascota" value="1" />
+              <input id="mascota-perro" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="1" />
               <label for="mascota-perro">Perro</label>
-              <input id="mascota-gato" type="radio" name="mascota" value="2" />
+              <input id="mascota-gato" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="2" />
               <label for="mascota-gato">Gato</label>
+              <input id="mascota-gato" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="3" />
+              <label for="mascota-gato">Ambos</label>
             </div>
           </div>
         </div>
@@ -69,32 +74,37 @@
             <h4>Stock Max. / Stock Min. / Stock Actual</h4>
             <div class="input-group">
               <div class="col-third">
-                <select id="stock_maximo" [(ngModel)]="Marca" >
-                  <option value="Todas">Stock Maximo</option>
-                  <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
-                </select>
+                <label for="stockmaximo"> </label>
+                <input (input)="actualizarStockMinimo($event)" [value]="stock_minimo_producto" type="text"
+                  name="stockmaximo" placeholder="Stock Maximo">
               </div>
               <div class="col-third">
-                <select id="stock_minimo" [(ngModel)]="Marca" >
-                  <option value="Todas">Todas</option>
-                  <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
-                </select>
+                <label for="stockminimo"> </label>
+                <input (input)="actualizarStockMaximo($event)" [value]="stock_maximo_producto" type="text"
+                  name="stockminimo" placeholder="Stock Minimo">
               </div>
               <div class="col-third">
-                <select id="stock_actual" [(ngModel)]="Marca" >
-                  <option value="Todas">Todas</option>
-                  <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
-                </select>
+                <label for="stockactual"> </label>
+                <input (input)="actualizarExistencias($event)" [value]="existencias_producto" type="text"
+                  name="stockactual" placeholder="Stock Actual">
               </div>
             </div>
           </div>
           <div class="col-half">
-            <h4>Venta por: </h4>
+            <h4>Venta a granel : </h4>
             <div class="input-group">
-              <input id="venta_granel" type="radio" name="venta_granel" value="1" />
-              <label for="venta_granel">Granel</label>
-              <input id="venta_pieza" type="radio" name="venta_pieza" value="2" />
-              <label for="venta_pieza">Pieza</label>
+              <input id="venta_granel" type="radio" name="opcionVentaGranel" (input)="actualizarVentaGranel($event)"
+                [value]='true' />
+              <label for="venta_granel">Permitir</label>
+
+              <input id="venta_pieza" type="radio" name="opcionVentaGranel" (input)="actualizarVentaGranel($event)"
+                [value]='false' />
+              <label for="venta_pieza">No permitir</label>
+
+              <input id="venta_granel" placeholder="Precio Venta Granel" type="text" name="venta_granel"
+                (input)="actualizarPrecioGranel($event)" [value]="precio_granel_producto"
+                *ngIf="mostar_input_precio == true" />
+
             </div>
           </div>
         </div>
@@ -104,7 +114,7 @@
           <h4>Imagen Producto</h4>
 
           <input style="margin-top: 1rem;" type="file" (change)="GuardarImagen($event)">
-        <img class="img-preview" *ngIf="url_imagen" [src]="url_imagen" alt="Imagen Subida">
+          <img class="img-preview" *ngIf="url_imagen" [src]="url_imagen" alt="Imagen Subida">
 
 
         </div>
@@ -114,6 +124,10 @@
             <input id="terms" type="checkbox" />
             <label for="terms">Estoy consiente de realizar cambios en este producto</label>
           </div>
+
+          <button (click)="GuardarProducto()" >
+            Guardar Producto
+          </button>
         </div>
       </form>
     </div>
