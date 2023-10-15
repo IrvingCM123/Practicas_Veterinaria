@@ -18,9 +18,7 @@
           <div class="photo-main">
             <div class="controls">
             </div>
-            <img
-              src="https://res.cloudinary.com/john-mantas/image/upload/v1537291846/codepen/delicious-apples/green-apple-with-slice.png"
-              alt="green apple slice">
+            <img [src]="datos_producto.imagen" alt="green apple slice">
           </div>
           <div class="photo-album">
 
@@ -30,7 +28,7 @@
       <div class="product__info">
         <div class="title">
           <h1> {{datos_producto.nombre}} </h1>
-          <span>COD: {{datos_producto.id_producto}} </span>
+          <span>COD: {{datos_producto.id}} </span>
         </div>
         <div class="price">
           $ <span> {{datos_producto.precio}} </span>
@@ -39,7 +37,7 @@
           <h3>Informacion: </h3>
           <ul>
             <li> Marca: {{datos_producto.id_marca}} </li>
-            <li> Cantidad: {{datos_producto.cantidad}} </li>
+            <li> Cantidad: {{datos_producto.cantidad}} {{datos_producto.id_tipoCantidad}} </li>
             <li> Proveedor: {{datos_producto.id_proveedor}} </li>
             <li> Categoria: {{datos_producto.id_categoria}} </li>
             <li> Descripcion: {{datos_producto.descripcion}} </li>
@@ -48,17 +46,17 @@
         <div class="description">
           <h3>Inventario: </h3>
           <ul>
-            <li> Stock Máximo: {{datos_producto.stock_maximo}} </li>
-            <li> Stock Mínimo: {{datos_producto.stock_minimo}} </li>
-            <li> Stock Actual: {{datos_producto.stock_actual}} </li>
+            <li> Stock Máximo: {{datos_inventario.StockMaximo}} </li>
+            <li> Stock Mínimo: {{datos_inventario.StockMinimo}} </li>
+            <li> Stock Actual: {{datos_inventario.existencias}} </li>
           </ul>
         </div>
-        <button class="buy--btn" (click)="MostrarFormulario()" >MODIFICAR</button>
+        <button class="buy--btn" (click)="MostrarFormulario()">MODIFICAR</button>
         <button class="buy--btn">ELIMINAR</button>
       </div>
     </section>
 
-    <section style="padding: 0px 0 0 70px; margin: 0;" >
+    <section style="padding: 0px 0 0 70px; margin: 0;">
 
       <div class="container">
         <section class="product" *ngIf="!mostrar_formulario">
@@ -78,65 +76,34 @@
                 <h4>Producto</h4>
 
                 <div class="input-group input-group-icon">
-                  <input
-                    type="text"
-                    placeholder="Nombre Producto"
-                    (input)="actualizarNombre($event)"
-                    [value]="nombre_producto"
-                    [ngModel]="datos_producto.nombre"
-                    required
-                  />
+                  <input type="text" placeholder="Nombre Producto" (input)="actualizarNombre($event)"
+                    [value]="nombre_producto" [ngModel]="datos_producto.nombre" required />
                   <div class="input-icon"><i class="fa fa-product-hunt"></i></div>
                 </div>
 
                 <div class="input-group input-group-icon">
-                  <input
-                    type="text"
-                    placeholder="Descripcion"
-                    (input)="actualizarDescripcion($event)"
-                    [value]="descripcion_producto"
-                    [ngModel]="datos_producto.descripcion"
-
-                    required
-                  />
+                  <input type="text" placeholder="Descripcion" (input)="actualizarDescripcion($event)"
+                    [value]="descripcion_producto" [ngModel]="datos_producto.descripcion" required />
                   <div class="input-icon"><i class="fa fa-book"></i></div>
                 </div>
 
                 <div class="input-group input-group-icon">
-                  <input
-                    type="number"
-                    placeholder="Precio"
-                    (input)="actualizarPrecio($event)"
-                    [value]="precio_producto"
-                    [ngModel]="datos_producto.precio"
-                    required
-                  />
+                  <input type="number" placeholder="Precio" (input)="actualizarPrecio($event)" [value]="precio_producto"
+                    [ngModel]="datos_producto.precio" required />
                   <div class="input-icon"><i class="fa fa-dollar"></i></div>
                 </div>
 
                 <div class="input-group input-group-icon">
-                  <input
-                    type="number"
-                    placeholder="Cantidad Total: X kg;   X piezas;   X Litros"
-                    (input)="actualizarCantidad($event)"
-                    [value]="cantidad_producto"
-                    [ngModel]="datos_producto.cantidad"
-                    required
-                  />
+                  <input type="number" placeholder="Cantidad Total: X kg;   X piezas;   X Litros"
+                    (input)="actualizarCantidad($event)" [value]="cantidad_producto" [ngModel]="datos_producto.cantidad"
+                    required />
                   <div class="input-icon"><i class="fa fa-product-hunt"></i></div>
                 </div>
 
-                <select
-                  id="seleccionarTipoCantidad"
-                  (input)="actualizarTipoCantidad($event)"
-                  [ngModel]="datos_producto.nomenclaturaTipoCantidad"
-                  required
-                >
+                <select id="seleccionarTipoCantidad" (input)="actualizarTipoCantidad($event)"
+                  [ngModel]="datos_producto.nomenclaturaTipoCantidad" required>
                   <option value="Todas">Cantidad</option>
-                  <option
-                    *ngFor="let tipo_cantidad of arreglo_tipos_cantidad"
-                    [value]="tipo_cantidad.nomenclatura"
-                  >
+                  <option *ngFor="let tipo_cantidad of arreglo_tipos_cantidad" [value]="tipo_cantidad.nomenclatura">
                     {{ tipo_cantidad.nombre }}
                   </option>
                 </select>
@@ -147,49 +114,28 @@
 
                   <div class="input-group">
                     <div class="col-third">
-                      <select
-                        id="seleccionarMarca"
-                        (input)="actualizarMarca($event)"
-                        [ngModel]="datos_producto.nomenclaturaMarca"
-                        required
-                      >
+                      <select id="seleccionarMarca" (input)="actualizarMarca($event)"
+                        [ngModel]="datos_producto.nomenclaturaMarca" required>
                         <option value="Todas">Todas</option>
-                        <option
-                          *ngFor="let marca of arreglo_marcas"
-                          [value]="marca.nomenclatura"
-                        >
+                        <option *ngFor="let marca of arreglo_marcas" [value]="marca.nomenclatura">
                           {{ marca.nombre }}
                         </option>
                       </select>
                     </div>
                     <div class="col-third">
-                      <select
-                        id="seleccionarProveedor"
-                        (input)="actualizarProveedor($event)"
-                        [ngModel]="datos_producto.nomenclaturaProveedor"
-                        required
-                      >
+                      <select id="seleccionarProveedor" (input)="actualizarProveedor($event)"
+                        [ngModel]="datos_producto.nomenclaturaProveedor" required>
                         <option value="Todas">Todas</option>
-                        <option
-                          *ngFor="let proveedor of arreglo_proveedores"
-                          [value]="proveedor.nomenclatura"
-                        >
+                        <option *ngFor="let proveedor of arreglo_proveedores" [value]="proveedor.nomenclatura">
                           {{ proveedor.nombre }}
                         </option>
                       </select>
                     </div>
                     <div class="col-third">
-                      <select
-                        id="seleccionarCategoria"
-                        (input)="actualizarCategoria($event)"
-                        [ngModel]="datos_producto.nomenclaturaCategoria"
-                        required
-                      >
+                      <select id="seleccionarCategoria" (input)="actualizarCategoria($event)"
+                        [ngModel]="datos_producto.nomenclaturaCategoria" required>
                         <option value="Todas">Todas</option>
-                        <option
-                          *ngFor="let categoria of arrelo_categorias"
-                          [value]="categoria.nomenclatura"
-                        >
+                        <option *ngFor="let categoria of arrelo_categorias" [value]="categoria.nomenclatura">
                           {{ categoria.nombre }}
                         </option>
                       </select>
@@ -199,21 +145,11 @@
                 <div class="col-half">
                   <h4>Producto para:</h4>
                   <div class="input-group">
-                    <input
-                      id="mascota-perro"
-                      type="radio"
-                      name="mascota"
-                      (input)="actualizarAnimal($event)"
-                      [value]="1"
-                    />
+                    <input id="mascota-perro" type="radio" name="mascota" (input)="actualizarAnimal($event)"
+                      [value]="1" />
                     <label for="mascota-perro">Perro</label>
-                    <input
-                      id="mascota-gato"
-                      type="radio"
-                      name="mascota"
-                      (input)="actualizarAnimal($event)"
-                      [value]="2"
-                    />
+                    <input id="mascota-gato" type="radio" name="mascota" (input)="actualizarAnimal($event)"
+                      [value]="2" />
                     <label for="mascota-gato">Gato</label>
                     <!-- <input id="mascota" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="3" />
                   <label for="mascota">Ambos</label> -->
@@ -227,36 +163,18 @@
                   <div class="input-group">
                     <div class="col-third">
                       <label for="stockmaximo"> </label>
-                      <input
-                        (input)="actualizarStockMinimo($event)"
-                        [value]="stock_minimo_producto"
-                        type="number"
-                        name="stockmaximo"
-                        placeholder="Stock Maximo"
-                        required
-                      />
+                      <input (input)="actualizarStockMinimo($event)" [value]="stock_minimo_producto" type="number"
+                        name="stockmaximo" placeholder="Stock Maximo" required />
                     </div>
                     <div class="col-third">
                       <label for="stockminimo"> </label>
-                      <input
-                        (input)="actualizarStockMaximo($event)"
-                        [value]="stock_maximo_producto"
-                        type="number"
-                        name="stockminimo"
-                        placeholder="Stock Minimo"
-                        required
-                      />
+                      <input (input)="actualizarStockMaximo($event)" [value]="stock_maximo_producto" type="number"
+                        name="stockminimo" placeholder="Stock Minimo" required />
                     </div>
                     <div class="col-third">
                       <label for="stockactual"> </label>
-                      <input
-                        (input)="actualizarExistencias($event)"
-                        [value]="existencias_producto"
-                        type="number"
-                        name="stockactual"
-                        placeholder="Stock Actual"
-                        required
-                      />
+                      <input (input)="actualizarExistencias($event)" [value]="existencias_producto" type="number"
+                        name="stockactual" placeholder="Stock Actual" required />
                     </div>
                   </div>
                 </div>
@@ -264,36 +182,17 @@
                   <h4>Venta a granel :</h4>
 
                   <div class="input-group">
-                    <input
-                      id="venta_granel"
-                      type="radio"
-                      name="opcionVentaGranel"
-                      (input)="actualizarVentaGranel($event)"
-                      [value]="true"
-                      required
-                    />
+                    <input id="venta_granel" type="radio" name="opcionVentaGranel"
+                      (input)="actualizarVentaGranel($event)" [value]="true" required />
                     <label for="venta_granel">Permitir</label>
 
-                    <input
-                      id="venta_pieza"
-                      type="radio"
-                      name="opcionVentaGranel"
-                      (input)="actualizarVentaGranel($event)"
-                      [value]="false"
-                      required
-                    />
+                    <input id="venta_pieza" type="radio" name="opcionVentaGranel"
+                      (input)="actualizarVentaGranel($event)" [value]="false" required />
                     <label for="venta_pieza">No permitir</label>
 
-                    <input
-                      id="venta_granel"
-                      placeholder="Precio Venta Granel"
-                      type="number"
-                      name="venta_granel"
-                      (input)="actualizarPrecioGranel($event)"
-                      [value]="precio_granel_producto"
-                      *ngIf="mostar_input_precio == true"
-                      required
-                    />
+                    <input id="venta_granel" placeholder="Precio Venta Granel" type="number" name="venta_granel"
+                      (input)="actualizarPrecioGranel($event)" [value]="precio_granel_producto"
+                      *ngIf="mostar_input_precio == true" required />
                   </div>
                 </div>
               </div>
@@ -301,40 +200,21 @@
               <div class="row">
                 <h4>Imagen Producto</h4>
 
-                <input
-                  style="margin-top: 1rem"
-                  type="file"
-                  (change)="GuardarImagen($event)"
-                  required
-                />
-                <img
-                  class="img-preview"
-                  *ngIf="url_imagen"
-                  [src]="url_imagen"
-                  [ngModel]="datos_producto.url_imagen"
-
-                  alt="Imagen Subida"
-                />
+                <input style="margin-top: 1rem" type="file" (change)="GuardarImagen($event)" required />
+                <img class="img-preview" *ngIf="url_imagen" [src]="url_imagen" [ngModel]="datos_producto.url_imagen"
+                  alt="Imagen Subida" />
               </div>
               <div class="row">
                 <h4>Confirmar solicitud</h4>
                 <div class="input-group">
-                  <input
-                    id="terms"
-                    type="checkbox"
-                    [(ngModel)]="consentimiento"
-                    (change)="habilitarBoton()"
-                  />
-                  <label for="terms"
-                    >Estoy consiente de realizar el registro de este producto</label
-                  >
+                  <input id="terms" type="checkbox" [(ngModel)]="consentimiento" (change)="habilitarBoton()" />
+                  <label for="terms">Estoy consiente de realizar el registro de este producto</label>
                 </div>
-
-                <button (click)="GuardarProducto()" [disabled]="!botonHabilitado">
-                  Guardar Producto
-                </button>
+                <button class="buy--btn" [disabled]="!botonHabilitado" (click)="ModificarProducto()">Actualizar
+                  Producto</button>
               </div>
             </form>
+            <button class="buy--btn" (click)="OcultarFormulario()">Cancelar</button>
           </div>
         </section>
       </div>

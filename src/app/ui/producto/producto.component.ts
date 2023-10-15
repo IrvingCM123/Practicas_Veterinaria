@@ -48,14 +48,20 @@ export class ProductoComponent implements OnInit {
     private _productoUseCase: ProductoUseCase
   ) {}
 
+  //Variables para mostrar el producto
+  public datos_producto: any = [];
+  public datos_inventario: any | [] = [];
+
+  //Variables para modificar el producto
+  public nuevos_datos_producto: any = [];
+  public nuevos_datos_inventario: any = [];
+
   //Variable para mostrar el producto seleccionado
   private id_Producto_Input: string = '';
-  public datos_producto: any = [];
-  public nuevos_datos_producto: any = [];
 
+  //Variables para mensajes/Formularios
   public mostrar_Mensaje_Aviso = false;
   public mensaje_Aviso: string = '';
-
   public mostrar_formulario = false;
 
   //Variables para crear un producto
@@ -152,8 +158,8 @@ export class ProductoComponent implements OnInit {
   public consentimiento: boolean = false;
   public botonHabilitado: boolean = false;
   public id_producto_inventario: string | any = '';
-  loading_save: boolean = false;
-  loading_get: boolean = false;
+  public loading_save: boolean = false;
+  public loading_get: boolean = false;
 
 
   ngOnInit(): void {
@@ -169,9 +175,13 @@ export class ProductoComponent implements OnInit {
     const productosObservable = this._productoUseCase.getProductoID(
       this.id_Producto_Input
     );
+
     this.datos_producto = await this._productoUseCase
       .getProductoID(this.id_Producto_Input)
       .toPromise();
+
+    this.datos_inventario = await this._inventarioUseCase.getProductoID(this.id_Producto_Input).toPromise();
+    console.log(this.datos_inventario);
     const marcasObservable = this._info.getMarcas();
     const proveedoresObservable = this._info.getProveedores();
     const categoriasObservable = this._info.getCategorias();
@@ -251,10 +261,6 @@ export class ProductoComponent implements OnInit {
     this.loading_get = false;
   }
 
-  async ModificarProducto() {
-    await this._inventarioUseCase.putProducto(this.nuevos_datos_producto);
-  }
-
   async EliminarProducto() {
     await this._inventarioUseCase.deleteProducto(this.id_Producto_Input);
   }
@@ -289,17 +295,17 @@ export class ProductoComponent implements OnInit {
     this.Inventario.stock_maximo = this.stock_maximo_producto;
   }
 
-  async GuardarProducto() {
+  async ModificarProducto() {
     this.loading_save = true;
     try {
       await this.SubirImagenFirestore();
       this.CrearProducto();
       const response: any = await this._productoUseCase
-        .postProducto(this.Producto)
+        .putProducto(this.Producto, this.id_Producto_Input)
         .toPromise();
       this.id_producto_inventario = response.id;
       await this.CrearProductoInventario(this.id_producto_inventario);
-      await this._inventarioUseCase.postProducto(this.Inventario).toPromise();
+      await this._inventarioUseCase.putProducto(this.Inventario, this.id_producto_inventario).toPromise();
     } catch (error) {
       console.error(error);
     }

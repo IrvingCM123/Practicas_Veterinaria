@@ -288,10 +288,7 @@ img {
 }
 
 .photo-main {
-  border-radius: 6px 6px 0 0;
-  background-color: #9be010;
-  background: radial-gradient(#e5f89e, #96e001);
-
+  background-color: transparent;
   .controls {
     display: flex;
     justify-content: space-between;
@@ -304,10 +301,11 @@ img {
   }
 
   img {
+    border-radius: 10px;
     position: absolute;
     left: -3.5em;
     top: 2em;
-    max-width: 110%;
+    max-width: 109.7%;
     filter: saturate(150%) contrast(120%) hue-rotate(10deg) drop-shadow(1px 20px 10px rgba(0, 0, 0, 0.3));
   }
 }
@@ -373,7 +371,8 @@ img {
   }
 
   li {
-    float: inline-start;
+    display: block; /* Cambiamos 'float' por 'display' y establecemos 'block' */
+    margin-bottom: 10px; /* Agregamos margen inferior para separar los elementos */
     width: 35px;
     height: 35px;
     padding: 3px;
@@ -387,7 +386,7 @@ img {
   }
 
   li:not(:first-child) {
-    margin-left: 0.1em;
+    margin-left: 0;
   }
 }
 
