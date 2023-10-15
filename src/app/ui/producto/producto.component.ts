@@ -40,7 +40,9 @@ interface InventarioInterface {
   templateUrl: './producto.component.html',
   styleUrls: ['./producto.component.scss'],
 })
+
 export class ProductoComponent implements OnInit {
+  
   constructor(
     private _inventarioUseCase: InventarioUseCase,
     private cache: Datos_Locales,
