@@ -8,12 +8,14 @@ import { Inventario } from 'src/app/domain/inventario-domain/models/inventario.e
 @Injectable({
   providedIn: 'root'
 })
+
 export class InventarioAdapter implements InventarioPort {
-  apiUrl = environment.url + "productos/";
+  apiUrl = environment.url + "/inventario";
 
   constructor(private http: HttpClient) { }
 
   postProducto(producto: any | []): Observable<Inventario> {
+    console.log(producto);
     return this.http.post<Inventario>(this.apiUrl, producto);
   }
 
