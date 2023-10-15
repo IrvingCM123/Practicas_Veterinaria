@@ -174,7 +174,7 @@ export class AgregarComponent implements OnInit {
   }
 
   async GuardarProducto() {
-    this.loading = true; // Muestra el círculo de carga
+    this.loading = true; 
     try {
       await this.SubirImagenFirestore();
       this.CrearProducto();
@@ -186,7 +186,7 @@ export class AgregarComponent implements OnInit {
       console.error(error);
     }
     this.loading = false;
-    //window.location.reload();
+    window.location.reload();
   }
 
   async SubirImagenFirestore() {
