@@ -131,7 +131,7 @@ export class InventarioComponent implements OnInit {
       tipoCantidadObservable
     ]).subscribe(
       ([productos, marcas, proveedores, categorías, animales, tiposCantidad]) => {
-        console.log(animales)
+
         // Mapea el campo id_marca de productos al nombre correspondiente
         this.productos.forEach((producto: any) => {
           const marca = marcas.find((marca) => marca.id_marca === producto.id_marca);
@@ -248,8 +248,8 @@ export class InventarioComponent implements OnInit {
     }
   }
 
-  SeleccionarProducto() {
-    this.cache.guardar_ArregloLocal('producto', this.productosFiltradosNombre);
+  SeleccionarProducto(id_producto: string | number) {
+    this.cache.guardar_DatoLocal('producto', id_producto);
     this.router.navigate(['/producto']);
   }
 

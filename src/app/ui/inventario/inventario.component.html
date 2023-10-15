@@ -47,7 +47,7 @@
       <div class="contenedor-productos-perros">
         <div *ngFor="let producto of productos">
           <div *ngIf="producto.id_animal == 'Perros' ">
-            <div class="nft" (click)="SeleccionarProducto()" style="cursor: pointer;">
+            <div class="nft" (click)="SeleccionarProducto(producto.id)" style="cursor: pointer;">
               <div class='main'>
                 <img class='tokenImage' [src]="producto.imagen" alt="imagen" />
                 <h2 style="font-size: 140%; justify-content: center;"> {{producto.nombre}} </h2>
@@ -87,9 +87,7 @@
           <div *ngIf="producto.id_animal == 'Gatos' ">
             <div class="nft">
               <div class='main'>
-                <img class='tokenImage'
-                  src="https://images.unsplash.com/photo-1621075160523-b936ad96132a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                  alt="NFT" />
+                <img class='tokenImage' [src]="producto.imagen" alt="NFT" />
                 <h2 style="font-size: 140%; justify-content: center;"> {{producto.nombre}} </h2>
                 <p class='description'> {{producto.descripcion}} </p>
                 <div class='tokenInfo'>
@@ -129,9 +127,7 @@
           <div>
             <div class="nft">
               <div class='main'>
-                <img class='tokenImage'
-                  src="https://images.unsplash.com/photo-1621075160523-b936ad96132a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                  alt="NFT" />
+                <img class='tokenImage' [src]="producto.imagen" alt="NFT" />
                 <h2 style="font-size: 140%; justify-content: center;"> {{producto.nombre}} </h2>
                 <p class='description'> {{producto.descripcion}} </p>
                 <div class='tokenInfo'>
@@ -170,9 +166,7 @@
           <div>
             <div class="nft">
               <div class='main'>
-                <img class='tokenImage'
-                  src="https://images.unsplash.com/photo-1621075160523-b936ad96132a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                  alt="NFT" />
+                <img class='tokenImage' [src]="producto.imagen" alt="NFT" />
                 <h2 style="font-size: 140%; justify-content: center;"> {{producto.nombre}} </h2>
                 <p class='description'> {{producto.descripcion}} </p>
                 <div class='tokenInfo'>
