@@ -4,15 +4,19 @@
     <nav>
       Veterinaria
       <ul>
-        <li><a href="historial_venta">Historial</a></li>
-        <li><a href="venta">Venta</a></li>
-        <li><a href="#">Estadisticas</a></li>
+        <li><a href="inventario">Inventario</a></li>
+        <li><a href="agregar">Agregar</a></li>
       </ul>
     </nav>
   </div>
 
   <div class="container">
     <div style="width: 80vw; margin: 20px 0;">
+
+      <div class="loading-overlay" *ngIf="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Guardando Producto</div>
+      </div>
 
       <form>
 
@@ -84,8 +88,8 @@
               <label for="mascota-perro">Perro</label>
               <input id="mascota-gato" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="2" />
               <label for="mascota-gato">Gato</label>
-              <input id="mascota" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="3" />
-              <label for="mascota">Ambos</label>
+              <!-- <input id="mascota" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="3" />
+              <label for="mascota">Ambos</label> -->
             </div>
           </div>
         </div>

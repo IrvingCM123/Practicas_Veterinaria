@@ -10,7 +10,7 @@ import { Inventario } from 'src/app/domain/inventario-domain/models/inventario.e
 })
 
 export class InventarioAdapter implements InventarioPort {
-  apiUrl = environment.url + "/inventario";
+  apiUrl = environment.url + "/inventario/";
 
   constructor(private http: HttpClient) { }
 
@@ -27,8 +27,8 @@ export class InventarioAdapter implements InventarioPort {
     return this.http.delete<Inventario>(this.apiUrl + productoID);
   }
 
-  putProducto(producto: any | []): Observable<Inventario> {
-    return this.http.put<Inventario>(this.apiUrl, producto);
+  putProducto(producto: any | [], id_producto: any): Observable<Inventario> {
+    return this.http.put<Inventario>(this.apiUrl + id_producto, producto);
   }
 
   getProductoID(productoID: string): Observable<Inventario> {

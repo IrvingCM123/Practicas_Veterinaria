@@ -26,8 +26,8 @@ export class ProductoAdapter implements ProductoPort {
     return this.http.delete<producto_Entity>(this.apiUrl + productoID);
   }
 
-  putProducto(producto: any | []): Observable<producto_Entity> {
-    return this.http.put<producto_Entity>(this.apiUrl, producto);
+  putProducto(producto: any | [], id_producto: any): Observable<producto_Entity> {
+    return this.http.put<producto_Entity>(this.apiUrl + id_producto, producto);
   }
 
   getProductoID(productoID: string): Observable<producto_Entity> {

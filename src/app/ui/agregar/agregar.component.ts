@@ -135,6 +135,8 @@ export class AgregarComponent implements OnInit {
   public consentimiento: boolean = false;
   public botonHabilitado: boolean = false;
   public id_producto_inventario: string | any = "";
+  loading: boolean = false;
+
 
   constructor(
     private storage: AngularFireStorage,
@@ -172,10 +174,10 @@ export class AgregarComponent implements OnInit {
   }
 
   async GuardarProducto() {
-    await this.SubirImagenFirestore();
-    this.CrearProducto();
-
+    this.loading = true; 
     try {
+      await this.SubirImagenFirestore();
+      this.CrearProducto();
       const response: any = await this._productoUseCase.postProducto(this.Producto).toPromise();
       this.id_producto_inventario = response.id;
       await this.CrearProductoInventario(this.id_producto_inventario);
@@ -183,9 +185,9 @@ export class AgregarComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
+    this.loading = false;
     window.location.reload();
   }
-
 
   async SubirImagenFirestore() {
     if (this.archivo_imagen) {
@@ -193,7 +195,8 @@ export class AgregarComponent implements OnInit {
       const fileRef = this.storage.ref(filePath);
       try {
         await this.storage.upload(filePath, this.archivo_imagen);
-        const downloadUrl = await fileRef.getDownloadURL().toPromise();
+        const downloadUrl: any = await fileRef.getDownloadURL().toPromise();
+        console.log('URL:', downloadUrl);
         this.url_imagen = downloadUrl;
       } catch (error) {
         console.error('Error uploading image:', error);
