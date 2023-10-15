@@ -5,6 +5,7 @@ import { ProductoUseCase } from 'src/app/domain/producto-domain/client/producto-
 import { InfoProdUseCase } from 'src/app/domain/infoProd-domain/client/InfoProd-usecase';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { forkJoin } from 'rxjs';
+import { Router } from '@angular/router';
 
 interface InformacionInterface {
   id_informacion: number;
@@ -45,7 +46,8 @@ export class ProductoComponent implements OnInit {
     private cache: Datos_Locales,
     private _info: InfoProdUseCase,
     private storage: AngularFireStorage,
-    private _productoUseCase: ProductoUseCase
+    private _productoUseCase: ProductoUseCase,
+    private router: Router,
   ) {}
 
   //Variables para mostrar el producto
@@ -209,6 +211,7 @@ export class ProductoComponent implements OnInit {
         );
         if (marca) {
           this.datos_producto.id_marca = marca.nombre;
+          this.datos_producto.nomenclaturaMarca = marca.nomenclatura;
         }
 
         // Mapea el campo id_proveedor de productos al nombre correspondiente
@@ -218,6 +221,7 @@ export class ProductoComponent implements OnInit {
         );
         if (proveedor) {
           this.datos_producto.id_proveedor = proveedor.nombre;
+          this.datos_producto.nomenclaturaProveedor = proveedor.nomenclatura;
         }
 
         // Mapea el campo id_categoria de productos al nombre correspondiente
@@ -227,6 +231,7 @@ export class ProductoComponent implements OnInit {
         );
         if (categoria) {
           this.datos_producto.id_categoria = categoria.nombre;
+          this.datos_producto.nomenclaturaCategoria = categoria.nomenclatura;
         }
 
         // Mapea el campo id_animal de productos al nombre correspondiente
@@ -235,6 +240,7 @@ export class ProductoComponent implements OnInit {
         );
         if (animal) {
           this.datos_producto.id_animal = animal.nombre;
+          this.datos_producto.nomenclaturaAnimal = animal.nomenclatura;
         }
 
         // Mapea el campo id_tipoCantidad de productos al nombre correspondiente
@@ -244,6 +250,8 @@ export class ProductoComponent implements OnInit {
         );
         if (tipoCantidad) {
           this.datos_producto.id_tipoCantidad = tipoCantidad.nombre;
+          this.datos_producto.nomenclaturaTipoCantidad =
+            tipoCantidad.nomenclatura;
         }
 
         // Mapea el campo venta_granel de productos al nombre correspondiente
@@ -261,8 +269,10 @@ export class ProductoComponent implements OnInit {
   }
 
   async EliminarProducto() {
-    await this._inventarioUseCase.deleteProducto(this.id_Producto_Input);
-    await this._productoUseCase.deleteProducto(this.id_Producto_Input);
+    await this._inventarioUseCase.deleteProducto(this.id_Producto_Input).toPromise();
+    await this._productoUseCase.deleteProducto(this.id_Producto_Input).toPromise();
+    this.cache.eliminar_DatoLocal('producto');
+    this.router.navigate(['/producto']);
   }
 
   MostrarFormulario() {
@@ -274,25 +284,25 @@ export class ProductoComponent implements OnInit {
   }
 
   CrearProducto() {
-    this.Producto.nombre = this.nombre_producto;
-    this.Producto.precio = this.precio_producto;
-    this.Producto.cantidad = this.cantidad_producto;
-    this.Producto.descripcion = this.descripcion_producto;
-    this.Producto.url_imagen = this.url_imagen;
-    this.Producto.nomenclaturaMarca = this.marca_producto;
-    this.Producto.nomenclaturaCategoria = this.categoria_producto;
-    this.Producto.nomenclaturaProveedor = this.proveedor_producto;
-    this.Producto.nomenclaturaAnimal = this.animal_producto;
-    this.Producto.nomenclaturaTipoCantidad = this.tipo_cantidad_producto;
-    this.Producto.precio_granel = this.precio_granel_producto;
+    this.Producto.nombre = this.nombre_producto || this.datos_producto.nombre;
+    this.Producto.precio = this.precio_producto || this.datos_producto.precio;
+    this.Producto.cantidad = this.cantidad_producto || this.datos_producto.cantidad;
+    this.Producto.descripcion = this.descripcion_producto || this.datos_producto.descripcion;
+    this.Producto.url_imagen = this.url_imagen || this.datos_producto.url_imagen;
+    this.Producto.nomenclaturaMarca = this.marca_producto || this.datos_producto.nomenclaturaMarca;
+    this.Producto.nomenclaturaCategoria = this.categoria_producto || this.datos_producto.nomenclaturaCategoria;
+    this.Producto.nomenclaturaProveedor = this.proveedor_producto || this.datos_producto.nomenclaturaProveedor;
+    this.Producto.nomenclaturaAnimal = this.animal_producto || this.datos_producto.nomenclaturaAnimal;
+    this.Producto.nomenclaturaTipoCantidad = this.tipo_cantidad_producto || this.datos_producto.nomenclaturaTipoCantidad;
+    this.Producto.precio_granel = this.precio_granel_producto || null;
     this.Producto.venta_granel = this.venta_granel_producto;
   }
 
   CrearProductoInventario(id_producto: string) {
     this.Inventario.id_producto = id_producto;
-    this.Inventario.existencias = this.existencias_producto;
-    this.Inventario.stock_minimo = this.stock_minimo_producto;
-    this.Inventario.stock_maximo = this.stock_maximo_producto;
+    this.Inventario.existencias = this.existencias_producto || this.datos_inventario.existencias;
+    this.Inventario.stock_minimo = this.stock_minimo_producto || this.datos_inventario.stock_minimo;
+    this.Inventario.stock_maximo = this.stock_maximo_producto || this.datos_inventario.stock_maximo;
   }
 
   async ModificarProducto() {
@@ -300,12 +310,13 @@ export class ProductoComponent implements OnInit {
     try {
       await this.SubirImagenFirestore();
       this.CrearProducto();
+      console.log(this.Producto);
       const response: any = await this._productoUseCase
         .putProducto(this.Producto, this.id_Producto_Input)
         .toPromise();
       this.id_producto_inventario = response.id;
       await this.CrearProductoInventario(this.id_producto_inventario);
-      await this._inventarioUseCase.putProducto(this.Inventario, this.id_producto_inventario).toPromise();
+      await this._inventarioUseCase.putProducto(this.Inventario, this.id_Producto_Input).toPromise();
     } catch (error) {
       console.error(error);
     }
