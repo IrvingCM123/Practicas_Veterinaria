@@ -1,9 +1,13 @@
-import { ProductoUseCase } from 'src/app/domain/producto-domain/client/producto-usecase';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Datos_Locales } from '../services/DatosLocales.service';
+import { forkJoin } from 'rxjs';
 
-export interface productoInterface {
+import { InfoProdUseCase } from 'src/app/domain/infoProd-domain/client/InfoProd-usecase';
+import { ProductoUseCase } from 'src/app/domain/producto-domain/client/producto-usecase';
+
+
+interface productoInterface {
   id: number;
   nombre: string;
   descripcion: string;
@@ -19,6 +23,13 @@ export interface productoInterface {
   precio_granel?: string | null;
 }
 
+interface InformacionInterface {
+  id_informacion: number;
+  nombre: string;
+  nomenclatura: string;
+}
+
+
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
@@ -26,14 +37,62 @@ export interface productoInterface {
 })
 export class InventarioComponent implements OnInit {
 
+
+  //Variables para obtener las marcas
+  public marcas: InformacionInterface = {
+    id_informacion: 0,
+    nombre: '',
+    nomenclatura: ''
+  };
+
+  public arreglo_marcas: [] | any = [];
+
+  //Variable para obtener los proveedores
+  public proveedores: InformacionInterface = {
+    id_informacion: 0,
+    nombre: '',
+    nomenclatura: ''
+  };
+
+  public arreglo_proveedores: [] | any = [];
+
+  //Variable para obtener las categorias
+  public categorias: InformacionInterface | [] = {
+    id_informacion: 0,
+    nombre: '',
+    nomenclatura: ''
+  };
+
+  public arrelo_categorias: [] | any = [];
+
+  //Variable para obtener los animales
+  public animales: InformacionInterface | [] = {
+    id_informacion: 0,
+    nombre: '',
+    nomenclatura: ''
+  };
+
+  public arreglo_animales: [] | any = [];
+
+  //Variable para obtener los tipos de cantidad
+  public tipos_cantidad: InformacionInterface | [] = {
+    id_informacion: 0,
+    nombre: '',
+    nomenclatura: ''
+  };
+
+  public arreglo_tipos_cantidad: [] | any = [];
+
   constructor(
     private router: Router,
     private cache: Datos_Locales,
-    private _productoUseCase: ProductoUseCase
+    private _productoUseCase: ProductoUseCase,
+    private _info: InfoProdUseCase
   ) {}
 
-  ngOnInit() {
-    this.marcasUnicas = this.obtenerMarcasUnicas();
+  async ngOnInit() {
+    await this.obtenerProductos();
+    await this.LlenarDatos();
   }
 
   //Variable para almacenar los productos obtenidos de la base de datos
@@ -55,16 +114,85 @@ export class InventarioComponent implements OnInit {
   public nombreProducto: string = '';
 
   async obtenerProductos() {
-    await this._productoUseCase.getProducto().subscribe((data) => {
-      this.productos = data;
-      console.log(this.productos);
-      this.productosFiltradosMarcas = this.productos;
-      this.productosFiltradosNombre = this.productos;
-    });
-  }
+    const productosObservable = this._productoUseCase.getProducto();
+    this.productos = await this._productoUseCase.getProducto().toPromise();
+    const marcasObservable = this._info.getMarcas();
+    const proveedoresObservable = this._info.getProveedores();
+    const categoriasObservable = this._info.getCategorias();
+    const animalesObservable = this._info.getAnimales();
+    const tipoCantidadObservable = this._info.getTipoCantidad();
 
+    forkJoin([
+      productosObservable,
+      marcasObservable,
+      proveedoresObservable,
+      categoriasObservable,
+      animalesObservable,
+      tipoCantidadObservable
+    ]).subscribe(
+      ([productos, marcas, proveedores, categorías, animales, tiposCantidad]) => {
+        console.log(animales)
+        // Mapea el campo id_marca de productos al nombre correspondiente
+        this.productos.forEach((producto: any) => {
+          const marca = marcas.find((marca) => marca.id_marca === producto.id_marca);
+          if (marca) {
+            producto.id_marca = marca.nombre;
+          }
+        });
+
+        // Mapea el campo id_proveedor de productos al nombre correspondiente
+        this.productos.forEach((producto: any) => {
+          const proveedor = proveedores.find((proveedor) => proveedor.id_proveedor === producto.id_proveedor);
+          if (proveedor) {
+            producto.id_proveedor = proveedor.nombre;
+          }
+        });
+
+        // Mapea el campo id_categoria de productos al nombre correspondiente
+        this.productos.forEach((producto: any) => {
+          const categoria = categorías.find((categoria) => categoria.id_categoria === producto.id_categoria);
+          if (categoria) {
+            producto.id_categoria = categoria.nombre;
+          }
+        });
+
+        // Mapea el campo id_animal de productos al nombre correspondiente
+        this.productos.forEach((producto: any) => {
+          const animal = animales.find((animal) => animal.id_categoria === producto.id_animal);
+          if (animal) {
+            producto.id_animal = animal.nombre;
+          }
+        });
+
+        // Mapea el campo id_tipoCantidad de productos al nombre correspondiente
+        this.productos.forEach((producto: any) => {
+          const tipoCantidad = tiposCantidad.find((tipoCantidad) => tipoCantidad.id_tipoCantidad === producto.id_tipoCantidad);
+          if (tipoCantidad) {
+            producto.id_tipoCantidad = tipoCantidad.nombre;
+          }
+        });
+
+        // Mapea el campo venta_granel de productos al nombre correspondiente
+        this.productos.forEach((producto: any) => {
+          if (producto.venta_granel) {
+            producto.venta_granel = 'Si';
+          } else {
+            producto.venta_granel = 'No';
+          }
+        });
+
+        this.marcasUnicas = this.obtenerMarcasUnicas();
+                this.productosFiltradosMarcas = this.productos;
+        this.productosFiltradosNombre = this.productos;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
   obtenerMarcasUnicas() {
     const marcasUnicas = new Set<string>();
+
     this.productos.forEach((producto: any) => {
       marcasUnicas.add(producto.id_marca);
     });
@@ -84,6 +212,8 @@ export class InventarioComponent implements OnInit {
   }
 
   filtrarPorMarca() {
+    console.log(this.productos)
+
     if (this.marcaSeleccionada === 'Todas') {
       this.productosFiltradosMarcas = this.productos;
       this.mostar_todos = true;
@@ -121,5 +251,54 @@ export class InventarioComponent implements OnInit {
   SeleccionarProducto() {
     this.cache.guardar_ArregloLocal('producto', this.productosFiltradosNombre);
     this.router.navigate(['/producto']);
+  }
+
+
+  async LlenarDatos() {
+    await this._info.getMarcas().subscribe(
+      (response: any) => {
+        this.arreglo_marcas = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this._info.getProveedores().subscribe(
+      (response: any) => {
+        this.arreglo_proveedores = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this._info.getCategorias().subscribe(
+      (response: any) => {
+        this.arrelo_categorias = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this._info.getAnimales().subscribe(
+      (response: any) => {
+        this.arreglo_animales = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this._info.getTipoCantidad().subscribe(
+      (response: any) => {
+        this.arreglo_tipos_cantidad = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
   }
 }
