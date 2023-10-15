@@ -179,7 +179,6 @@ export class AgregarComponent implements OnInit {
       const response: any = await this._productoUseCase.postProducto(this.Producto).toPromise();
       this.id_producto_inventario = response.id;
       await this.CrearProductoInventario(this.id_producto_inventario);
-      console.log(this.Inventario);
       await this._inventarioUseCase.postProducto(this.Inventario).toPromise();
     } catch (error) {
       console.error(error);
