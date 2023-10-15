@@ -3,7 +3,7 @@
     Veterinaria
     <ul>
       <li><a href="inventario">Inventario</a></li>
-      <li><a href="producto">Agregar</a></li>
+      <li><a href="agregar">Agregar</a></li>
     </ul>
   </nav>
 </div>
@@ -49,7 +49,7 @@
       <div class="contenedor-productos-perros">
         <div *ngFor="let producto of productos">
           <div *ngIf="producto.id_animal == 1">
-            <div class="nft">
+            <div class="nft" (click)="SeleccionarProducto()" style="cursor: pointer;">
               <div class='main'>
                 <img class='tokenImage'
                   src="https://images.unsplash.com/photo-1621075160523-b936ad96132a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
