@@ -23,11 +23,11 @@ export class InventarioUseCase {
     return this._inventarioPort.deleteProducto(productoID);
   }
 
-  putProducto(producto: any | []): Observable<Inventario> {
-    return this._inventarioPort.putProducto(producto);
+  putProducto(producto: any | [], id_producto: any): Observable<Inventario> {
+    return this._inventarioPort.putProducto(producto, id_producto);
   }
 
-  getProductoID(productoID: string): Observable<Inventario> {
+  getProductoID(productoID: string): any{
     return this._inventarioPort.getProductoID(productoID);
   }
 

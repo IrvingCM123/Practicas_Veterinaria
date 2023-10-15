@@ -5,7 +5,7 @@ export abstract class InventarioPort {
   abstract postProducto(producto: any | []): Observable<Inventario>;
   abstract getProducto(): Observable<Inventario[]>;
   abstract deleteProducto(productoID: string): Observable<Inventario>;
-  abstract putProducto(producto: any | []): Observable<Inventario>;
-  abstract getProductoID(productoID: string): Observable<Inventario>;
+  abstract putProducto(producto: any | [], id_producto: any): Observable<Inventario>;
+  abstract getProductoID(productoID: string): any;
 }
 

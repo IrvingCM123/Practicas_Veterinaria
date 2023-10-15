@@ -25,8 +25,8 @@ export class ProductoUseCase {
     return this._productoPort.deleteProducto(productoID);
   }
 
-  putProducto(producto: any | []): Observable<producto_Entity> {
-    return this._productoPort.putProducto(producto);
+  putProducto(producto: any | [], id_producto: any): Observable<producto_Entity> {
+    return this._productoPort.putProducto(producto, id_producto);
   }
 
   getProductoID(productoID: string): Observable<producto_Entity> {
