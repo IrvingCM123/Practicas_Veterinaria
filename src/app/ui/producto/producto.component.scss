@@ -695,3 +695,17 @@ select option {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+
+.info-titulo{
+  font-size: 110%;
+  font-weight: 600;
+  color: #0b132b;
+}
+
+.info-cuerpo{
+  font-size: 100%;
+  font-weight: 400;
+  color: #4c4c4c;
+  font-style: italic;
+}

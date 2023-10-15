@@ -36,19 +36,19 @@
         <div class="variant">
           <h3>Informacion: </h3>
           <ul>
-            <li> Marca: {{datos_producto.id_marca}} </li>
-            <li> Cantidad: {{datos_producto.cantidad}} {{datos_producto.id_tipoCantidad}} </li>
-            <li> Proveedor: {{datos_producto.id_proveedor}} </li>
-            <li> Categoria: {{datos_producto.id_categoria}} </li>
-            <li> Descripcion: {{datos_producto.descripcion}} </li>
+            <li class="info-cuerpo" > <span class="info-titulo" > Marca: </span> {{datos_producto.id_marca}} </li>
+            <li class="info-cuerpo" > <span class="info-titulo" > Cantidad: </span> {{datos_producto.cantidad}} {{datos_producto.id_tipoCantidad}} </li>
+            <li class="info-cuerpo" > <span class="info-titulo" > Proveedor: </span> {{datos_producto.id_proveedor}} </li>
+            <li class="info-cuerpo" > <span class="info-titulo" > Categoria: </span> {{datos_producto.id_categoria}} </li>
+            <li class="info-cuerpo" > <span class="info-titulo" > Descripcion: </span> {{datos_producto.descripcion}} </li>
           </ul>
         </div>
         <div class="description">
           <h3>Inventario: </h3>
           <ul>
-            <li> Stock Máximo: {{datos_inventario.StockMaximo}} </li>
-            <li> Stock Mínimo: {{datos_inventario.StockMinimo}} </li>
-            <li> Stock Actual: {{datos_inventario.existencias}} </li>
+            <li class="info-cuerpo" > <span class="info-titulo" > Stock Máximo: </span> {{datos_inventario.StockMaximo}} </li>
+            <li class="info-cuerpo" > <span class="info-titulo" > Stock Mínimo: </span> {{datos_inventario.StockMinimo}} </li>
+            <li class="info-cuerpo" > <span class="info-titulo" > Stock Actual: </span> {{datos_inventario.existencias}} </li>
           </ul>
         </div>
         <button class="buy--btn" (click)="MostrarFormulario()">MODIFICAR</button>

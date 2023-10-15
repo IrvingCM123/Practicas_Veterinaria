@@ -181,7 +181,6 @@ export class ProductoComponent implements OnInit {
       .toPromise();
 
     this.datos_inventario = await this._inventarioUseCase.getProductoID(this.id_Producto_Input).toPromise();
-    console.log(this.datos_inventario);
     const marcasObservable = this._info.getMarcas();
     const proveedoresObservable = this._info.getProveedores();
     const categoriasObservable = this._info.getCategorias();
@@ -263,6 +262,7 @@ export class ProductoComponent implements OnInit {
 
   async EliminarProducto() {
     await this._inventarioUseCase.deleteProducto(this.id_Producto_Input);
+    await this._productoUseCase.deleteProducto(this.id_Producto_Input);
   }
 
   MostrarFormulario() {
