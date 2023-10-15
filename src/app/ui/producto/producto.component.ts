@@ -332,7 +332,6 @@ export class ProductoComponent implements OnInit {
       try {
         await this.storage.upload(filePath, this.archivo_imagen);
         const downloadUrl: any = await fileRef.getDownloadURL().toPromise();
-        console.log('URL:', downloadUrl);
         this.url_imagen = downloadUrl;
       } catch (error) {
         console.error('Error uploading image:', error);
