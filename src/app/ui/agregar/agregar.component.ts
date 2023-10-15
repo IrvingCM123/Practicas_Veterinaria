@@ -44,7 +44,7 @@ export class AgregarComponent implements OnInit {
   //Variables para crear un producto
   public nombre_producto: string | any = "";
   public descripcion_producto: string | any = "";
-  public precio_producto: number | any = "";
+  public precio_producto: string | any = "";
   public marca_producto: string | any = "";
   public proveedor_producto: string | any = "";
   public categoria_producto: string | any = "";
@@ -71,16 +71,16 @@ export class AgregarComponent implements OnInit {
     nomenclatura: ''
   };
 
-  public arreglo_marcas: [] | any;
+  public arreglo_marcas: [] | any = [];
 
   //Variable para obtener los proveedores
-  public proveedores: InformacionInterface= {
+  public proveedores: InformacionInterface = {
     id_informacion: 0,
     nombre: '',
     nomenclatura: ''
   };
 
-  public arreglo_proveedores: [] | any;
+  public arreglo_proveedores: [] | any = [];
 
   //Variable para obtener las categorias
   public categorias: InformacionInterface | [] = {
@@ -89,7 +89,7 @@ export class AgregarComponent implements OnInit {
     nomenclatura: ''
   };
 
-  public arrelo_categorias: [] | any;
+  public arrelo_categorias: [] | any = [];
 
   //Variable para obtener los animales
   public animales: InformacionInterface | [] = {
@@ -98,7 +98,7 @@ export class AgregarComponent implements OnInit {
     nomenclatura: ''
   };
 
-  public arreglo_animales: [] | any;
+  public arreglo_animales: [] | any = [];
 
   //Variable para obtener los tipos de cantidad
   public tipos_cantidad: InformacionInterface | [] = {
@@ -107,7 +107,7 @@ export class AgregarComponent implements OnInit {
     nomenclatura: ''
   };
 
-  public arreglo_tipos_cantidad: [] | any;
+  public arreglo_tipos_cantidad: [] | any = [];
 
   private Producto: ProductoInterface = {
     nombre: '',
@@ -131,7 +131,10 @@ export class AgregarComponent implements OnInit {
     stock_maximo: 0
   };
 
-  public mostar_input_precio : boolean = false;
+  public mostar_input_precio: boolean = false;
+  public consentimiento: boolean = false;
+  public botonHabilitado: boolean = false;
+  public id_producto_inventario: string | any = "";
 
   constructor(
     private storage: AngularFireStorage,
@@ -161,8 +164,8 @@ export class AgregarComponent implements OnInit {
     this.Producto.venta_granel = this.venta_granel_producto;
   }
 
-  CrearProductoInventario() {
-    this.Inventario.id_producto = this.id_producto;
+  CrearProductoInventario(id_producto: string) {
+    this.Inventario.id_producto = id_producto;
     this.Inventario.existencias = this.existencias_producto;
     this.Inventario.stock_minimo = this.stock_minimo_producto;
     this.Inventario.stock_maximo = this.stock_maximo_producto;
@@ -170,20 +173,20 @@ export class AgregarComponent implements OnInit {
 
   async GuardarProducto() {
     await this.SubirImagenFirestore();
-
     this.CrearProducto();
-    console.log(this.Producto);
-    /*await this._productoUseCase.postProducto(this.Producto).subscribe(
-      (response) => {
-        this.id_producto = response.id;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );*/
 
-    await this.CrearProductoInventario();
+    try {
+      const response: any = await this._productoUseCase.postProducto(this.Producto).toPromise();
+      this.id_producto_inventario = response.id;
+      await this.CrearProductoInventario(this.id_producto_inventario);
+      console.log(this.Inventario);
+      await this._inventarioUseCase.postProducto(this.Inventario).toPromise();
+    } catch (error) {
+      console.error(error);
+    }
+    window.location.reload();
   }
+
 
   async SubirImagenFirestore() {
     if (this.archivo_imagen) {
@@ -215,7 +218,6 @@ export class AgregarComponent implements OnInit {
   async LlenarDatos() {
     await this._info.getMarcas().subscribe(
       (response: any) => {
-        console.log(response);
         this.arreglo_marcas = response;
       },
       (error) => {
@@ -225,7 +227,6 @@ export class AgregarComponent implements OnInit {
 
     this._info.getProveedores().subscribe(
       (response: any) => {
-        console.log(response);
         this.arreglo_proveedores = response;
       },
       (error) => {
@@ -235,7 +236,6 @@ export class AgregarComponent implements OnInit {
 
     this._info.getCategorias().subscribe(
       (response: any) => {
-        console.log(response);
         this.arrelo_categorias = response;
       },
       (error) => {
@@ -272,7 +272,7 @@ export class AgregarComponent implements OnInit {
   }
 
   actualizarPrecio(event: Event): void {
-    this.precio_producto = +(event.target as HTMLInputElement).value;
+    this.precio_producto = (event.target as HTMLInputElement).value;
   }
 
   actualizarMarca(event: Event): void {
@@ -292,7 +292,7 @@ export class AgregarComponent implements OnInit {
   }
 
   actualizarCantidad(event: Event): void {
-    this.cantidad_producto = +(event.target as HTMLInputElement).value;
+    this.cantidad_producto = (event.target as HTMLInputElement).value;
   }
 
   actualizarTipoCantidad(event: Event): void {
@@ -300,15 +300,15 @@ export class AgregarComponent implements OnInit {
   }
 
   actualizarExistencias(event: Event): void {
-    this.existencias_producto = +(event.target as HTMLInputElement).value;
+    this.existencias_producto = (event.target as HTMLInputElement).value;
   }
 
   actualizarStockMinimo(event: Event): void {
-    this.stock_minimo_producto = +(event.target as HTMLInputElement).value;
+    this.stock_minimo_producto = (event.target as HTMLInputElement).value;
   }
 
   actualizarStockMaximo(event: Event): void {
-    this.stock_maximo_producto = +(event.target as HTMLInputElement).value;
+    this.stock_maximo_producto = (event.target as HTMLInputElement).value;
   }
 
   actualizarPrecioGranel(event: Event): void {
@@ -318,12 +318,17 @@ export class AgregarComponent implements OnInit {
   actualizarVentaGranel(event: Event): void {
     this.venta_granel_producto = (event.target as HTMLInputElement).value;
 
-    if(this.venta_granel_producto == "true"){
+    if (this.venta_granel_producto == "true") {
       this.mostar_input_precio = true
+      this.venta_granel_producto = true
     } else {
       this.mostar_input_precio = false
+      this.venta_granel_producto = false
     }
-
-
   }
+
+  habilitarBoton() {
+    this.botonHabilitado = this.consentimiento;
+  }
+
 }

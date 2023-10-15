@@ -10,7 +10,7 @@ import { ProductoPort } from '../../puertos/producto-puertos/producto-puerto';
 })
 
 export class ProductoAdapter implements ProductoPort {
-  apiUrl = environment.url + "productos/";
+  apiUrl = environment.url + "/productos/";
 
   constructor(private http: HttpClient) { }
 
