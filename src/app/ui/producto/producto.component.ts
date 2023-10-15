@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InventarioUseCase } from 'src/app/domain/inventario-domain/client/inventario-usecase';
 import { Datos_Locales } from '../services/DatosLocales.service';
+import { ProductoUseCase } from 'src/app/domain/producto-domain/client/producto-usecase';
 
 @Component({
   selector: 'app-producto',
