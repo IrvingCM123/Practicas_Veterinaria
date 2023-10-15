@@ -42,7 +42,7 @@ interface InventarioInterface {
 })
 
 export class ProductoComponent implements OnInit {
-  
+
   constructor(
     private _inventarioUseCase: InventarioUseCase,
     private cache: Datos_Locales,
@@ -169,11 +169,11 @@ export class ProductoComponent implements OnInit {
   ngOnInit(): void {
     this.id_Producto_Input = this.cache.obtener_DatoLocal('producto');
     this.LlenarDatos();
-
     this.buscar_Producto();
   }
 
   async buscar_Producto() {
+
     this.loading_get = true;
 
     const productosObservable = this._productoUseCase.getProductoID(
@@ -312,7 +312,6 @@ export class ProductoComponent implements OnInit {
     try {
       await this.SubirImagenFirestore();
       this.CrearProducto();
-      console.log(this.Producto);
       const response: any = await this._productoUseCase
         .putProducto(this.Producto, this.id_Producto_Input)
         .toPromise();
