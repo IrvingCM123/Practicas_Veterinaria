@@ -73,9 +73,10 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Prod</th>
-            <th scope="col">Precio</th>
+            <th scope="col">Costo</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Granel</th>
+            <th scope="col">$ Granel</th>
             <th scope="col">Iva</th>
             <th scope="col">Subtotal</th>
             <th scope="col">Quitar</th>
@@ -103,6 +104,11 @@
                 name="Yes"
                 id=""
               />
+            </td>
+            <td *ngIf="!producto.VentaGranel">No Disponible</td>
+
+            <td *ngIf="producto.VentaGranel">
+              {{ producto.Precio_granel | currency }}
             </td>
             <td *ngIf="!producto.VentaGranel">No Disponible</td>
             <td>{{ producto.Iva }}</td>

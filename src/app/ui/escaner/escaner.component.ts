@@ -16,6 +16,7 @@ export interface Agregar_Producto {
   Marca: string;
   Iva: string;
   VentaGranel?: boolean;
+  Precio_granel?: number | string;
 }
 
 export interface Producto {
@@ -104,7 +105,10 @@ export class EscanerComponent implements OnInit {
           Marca: this.producto_Encontrado.marca,
           Iva: (this.producto_Encontrado.precio * 0.16).toString(),
           VentaGranel: this.producto_Encontrado.venta_granel,
+          Precio_granel: this.producto_Encontrado.precio_granel,
         };
+
+        console.log(productoAgregado);
 
         await this.venta_Service.agregarProductoEncontrado(productoAgregado);
       }
@@ -183,6 +187,7 @@ export class EscanerComponent implements OnInit {
           marca: producto.Marca,
           iva: producto.Iva,
           venta_granel: producto.VentaGranel,
+          precio_granel: producto.Precio_granel,
         };
       }),
 
