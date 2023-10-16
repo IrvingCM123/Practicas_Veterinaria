@@ -33,7 +33,7 @@
 
     <div class="producto">
       <div *ngIf="Mostrar_Producto">
-        <img src="https://th.bing.com/th/id/R.7a864f07681f187fb572468bfc949977?rik=3fUik6Pc6xTrHQ&pid=ImgRaw&r=0"
+        <img [src]='producto_Encontrado.imagen'
           alt="" />
         <div>
           <p>
@@ -45,12 +45,12 @@
             <span style="color: rgb(236, 30, 19)"> {{ producto_Encontrado.precio }} </span>
           </p>
           <p>
-            Tipo:
-            <span style="color: rgb(200, 26, 34)"> {{ producto_Encontrado.tipo }} </span>
+            Descripcion
+            <span style="color: rgb(200, 26, 34)"> {{ producto_Encontrado.descripcion }} </span>
           </p>
           <p>
             Marca:
-            <span style="color: blue"> {{ producto_Encontrado.marca }} </span>
+            <span style="color: blue"> {{ producto_Encontrado.marca.nombre }} </span>
           </p>
         </div>
       </div>
@@ -79,7 +79,7 @@
               <input style="font-size: 95%; font-weight: 600;" class="input_productos" type="number"
                 [(ngModel)]="producto.Cantidad" (change)="actualizarSubtotal(producto)" min="1" />
             </td>
-            <td *ngIf="producto.VentaGranel"> Granel </td>
+            <td *ngIf="producto.VentaGranel"> <input type="checkbox" name="Yes" id=""> </td>
             <td *ngIf="!producto.VentaGranel"> No Disponible </td>
             <td> {{producto.Iva}} </td>
             <td>{{ producto.Subtotal }}</td>
