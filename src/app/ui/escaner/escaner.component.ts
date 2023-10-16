@@ -101,7 +101,7 @@ export class EscanerComponent implements OnInit {
           Nombre: this.producto_Encontrado.nombre,
           Precio: parseFloat(this.producto_Encontrado.precio),
           Cantidad: 1,
-          Subtotal: parseFloat(this.producto_Encontrado.precio) + parseFloat(this.producto_Encontrado.precio) * 0.16,
+          Subtotal: parseFloat(this.producto_Encontrado.precio) + (+(this.producto_Encontrado.precio) * 0.16),
           Marca: this.producto_Encontrado.marca,
           Iva: (this.producto_Encontrado.precio * 0.16).toString(),
           VentaGranel: this.producto_Encontrado.venta_granel,
@@ -158,11 +158,12 @@ export class EscanerComponent implements OnInit {
   }
 
   actualizarIva(producto: Agregar_Producto) {
-    producto.Iva = (+(producto.Iva) * producto.Cantidad).toString();
+    producto.Iva = (((producto.Precio * 0.16) * producto.Cantidad).toFixed(2));
   }
 
   actualizarSubtotal(producto: Agregar_Producto) {
-    producto.Subtotal = (producto.Precio * producto.Cantidad) + +(producto.Iva);
+    this.actualizarIva(producto);
+    producto.Subtotal = (producto.Precio * producto.Cantidad) + (parseFloat(producto.Iva));
   }
 
   generar_Ticket() {

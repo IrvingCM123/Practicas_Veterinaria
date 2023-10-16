@@ -86,7 +86,7 @@
           <tr async *ngFor="let producto of productosVenta; let i = index">
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ producto.Nombre }}</td>
-            <td>{{ producto.Precio }}</td>
+            <td> ${{ producto.Precio }}</td>
             <td>
               <input
                 style="font-size: 95%; font-weight: 600"
@@ -94,6 +94,7 @@
                 type="number"
                 [(ngModel)]="producto.Cantidad"
                 (change)="actualizarSubtotal(producto)"
+                (change)="actualizarIva(producto)"
                 min="1"
               />
             </td>
