@@ -274,7 +274,7 @@ export class ProductoComponent implements OnInit {
     await this._inventarioUseCase.deleteProducto(this.id_Producto_Input).toPromise();
     await this._productoUseCase.deleteProducto(this.id_Producto_Input).toPromise();
     this.cache.eliminar_DatoLocal('producto');
-    this.router.navigate(['/producto']);
+    this.router.navigate(['/inventario']);
   }
 
   MostrarFormulario() {

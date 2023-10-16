@@ -18,7 +18,8 @@ interface ProductoInterface {
   nomenclaturaAnimal: string;
   nomenclaturaTipoCantidad: string;
   precio_granel?: string | null;
-  venta_granel: boolean
+  venta_granel: boolean;
+  codigo: string | null;
 }
 
 interface InventarioInterface {
@@ -37,29 +38,29 @@ interface InformacionInterface {
 @Component({
   selector: 'app-agregar',
   templateUrl: './agregar.component.html',
-  styleUrls: ['./agregar.component.scss']
+  styleUrls: ['./agregar.component.scss'],
 })
 export class AgregarComponent implements OnInit {
-
   //Variables para crear un producto
-  public nombre_producto: string | any = "";
-  public descripcion_producto: string | any = "";
-  public precio_producto: string | any = "";
-  public marca_producto: string | any = "";
-  public proveedor_producto: string | any = "";
-  public categoria_producto: string | any = "";
-  public animal_producto: string | any = "";
-  public tipo_cantidad_producto: string | any = "";
-  public url_imagen: string | any = "";
-  public cantidad_producto: number | any = "";
-  public precio_granel_producto: string | any = "";
+  public nombre_producto: string | any = '';
+  public descripcion_producto: string | any = '';
+  public precio_producto: string | any = '';
+  public marca_producto: string | any = '';
+  public proveedor_producto: string | any = '';
+  public categoria_producto: string | any = '';
+  public animal_producto: string | any = '';
+  public tipo_cantidad_producto: string | any = '';
+  public url_imagen: string | any = '';
+  public cantidad_producto: number | any = '';
+  public precio_granel_producto: string | any = '';
   public venta_granel_producto: boolean | any = false;
+  public codigo_barras_producto: string | any = '';
 
   //Variables para crear un inventario
   private id_producto: string | any;
-  public existencias_producto: number | any = "";
-  public stock_minimo_producto: number | any = "";
-  public stock_maximo_producto: number | any = "";
+  public existencias_producto: number | any = '';
+  public stock_minimo_producto: number | any = '';
+  public stock_maximo_producto: number | any = '';
 
   //Variable para almacenar una imagen
   public archivo_imagen: File | any = null;
@@ -68,7 +69,7 @@ export class AgregarComponent implements OnInit {
   public marcas: InformacionInterface = {
     id_informacion: 0,
     nombre: '',
-    nomenclatura: ''
+    nomenclatura: '',
   };
 
   public arreglo_marcas: [] | any = [];
@@ -77,7 +78,7 @@ export class AgregarComponent implements OnInit {
   public proveedores: InformacionInterface = {
     id_informacion: 0,
     nombre: '',
-    nomenclatura: ''
+    nomenclatura: '',
   };
 
   public arreglo_proveedores: [] | any = [];
@@ -86,7 +87,7 @@ export class AgregarComponent implements OnInit {
   public categorias: InformacionInterface | [] = {
     id_informacion: 0,
     nombre: '',
-    nomenclatura: ''
+    nomenclatura: '',
   };
 
   public arrelo_categorias: [] | any = [];
@@ -95,7 +96,7 @@ export class AgregarComponent implements OnInit {
   public animales: InformacionInterface | [] = {
     id_informacion: 0,
     nombre: '',
-    nomenclatura: ''
+    nomenclatura: '',
   };
 
   public arreglo_animales: [] | any = [];
@@ -104,7 +105,7 @@ export class AgregarComponent implements OnInit {
   public tipos_cantidad: InformacionInterface | [] = {
     id_informacion: 0,
     nombre: '',
-    nomenclatura: ''
+    nomenclatura: '',
   };
 
   public arreglo_tipos_cantidad: [] | any = [];
@@ -122,21 +123,32 @@ export class AgregarComponent implements OnInit {
     nomenclaturaTipoCantidad: '',
     precio_granel: '',
     venta_granel: false,
+    codigo: null,
   };
 
   private Inventario: InventarioInterface = {
     id_producto: '',
     existencias: 0,
     stock_minimo: 0,
-    stock_maximo: 0
+    stock_maximo: 0,
   };
 
+  //Variables para mostrar los inputs
   public mostar_input_precio: boolean = false;
+  public mostar_input_codigo: boolean = false;
+
+  //Variables para el consentimiento
   public consentimiento: boolean = false;
   public botonHabilitado: boolean = false;
-  public id_producto_inventario: string | any = "";
+
+  //Variable para el id del producto
+  public id_producto_inventario: string | any = '';
+
+  //Variable para el loading
   loading: boolean = false;
 
+  //Variable para el codigo de barras
+  public codigoExistente: any;
 
   constructor(
     private storage: AngularFireStorage,
@@ -144,14 +156,17 @@ export class AgregarComponent implements OnInit {
     private _location: Location,
     private _inventarioUseCase: InventarioUseCase,
     private _info: InfoProdUseCase
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.LlenarDatos();
   }
 
-
   CrearProducto() {
+    if (this.mostar_input_codigo == false) {
+      this.codigo_barras_producto = this.GeneradorCodigoBarras();
+    }
+
     this.Producto.nombre = this.nombre_producto;
     this.Producto.precio = this.precio_producto;
     this.Producto.cantidad = this.cantidad_producto;
@@ -164,6 +179,23 @@ export class AgregarComponent implements OnInit {
     this.Producto.nomenclaturaTipoCantidad = this.tipo_cantidad_producto;
     this.Producto.precio_granel = this.precio_granel_producto;
     this.Producto.venta_granel = this.venta_granel_producto;
+    this.Producto.codigo = this.codigo_barras_producto;
+  }
+
+  GeneradorCodigoBarras(): string {
+    // Genera un número aleatorio de 12 dígitos (código UPC)
+    const randomNumber = Math.floor(100000000000 + Math.random() * 900000000000).toString();
+
+    // Calcula el dígito de verificación (checksum)
+    const digits = randomNumber.split('').map(Number);
+    const evenSum = digits.filter((_, index) => index % 2 === 0).reduce((acc, curr) => acc + curr, 0);
+    const oddSum = digits.filter((_, index) => index % 2 !== 0).reduce((acc, curr) => acc + curr, 0);
+    const checksum = (10 - ((evenSum * 3 + oddSum) % 10)) % 10;
+
+    // Crea el código EAN-13
+    const ean13 = randomNumber + checksum;
+
+    return ean13;
   }
 
   CrearProductoInventario(id_producto: string) {
@@ -174,11 +206,13 @@ export class AgregarComponent implements OnInit {
   }
 
   async GuardarProducto() {
-    this.loading = true; 
+    this.loading = true;
     try {
       await this.SubirImagenFirestore();
       this.CrearProducto();
-      const response: any = await this._productoUseCase.postProducto(this.Producto).toPromise();
+      const response: any = await this._productoUseCase
+        .postProducto(this.Producto)
+        .toPromise();
       this.id_producto_inventario = response.id;
       await this.CrearProductoInventario(this.id_producto_inventario);
       await this._inventarioUseCase.postProducto(this.Inventario).toPromise();
@@ -247,6 +281,7 @@ export class AgregarComponent implements OnInit {
 
     this._info.getAnimales().subscribe(
       (response: any) => {
+        console.log(response);
         this.arreglo_animales = response;
       },
       (error) => {
@@ -262,7 +297,6 @@ export class AgregarComponent implements OnInit {
         console.log(error);
       }
     );
-
   }
 
   actualizarNombre(event: Event): void {
@@ -287,10 +321,13 @@ export class AgregarComponent implements OnInit {
 
   actualizarCategoria(event: Event): void {
     this.categoria_producto = (event.target as HTMLInputElement).value;
+    console.log(this.categoria_producto);
   }
 
   actualizarAnimal(event: Event): void {
     this.animal_producto = (event.target as HTMLInputElement).value;
+    console.log(this.animal_producto);
+
   }
 
   actualizarCantidad(event: Event): void {
@@ -317,20 +354,35 @@ export class AgregarComponent implements OnInit {
     this.precio_granel_producto = (event.target as HTMLInputElement).value;
   }
 
+  actualizarCodigo(event: Event): void {
+    this.codigo_barras_producto = (event.target as HTMLInputElement).value;
+  }
+
   actualizarVentaGranel(event: Event): void {
     this.venta_granel_producto = (event.target as HTMLInputElement).value;
 
-    if (this.venta_granel_producto == "true") {
-      this.mostar_input_precio = true
-      this.venta_granel_producto = true
+    if (this.venta_granel_producto == 'true') {
+      this.mostar_input_precio = true;
+      this.venta_granel_producto = true;
     } else {
-      this.mostar_input_precio = false
-      this.venta_granel_producto = false
+      this.mostar_input_precio = false;
+      this.venta_granel_producto = false;
+    }
+  }
+
+  actualizarCodigoBarras(event: Event): void {
+    this.codigoExistente = (event.target as HTMLInputElement).value;
+
+    if (this.codigoExistente == 'true') {
+      this.mostar_input_codigo = true;
+      this.codigoExistente = true;
+    } else {
+      this.mostar_input_codigo = false;
+      this.codigoExistente = false;
     }
   }
 
   habilitarBoton() {
     this.botonHabilitado = this.consentimiento;
   }
-
 }
