@@ -41,7 +41,7 @@
             <span style="color: rgb(224, 97, 97)"> {{ producto_Encontrado.nombre }} </span>
           </p>
           <p>
-            Precio:
+            Precio: $
             <span style="color: rgb(236, 30, 19)"> {{ producto_Encontrado.precio }} </span>
           </p>
           <p>
@@ -61,9 +61,11 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Producto</th>
+            <th scope="col">Prod</th>
             <th scope="col">Precio</th>
-            <th scope="col">Cantidad Venta</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Granel</th>
+            <th scope="col">Iva</th>
             <th scope="col">Subtotal</th>
             <th scope="col">Quitar</th>
           </tr>
@@ -74,15 +76,19 @@
             <td>{{ producto.Nombre }} </td>
             <td>{{ producto.Precio }}</td>
             <td>
-              <input style="font-size: 95%; font-weight: 600;" class="input_productos" type="number" [(ngModel)]="producto.Cantidad"
-                (change)="actualizarSubtotal(producto)" min="1" />
+              <input style="font-size: 95%; font-weight: 600;" class="input_productos" type="number"
+                [(ngModel)]="producto.Cantidad" (change)="actualizarSubtotal(producto)" min="1" />
             </td>
+            <td *ngIf="producto.VentaGranel"> Granel </td>
+            <td *ngIf="!producto.VentaGranel"> No Disponible </td>
+            <td> {{producto.Iva}} </td>
             <td>{{ producto.Subtotal }}</td>
             <td>
               <button (click)="eliminar_VentaProducto(producto)">
                 <i class="fa fa-times"></i>
               </button>
             </td>
+
           </tr>
         </tbody>
       </table>

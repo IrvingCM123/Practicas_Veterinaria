@@ -14,6 +14,8 @@ export interface Agregar_Producto {
   Cantidad: number;
   Subtotal: number;
   Marca: string;
+  Iva: string;
+  VentaGranel?: boolean;
 }
 
 export interface Producto {
@@ -24,6 +26,7 @@ export interface Producto {
   Imagen: string;
   Marca: string;
   Categoria: string;
+  iva: string;
 }
 
 export interface ProductoVenta {
@@ -89,8 +92,10 @@ export class EscanerComponent implements OnInit {
           Nombre: this.producto_Encontrado.nombre,
           Precio: parseFloat(this.producto_Encontrado.precio),
           Cantidad: 1,
-          Subtotal: parseFloat(this.producto_Encontrado.precio) * 1,
+          Subtotal: parseFloat(this.producto_Encontrado.precio) + parseFloat(this.producto_Encontrado.precio) * 0.16,
           Marca: this.producto_Encontrado.marca,
+          Iva: (this.producto_Encontrado.precio * 0.16).toString(),
+          VentaGranel: this.producto_Encontrado.venta_granel,
         };
 
         await this.venta_Service.agregarProductoEncontrado(productoAgregado);
@@ -110,6 +115,7 @@ export class EscanerComponent implements OnInit {
         .toPromise();
 
       if (busquedaProducto_obtenido) {
+        console.log(busquedaProducto_obtenido);
         return busquedaProducto_obtenido;
       } else {
         return false;
@@ -139,8 +145,12 @@ export class EscanerComponent implements OnInit {
     }
   }
 
+  actualizarIva(producto: Agregar_Producto) {
+    producto.Iva = (+(producto.Iva) * producto.Cantidad).toString();
+  }
+
   actualizarSubtotal(producto: Agregar_Producto) {
-    producto.Subtotal = producto.Precio * producto.Cantidad;
+    producto.Subtotal = (producto.Precio * producto.Cantidad) + +(producto.Iva);
   }
 
   generar_Ticket() {
@@ -163,6 +173,8 @@ export class EscanerComponent implements OnInit {
           precio: `$${producto.Precio.toFixed(2)}`,
           subtotal: producto.Subtotal.toFixed(2),
           marca: producto.Marca,
+          iva: producto.Iva,
+          venta_granel: producto.VentaGranel,
         };
       }),
 
