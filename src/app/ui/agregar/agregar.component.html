@@ -47,11 +47,34 @@
             <div class="input-icon"><i class="fa fa-product-hunt"></i></div>
           </div>
 
-          <select id="seleccionarTipoCantidad" (input)="actualizarTipoCantidad($event)" required>
-            <option value="Todas">Cantidad</option>
-            <option *ngFor="let tipo_cantidad of arreglo_tipos_cantidad" [value]="tipo_cantidad.nomenclatura">
-              {{ tipo_cantidad.nombre }} </option>
-          </select>
+          <div class="col-half">
+            <h4> Tipo de cantidad: </h4>
+            <select style="width: 100%;"  id="seleccionarTipoCantidad" (input)="actualizarTipoCantidad($event)" required>
+              <option value="Todas">Cantidad</option>
+              <option *ngFor="let tipo_cantidad of arreglo_tipos_cantidad" [value]="tipo_cantidad.nomenclatura">
+                {{ tipo_cantidad.nombre }} </option>
+            </select>
+          </div>
+
+          <div class="col-half">
+            <h4>Codigo de Barras : </h4>
+            <div class="input-group">
+              <input id="codigo_barras" type="radio" name="opcionCodigoBarras" (input)="actualizarCodigoBarras($event)"
+                [value]='true' required maxlength="12" minlength="12" />
+              <label for="codigo_barras">Existente</label>
+
+              <input id="codigo_barras2" type="radio" name="opcionCodigoBarras" (input)="actualizarCodigoBarras($event)"
+                [value]='false' required />
+              <label for="codigo_barras2">Generar Automatico</label>
+
+              <input id="codigo_barras" placeholder="Codigo de barras" type="number" name="codigo_barras"
+                (input)="actualizarCodigo($event)" [value]="codigo_barras_producto"
+                *ngIf="mostar_input_codigo == true" required />
+
+            </div>
+          </div>
+
+
 
         </div>
         <div class="row">
@@ -84,9 +107,9 @@
           <div class="col-half">
             <h4> Producto para:</h4>
             <div class="input-group">
-              <input id="mascota-perro" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="1" />
+              <input id="mascota-perro" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="arreglo_animales[0].nomenclatura" />
               <label for="mascota-perro">Perro</label>
-              <input id="mascota-gato" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="2" />
+              <input id="mascota-gato" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="arreglo_animales[1].nomenclatura" />
               <label for="mascota-gato">Gato</label>
               <!-- <input id="mascota" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="3" />
               <label for="mascota">Ambos</label> -->

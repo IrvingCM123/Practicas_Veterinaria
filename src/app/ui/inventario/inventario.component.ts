@@ -132,6 +132,7 @@ export class InventarioComponent implements OnInit {
     ]).subscribe(
       ([productos, marcas, proveedores, categorías, animales, tiposCantidad]) => {
 
+        console.log(this.productos);
         // Mapea el campo id_marca de productos al nombre correspondiente
         this.productos.forEach((producto: any) => {
           const marca = marcas.find((marca) => marca.id_marca === producto.id_marca);

@@ -10,7 +10,7 @@ import { escaner } from "src/app/domain/escaner-domain/models/escaner.entity";
 })
 export class EscanerAdapter extends EscanerPort {
 
-    api_url = environment.url + "/productosid/"
+    api_url = environment.url + "/productos/"
 
     constructor(private _http: HttpClient) {
       super();

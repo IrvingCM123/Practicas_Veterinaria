@@ -303,9 +303,10 @@ img {
   img {
     border-radius: 10px;
     position: absolute;
-    left: -3.5em;
+    left: -1.5em;
     top: 2em;
     max-width: 109.7%;
+    max-height: 90%;
     filter: saturate(150%) contrast(120%) hue-rotate(10deg) drop-shadow(1px 20px 10px rgba(0, 0, 0, 0.3));
   }
 }
