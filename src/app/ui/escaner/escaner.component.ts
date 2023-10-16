@@ -42,15 +42,23 @@ export interface ProductoVenta {
   styleUrls: ['./escaner.component.scss'],
 })
 export class EscanerComponent implements OnInit {
+
+  // Variables para el escaner
   public id_Producto_Input: string = '';
 
+  // Variables para guardar el producto buscado
   public producto_Encontrado: Producto | any = [];
 
+  // Variables para mostrar mensajes
   public Mostrar_Producto = false;
   public mensaje_Aviso: string = '';
   public mostrar_Mensaje_Aviso = false;
 
+  // Variables para mostrar los productos en la lista de venta
   public productosVenta: Agregar_Producto[] | any = [];
+
+  // Variable para decidir si es una venta a granel o no
+  public venta_granel_boleean: any = "";
 
   constructor(
     private http: HttpClient,
@@ -261,4 +269,20 @@ export class EscanerComponent implements OnInit {
     this.limpiar_Input();
     window.location.reload();
   }
+
+
+  /*actualizarVentaGranel(event: Event): void {
+    this.venta_granel_boleean = (event.target as HTMLInputElement).value;
+    if (this.venta_granel_boleean == "false") {
+      this.venta_granel_boleean = false;
+    } else {
+      this.venta_granel_boleean = true;
+    }
+  }*/
+
+  actualizarVentaGranel(event: Event): void {
+    this.venta_granel_boleean = (event.target as HTMLInputElement).checked;
+    console.log(this.venta_granel_boleean);
+  }
+
 }

@@ -20,8 +20,12 @@
 
       <div class="buscador_buscar-input">
         <div class="input-container">
-          <input type="text" (keydown.enter)="buscar_Producto()" [(ngModel)]="id_Producto_Input"
-            placeholder="Escribe tu búsqueda..." />
+          <input
+            type="text"
+            (keydown.enter)="buscar_Producto()"
+            [(ngModel)]="id_Producto_Input"
+            placeholder="Escribe tu búsqueda..."
+          />
           <i class="fa fa-times clear-icon" (click)="limpiar_Input()"></i>
         </div>
 
@@ -33,24 +37,31 @@
 
     <div class="producto">
       <div *ngIf="Mostrar_Producto">
-        <img [src]='producto_Encontrado.imagen'
-          alt="" />
+        <img [src]="producto_Encontrado.imagen" alt="" />
         <div>
           <p>
             Nombre:
-            <span style="color: rgb(224, 97, 97)"> {{ producto_Encontrado.nombre }} </span>
+            <span style="color: rgb(224, 97, 97)">
+              {{ producto_Encontrado.nombre }}
+            </span>
           </p>
           <p>
             Precio: $
-            <span style="color: rgb(236, 30, 19)"> {{ producto_Encontrado.precio }} </span>
+            <span style="color: rgb(236, 30, 19)">
+              {{ producto_Encontrado.precio }}
+            </span>
           </p>
           <p>
             Descripcion
-            <span style="color: rgb(200, 26, 34)"> {{ producto_Encontrado.descripcion }} </span>
+            <span style="color: rgb(200, 26, 34)">
+              {{ producto_Encontrado.descripcion }}
+            </span>
           </p>
           <p>
             Marca:
-            <span style="color: blue"> {{ producto_Encontrado.marca.nombre }} </span>
+            <span style="color: blue">
+              {{ producto_Encontrado.marca.nombre }}
+            </span>
           </p>
         </div>
       </div>
@@ -73,43 +84,60 @@
         <tbody>
           <tr async *ngFor="let producto of productosVenta; let i = index">
             <th scope="row">{{ i + 1 }}</th>
-            <td>{{ producto.Nombre }} </td>
+            <td>{{ producto.Nombre }}</td>
             <td>{{ producto.Precio }}</td>
             <td>
-              <input style="font-size: 95%; font-weight: 600;" class="input_productos" type="number"
-                [(ngModel)]="producto.Cantidad" (change)="actualizarSubtotal(producto)" min="1" />
+              <input
+                style="font-size: 95%; font-weight: 600"
+                class="input_productos"
+                type="number"
+                [(ngModel)]="producto.Cantidad"
+                (change)="actualizarSubtotal(producto)"
+                min="1"
+              />
             </td>
-            <td *ngIf="producto.VentaGranel"> <input type="checkbox" name="Yes" id=""> </td>
-            <td *ngIf="!producto.VentaGranel"> No Disponible </td>
-            <td> {{producto.Iva}} </td>
+            <td *ngIf="producto.VentaGranel">
+              <input
+                (change)="actualizarVentaGranel($event)"
+                type="checkbox"
+                name="Yes"
+                id=""
+              />
+            </td>
+            <td *ngIf="!producto.VentaGranel">No Disponible</td>
+            <td>{{ producto.Iva }}</td>
             <td>{{ producto.Subtotal }}</td>
             <td>
               <button (click)="eliminar_VentaProducto(producto)">
                 <i class="fa fa-times"></i>
               </button>
             </td>
-
           </tr>
         </tbody>
       </table>
     </div>
 
     <section class="ticket">
-
       <div class="total_venta">
         <p>
           Total:
-          <span style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%">
+          <span
+            style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%"
+          >
             $ {{ calcularTotal() }}
           </span>
         </p>
       </div>
 
-
       <div class="cambio_venta">
         <label for="Total"> Paga con: $</label>
 
-        <input id="Total" type="number" [(ngModel)]="montoAPagar" (change)="calcularCambio()" />
+        <input
+          id="Total"
+          type="number"
+          [(ngModel)]="montoAPagar"
+          (change)="calcularCambio()"
+        />
 
         <p style="padding-top: 2px">Cambio: ${{ cambio }}</p>
       </div>

@@ -53,7 +53,7 @@ export class ProductoComponent implements OnInit {
   ) {}
 
   //Variables para mostrar el producto
-  public datos_producto: any = [];
+  public datos_producto: any;
   public datos_inventario: any | [] = [];
 
   //Variables para modificar el producto
@@ -184,7 +184,7 @@ export class ProductoComponent implements OnInit {
       .getProductoID(this.id_Producto_Input)
       .toPromise();
 
-    this.datos_inventario = await this._inventarioUseCase.getProductoID(this.id_Producto_Input).toPromise();
+    this.datos_inventario = await this._inventarioUseCase.getProductoID(this.datos_producto.id).toPromise();
     const marcasObservable = this._info.getMarcas();
     const proveedoresObservable = this._info.getProveedores();
     const categoriasObservable = this._info.getCategorias();
