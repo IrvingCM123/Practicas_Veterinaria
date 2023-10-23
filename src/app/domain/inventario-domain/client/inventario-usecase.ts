@@ -27,7 +27,7 @@ export class InventarioUseCase {
     return this._inventarioPort.putProducto(producto, id_producto);
   }
 
-  getProductoID(productoID: string): any{
+  getProductoID(productoID: number): any{
     return this._inventarioPort.getProductoID(productoID);
   }
 

@@ -16,7 +16,7 @@ export interface Agregar_Producto {
   Marca: string;
   Iva: string;
   VentaGranel?: boolean;
-  Precio_granel?: number | string;
+  Precio_granel?: number | string | any;
 }
 
 export interface Producto {
@@ -43,7 +43,6 @@ export interface ProductoVenta {
   styleUrls: ['./escaner.component.scss'],
 })
 export class EscanerComponent implements OnInit {
-
   // Variables para el escaner
   public id_Producto_Input: string = '';
 
@@ -59,7 +58,7 @@ export class EscanerComponent implements OnInit {
   public productosVenta: Agregar_Producto[] | any = [];
 
   // Variable para decidir si es una venta a granel o no
-  public venta_granel_boleean: any = "";
+  public venta_granel_boleean: any = '';
 
   constructor(
     private http: HttpClient,
@@ -69,7 +68,7 @@ export class EscanerComponent implements OnInit {
     private venta_Service: Venta_Service,
     private cdr: ChangeDetectorRef,
     private _ventaUseCase: VentaUseCase
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.venta_Service.reiniciarProductosEncontrados();
@@ -81,17 +80,22 @@ export class EscanerComponent implements OnInit {
   }
 
   async buscar_Producto() {
+
     if (this.id_Producto_Input.trim() === '') {
       this.mensaje_Aviso = 'Por favor, ingresa un término de búsqueda.';
+      
     } else {
+
       let obtener_busqueda: Producto | boolean = await this.buscar_Producto_BD(
         this.id_Producto_Input
       );
 
       if (obtener_busqueda === false) {
+
         this.mensaje_Aviso = 'No se encontró el producto';
         this.Mostrar_Producto = false;
         this.producto_Encontrado = [];
+
       } else {
         this.Mostrar_Producto = true;
         this.producto_Encontrado = obtener_busqueda;
@@ -101,14 +105,14 @@ export class EscanerComponent implements OnInit {
           Nombre: this.producto_Encontrado.nombre,
           Precio: parseFloat(this.producto_Encontrado.precio),
           Cantidad: 1,
-          Subtotal: parseFloat(this.producto_Encontrado.precio) + (+(this.producto_Encontrado.precio) * 0.16),
+          Subtotal:
+            parseFloat(this.producto_Encontrado.precio) +
+            +this.producto_Encontrado.precio * 0.16,
           Marca: this.producto_Encontrado.marca,
           Iva: (this.producto_Encontrado.precio * 0.16).toString(),
           VentaGranel: this.producto_Encontrado.venta_granel,
           Precio_granel: this.producto_Encontrado.precio_granel,
         };
-
-        console.log(productoAgregado);
 
         await this.venta_Service.agregarProductoEncontrado(productoAgregado);
       }
@@ -127,7 +131,6 @@ export class EscanerComponent implements OnInit {
         .toPromise();
 
       if (busquedaProducto_obtenido) {
-        console.log(busquedaProducto_obtenido);
         return busquedaProducto_obtenido;
       } else {
         return false;
@@ -158,12 +161,13 @@ export class EscanerComponent implements OnInit {
   }
 
   actualizarIva(producto: Agregar_Producto) {
-    producto.Iva = (((producto.Precio * 0.16) * producto.Cantidad).toFixed(2));
+    producto.Iva = (producto.Precio * 0.16 * producto.Cantidad).toFixed(2);
   }
 
   actualizarSubtotal(producto: Agregar_Producto) {
     this.actualizarIva(producto);
-    producto.Subtotal = (producto.Precio * producto.Cantidad) + (parseFloat(producto.Iva));
+    producto.Subtotal =
+      producto.Precio * producto.Cantidad + parseFloat(producto.Iva);
   }
 
   generar_Ticket() {
@@ -231,7 +235,8 @@ export class EscanerComponent implements OnInit {
       const mes = fechaActual.getMonth() + 1;
       const dia = fechaActual.getDate();
 
-      const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${ dia < 10 ? '0' : '' }${dia}`;
+      const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''
+        }${dia}`;
       const total = this.calcularTotal();
 
       const ventaGuardada = {
@@ -250,7 +255,6 @@ export class EscanerComponent implements OnInit {
         FechaVenta: fechaVenta,
       };
 
-      console.log(ventaGuardada)
       await this._ventaUseCase.postVentaProducto(ventaGuardada).toPromise();
 
       this.mensaje_Aviso = 'Venta registrada';
@@ -276,7 +280,6 @@ export class EscanerComponent implements OnInit {
     window.location.reload();
   }
 
-
   /*actualizarVentaGranel(event: Event): void {
     this.venta_granel_boleean = (event.target as HTMLInputElement).value;
     if (this.venta_granel_boleean == "false") {
@@ -288,7 +291,14 @@ export class EscanerComponent implements OnInit {
 
   actualizarVentaGranel(event: Event): void {
     this.venta_granel_boleean = (event.target as HTMLInputElement).checked;
-    console.log(this.venta_granel_boleean);
+
+    if (this.venta_granel_boleean) {
+      this.subtotalVentaGranel(this.producto_Encontrado);
+    }
   }
 
+  subtotalVentaGranel(producto: any) {
+    console.log(producto);
+    producto.Subtotal = producto.precio_granel * producto.Cantidad;
+  }
 }

@@ -50,10 +50,30 @@ export class ProductoComponent implements OnInit {
     private storage: AngularFireStorage,
     private _productoUseCase: ProductoUseCase,
     private router: Router,
-  ) {}
+  ) { }
 
   //Variables para mostrar el producto
-  public datos_producto: any;
+  public datos_producto: any = {
+    id_producto: 0,
+    nombre: '',
+    precio: '',
+    cantidad: '',
+    descripcion: '',
+    url_imagen: '',
+    id_marca: 0,
+    id_proveedor: 0,
+    id_categoria: 0,
+    id_animal: 0,
+    id_tipoCantidad: 0,
+    precio_granel: '',
+    venta_granel: false,
+    nomenclaturaMarca: '',
+    nomenclaturaCategoria: '',
+    nomenclaturaProveedor: '',
+    nomenclaturaAnimal: '',
+    nomenclaturaTipoCantidad: '',
+  };
+  
   public datos_inventario: any | [] = [];
 
   //Variables para modificar el producto
@@ -184,7 +204,7 @@ export class ProductoComponent implements OnInit {
       .getProductoID(this.id_Producto_Input)
       .toPromise();
 
-    this.datos_inventario = await this._inventarioUseCase.getProductoID(this.datos_producto.id).toPromise();
+    this.datos_inventario = await this._inventarioUseCase.getProductoID(+this.datos_producto.id).toPromise();
     const marcasObservable = this._info.getMarcas();
     const proveedoresObservable = this._info.getProveedores();
     const categoriasObservable = this._info.getCategorias();
@@ -225,7 +245,6 @@ export class ProductoComponent implements OnInit {
           this.datos_producto.id_proveedor = proveedor.nombre;
           this.datos_producto.nomenclaturaProveedor = proveedor.nomenclatura;
         }
-
         // Mapea el campo id_categoria de productos al nombre correspondiente
         const categoria = categorías.find(
           (categoria) =>

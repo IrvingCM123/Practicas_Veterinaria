@@ -18,7 +18,7 @@ export class VentaAdapter extends VentaPort {
   }
 
   postVenta(venta: any): Observable<[] | any> {
-    return this._http.post<any>(`${this.api_url}` + '/ventas', venta);
+    return this._http.post<any>(`${this.api_url}` + '/venta', venta);
   }
 
   getVentas(fecha: string): Observable<any> {
@@ -28,7 +28,7 @@ export class VentaAdapter extends VentaPort {
     });
     const options = { headers: headers };
 
-    return this._http.get<any>(`${this.api_url}` + '/ventasid/' + fecha, options);
+    return this._http.get<any>(`${this.api_url}` + '/venta/' + fecha, options);
   }
 
   getFechaVentas(): Observable<any> {
@@ -41,7 +41,7 @@ export class VentaAdapter extends VentaPort {
       })
     };
 
-    return this._http.get<any>(`${this.api_url}` + '/ventas', httpOptions);
+    return this._http.get<any>(`${this.api_url}` + '/venta', httpOptions);
   }
 
 
