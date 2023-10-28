@@ -193,7 +193,6 @@ export class EscanerComponent implements OnInit {
       productos: this.productosVenta.map((producto: Agregar_Producto) => {
 
         const precioProducto = +(this.venta_granel_boleean && producto.VentaGranel ? producto.Precio_granel : producto.Precio);
-        console.log(precioProducto);
         return {
           cantidad: producto.Cantidad,
           nombre: producto.Nombre,
@@ -220,7 +219,7 @@ export class EscanerComponent implements OnInit {
     this.ticketService.imprimir(ticket);
     this.guardarVenta();
     this.venta_Service.reiniciarProductosEncontrados();
-    //this.limpiarPantalla();
+    this.limpiarPantalla();
   }
 
   public montoAPagar: number = 0;
@@ -252,7 +251,7 @@ export class EscanerComponent implements OnInit {
       const total = subtotal + iva;
 
       const ventaGuardada = {
-        id_vendedor: "ircm",
+        id_vendedor: "IRCM",
         id_sucursal: 1,
         fecha_venta: fechaVenta,
         total_venta: `${total.toFixed(2)}`,
@@ -274,8 +273,24 @@ export class EscanerComponent implements OnInit {
           };
         }),
       };
-      console.log(ventaGuardada);
-      //await this._ventaUseCase.postVentaProducto(ventaGuardada).toPromise();
+
+      let id_vendedor = ventaGuardada.id_vendedor;
+      let id_sucursal = ventaGuardada.id_sucursal;
+      let fecha_venta = ventaGuardada.fecha_venta;
+      let total_venta = ventaGuardada.total_venta;
+      let subtotal1 = ventaGuardada.subtotal;
+      let iva1 = ventaGuardada.iva;
+      let detallesVenta = ventaGuardada.detallesVenta;
+
+      await this._ventaUseCase.postVentaProducto(
+        id_vendedor,
+        id_sucursal,
+        fecha_venta,
+        total_venta,
+        subtotal1,
+        iva1,
+        detallesVenta
+      ).toPromise();
 
       this.mensaje_Aviso = 'Venta registrada';
 
@@ -320,7 +335,7 @@ export class EscanerComponent implements OnInit {
         total += +(ivaProducto).toFixed(2);
       }
 
-      return total;
+      return +(total).toFixed(2);
     }, 0);
   }
 
