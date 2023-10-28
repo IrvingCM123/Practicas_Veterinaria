@@ -77,7 +77,6 @@
             <th scope="col">Cantidad</th>
             <th scope="col">Granel</th>
             <th scope="col">$ Granel</th>
-            <th scope="col">Iva</th>
             <th scope="col">Subtotal</th>
             <th scope="col">Quitar</th>
           </tr>
@@ -102,7 +101,7 @@
               <input
                 (change)="actualizarVentaGranel($event)"
                 type="checkbox"
-                name="Yes"
+                name="No"
                 id=""
               />
             </td>
@@ -112,8 +111,13 @@
               {{ producto.Precio_granel | currency }}
             </td>
             <td *ngIf="!producto.VentaGranel">No Disponible</td>
-            <td>{{ producto.Iva }}</td>
-            <td>{{ producto.Subtotal }}</td>
+            <td *ngIf="!producto.VentaGranel" >
+              {{ (producto.Precio * producto.Cantidad) | currency }}
+            </td>
+
+            <td *ngIf="producto.VentaGranel">
+              {{ producto.Precio_granel *  producto.Cantidad | currency  }}
+
             <td>
               <button (click)="eliminar_VentaProducto(producto)">
                 <i class="fa fa-times"></i>
@@ -131,9 +135,20 @@
           <span
             style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%"
           >
-            $ {{ calcularTotal() }}
+            $ {{ calcularTotalVenta() }}
           </span>
         </p>
+
+        <!-- El IVA se muestra solo en ventas normales -->
+        <p>
+          IVA:
+          <span
+            style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%"
+          >
+            $ {{ calcularIvaVenta() }}
+          </span>
+        </p>
+
       </div>
 
       <div class="cambio_venta">

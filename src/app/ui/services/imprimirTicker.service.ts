@@ -22,6 +22,7 @@ interface Producto {
   nombre: string;
   precio: string;
   marca: string;
+  subtotal: number;
 }
 
 @Injectable({
@@ -174,17 +175,15 @@ export class Tickets_Service {
       tablaHTML += '<tr style="border-color: transparent; margin-top: 10px;">';
       tablaHTML +=
         '<tr><th colspan="4" style=" font-size: 74%; font-weight: 200; text-align: left;  border: none;">' +
-        producto.nombre +
         ' ' +
-        producto.marca +
+        ' ' +
+        producto.nombre +
         '</th></tr>';
       tablaHTML += `<td style="font-size: 73%; font-weight: 200; border: none;">${ticket.productos.indexOf(producto) + 1
         }</td>`;
       tablaHTML += `<td style="font-size: 73%; font-weight: 200; border: none;">${producto.cantidad}</td>`;
       tablaHTML += `<td style="font-size: 73%; font-weight: 200; border: none;">${producto.precio}</td>`;
-      tablaHTML += `<td style="font-size: 73%; font-weight: 200; border: none;">$${(
-        producto.cantidad * parseFloat(producto.precio.replace('$', ''))
-      ).toFixed(2)}</td>`;
+      tablaHTML += `<td style="font-size: 73%; font-weight: 200; border: none;">$${( producto.subtotal  ).toFixed(2)}</td>`;
       tablaHTML += '</tr>';
     }
 

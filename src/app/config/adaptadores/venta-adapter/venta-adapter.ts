@@ -9,7 +9,7 @@ import { venta_Entity } from 'src/app/domain/venta-domain/models/venta.entity';
   providedIn: 'root'
 })
 export class VentasAdapter implements VentaPort {
-  apiUrl = environment.url+"RegistrarUsuarios/";
+  apiUrl = environment.url+"venta/";
 
   constructor(private http: HttpClient) {}
   getVentas(fecha: string): Observable<any> {
