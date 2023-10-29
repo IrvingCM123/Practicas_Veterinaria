@@ -20,12 +20,8 @@
 
       <div class="buscador_buscar-input">
         <div class="input-container">
-          <input
-            type="text"
-            (keydown.enter)="buscar_Producto()"
-            [(ngModel)]="id_Producto_Input"
-            placeholder="Escribe tu búsqueda..."
-          />
+          <input type="text" (keydown.enter)="buscar_Producto()" [(ngModel)]="id_Producto_Input"
+            placeholder="Escribe tu búsqueda..." />
           <i class="fa fa-times clear-icon" (click)="limpiar_Input()"></i>
         </div>
 
@@ -87,23 +83,12 @@
             <td>{{ producto.Nombre }}</td>
             <td> ${{ producto.Precio }}</td>
             <td>
-              <input
-                style="font-size: 95%; font-weight: 600"
-                class="input_productos"
-                type="number"
-                [(ngModel)]="producto.Cantidad"
-                (change)="actualizarSubtotal(producto)"
-                (change)="actualizarIva(producto)"
-                min="1"
-              />
+              <input style="font-size: 95%; font-weight: 600" class="input_productos" type="number"
+                [(ngModel)]="producto.Cantidad" (change)="actualizarSubtotal(producto)"
+                (change)="actualizarIva(producto)" min="1" />
             </td>
             <td *ngIf="producto.VentaGranel">
-              <input
-                (change)="actualizarVentaGranel($event)"
-                type="checkbox"
-                name="No"
-                id=""
-              />
+              <input (change)="actualizarVentaGranel($event)" type="checkbox" name="No" id="" />
             </td>
             <td *ngIf="!producto.VentaGranel">No Disponible</td>
 
@@ -111,14 +96,22 @@
               {{ producto.Precio_granel | currency }}
             </td>
             <td *ngIf="!producto.VentaGranel">No Disponible</td>
-            <td *ngIf="!producto.VentaGranel" >
+
+            <td *ngIf="!producto.VentaGranel">
               {{ (producto.Precio * producto.Cantidad) | currency }}
             </td>
 
-            <td *ngIf="producto.VentaGranel">
-              {{ producto.Precio_granel *  producto.Cantidad | currency  }}
-
             <td>
+              <div *ngIf="producto.VentaGranel && venta_granel_boleean ">
+                {{ producto.Precio_granel * producto.Cantidad | currency }}
+              </div>
+
+              <div *ngIf="producto.VentaGranel && !venta_granel_boleean ">
+                {{ producto.Precio * producto.Cantidad | currency }}
+              </div>
+            <td>
+
+
               <button (click)="eliminar_VentaProducto(producto)">
                 <i class="fa fa-times"></i>
               </button>
@@ -132,9 +125,7 @@
       <div class="total_venta">
         <p>
           Total:
-          <span
-            style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%"
-          >
+          <span style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%">
             $ {{ calcularTotalVenta() }}
           </span>
         </p>
@@ -142,9 +133,7 @@
         <!-- El IVA se muestra solo en ventas normales -->
         <p>
           IVA:
-          <span
-            style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%"
-          >
+          <span style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%">
             $ {{ calcularIvaVenta() }}
           </span>
         </p>
@@ -154,12 +143,7 @@
       <div class="cambio_venta">
         <label for="Total"> Paga con: $</label>
 
-        <input
-          id="Total"
-          type="number"
-          [(ngModel)]="montoAPagar"
-          (change)="calcularCambio()"
-        />
+        <input id="Total" type="number" [(ngModel)]="montoAPagar" (change)="calcularCambio()" />
 
         <p style="padding-top: 2px">Cambio: ${{ cambio }}</p>
       </div>

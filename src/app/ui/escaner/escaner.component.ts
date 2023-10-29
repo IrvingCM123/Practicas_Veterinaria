@@ -226,7 +226,15 @@ export class EscanerComponent implements OnInit {
   public cambio: number = 0;
 
   calcularCambio() {
-    this.cambio = +(this.montoAPagar - this.calcularTotalVenta()).toFixed(2);
+    if (this.montoAPagar < this.calcularTotalVenta()) {
+      this.mensaje_Aviso = 'El monto a pagar es menor al total de la venta';
+      this.mostrar_Mensaje_Aviso = true;
+      setTimeout(() => {
+        this.mostrar_Mensaje_Aviso = false;
+      }, 1000);
+    } else {
+      this.cambio = this.montoAPagar - this.calcularTotalVenta();
+    }
   }
 
   calcularTotal(): number {
@@ -295,6 +303,7 @@ export class EscanerComponent implements OnInit {
       this.mensaje_Aviso = 'Venta registrada';
 
       return true;
+      this.limpiarPantalla();
     } catch (error) {
       this.mensaje_Aviso = 'Error al registrar la venta';
       return false;
@@ -355,15 +364,6 @@ export class EscanerComponent implements OnInit {
     this.limpiar_Input();
     window.location.reload();
   }
-
-  /*actualizarVentaGranel(event: Event): void {
-    this.venta_granel_boleean = (event.target as HTMLInputElement).value;
-    if (this.venta_granel_boleean == "false") {
-      this.venta_granel_boleean = false;
-    } else {
-      this.venta_granel_boleean = true;
-    }
-  }*/
 
   actualizarVentaGranel(event: Event): void {
     this.venta_granel_boleean = (event.target as HTMLInputElement).checked;
