@@ -6,13 +6,12 @@ import { InventarioPort } from '../../puertos/inventario-puertos/inventario-port
 import { Inventario } from 'src/app/domain/inventario-domain/models/inventario.entity';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class InventarioAdapter implements InventarioPort {
-  apiUrl = environment.url + "/inventario/";
+  apiUrl = environment.url + '/inventario/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   postProducto(producto: any | []): Observable<Inventario> {
     console.log(producto);
@@ -27,13 +26,20 @@ export class InventarioAdapter implements InventarioPort {
     return this.http.delete<Inventario>(this.apiUrl + productoID);
   }
 
-  putProducto(producto: any | [], id_producto: any): Observable<Inventario> {
-    return this.http.put<Inventario>(this.apiUrl + id_producto, producto);
+  putProducto(
+    existencias: string | number,
+    StockMinimo: string | number,
+    StockMaximo: string | number,
+    id_producto: any
+  ): Observable<Inventario> {
+    return this.http.put<Inventario>(this.apiUrl + id_producto, {
+      existencias,
+      StockMinimo,
+      StockMaximo,
+    });
   }
 
   getProductoID(productoID: number): Observable<Inventario> {
     return this.http.get<Inventario>(this.apiUrl + productoID);
   }
-
-
 }

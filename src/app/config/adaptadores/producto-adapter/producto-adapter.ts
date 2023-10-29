@@ -14,8 +14,37 @@ export class ProductoAdapter implements ProductoPort {
 
   constructor(private http: HttpClient) { }
 
-  postProducto(producto: any | []): Observable<producto_Entity> {
-    return this.http.post<producto_Entity>(this.apiUrl, producto);
+  postProducto(
+    nombre: string,
+    precio: string,
+    cantidad: string,
+    descripcion: string,
+    imagen: string,
+    id_marca: string,
+    id_categoria: string,
+    id_proveedor: string,
+    id_animal: string,
+    id_tipoCantidad: string,
+    codigo_barras: string,
+    precio_granel: string,
+    venta_granel: boolean,
+  ): Observable<producto_Entity> {
+    return this.http.post<producto_Entity>(this.apiUrl, {
+      nombre,
+      precio,
+      cantidad,
+      descripcion,
+      imagen,
+      id_marca,
+      id_categoria,
+      id_proveedor,
+      id_animal,
+      id_tipoCantidad,
+      codigo_barras,
+      precio_granel,
+      venta_granel,
+    }
+    );
   }
 
   getProducto(): Observable<producto_Entity[]> {
@@ -26,8 +55,36 @@ export class ProductoAdapter implements ProductoPort {
     return this.http.delete<producto_Entity>(this.apiUrl + productoID);
   }
 
-  putProducto(producto: any | [], id_producto: any): Observable<producto_Entity> {
-    return this.http.put<producto_Entity>(this.apiUrl + id_producto, producto);
+  putProducto(
+    nombre: string,
+    precio: string,
+    cantidad: string,
+    descripcion: string,
+    imagen: string,
+    id_marca: string,
+    id_categoria: string,
+    id_proveedor: string,
+    id_animal: string,
+    id_tipoCantidad: string,
+    codigo_barras: string,
+    precio_granel: string,
+    venta_granel: boolean,
+    id_producto: any): Observable<producto_Entity> {
+    return this.http.put<producto_Entity>(this.apiUrl + id_producto, {
+      nombre,
+      precio,
+      cantidad,
+      descripcion,
+      imagen,
+      id_marca,
+      id_categoria,
+      id_proveedor,
+      id_animal,
+      id_tipoCantidad,
+      codigo_barras,
+      precio_granel,
+      venta_granel,
+    });
   }
 
   getProductoID(productoID: string): Observable<producto_Entity> {

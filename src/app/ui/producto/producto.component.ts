@@ -24,8 +24,9 @@ interface ProductoInterface {
   nomenclaturaProveedor: string;
   nomenclaturaAnimal: string;
   nomenclaturaTipoCantidad: string;
-  precio_granel?: string | null;
+  precio_granel?: string | null | any ;
   venta_granel: boolean;
+  codigo_barras: string;
 }
 
 interface InventarioInterface {
@@ -73,7 +74,7 @@ export class ProductoComponent implements OnInit {
     nomenclaturaAnimal: '',
     nomenclaturaTipoCantidad: '',
   };
-  
+
   public datos_inventario: any | [] = [];
 
   //Variables para modificar el producto
@@ -169,6 +170,7 @@ export class ProductoComponent implements OnInit {
     nomenclaturaTipoCantidad: '',
     precio_granel: '',
     venta_granel: false,
+    codigo_barras: '',
   };
 
   private Inventario: InventarioInterface = {
@@ -309,7 +311,7 @@ export class ProductoComponent implements OnInit {
     this.Producto.precio = this.precio_producto || this.datos_producto.precio;
     this.Producto.cantidad = this.cantidad_producto || this.datos_producto.cantidad;
     this.Producto.descripcion = this.descripcion_producto || this.datos_producto.descripcion;
-    this.Producto.url_imagen = this.url_imagen || this.datos_producto.url_imagen;
+    this.Producto.url_imagen = this.url_imagen || this.datos_producto.imagen;
     this.Producto.nomenclaturaMarca = this.marca_producto || this.datos_producto.nomenclaturaMarca;
     this.Producto.nomenclaturaCategoria = this.categoria_producto || this.datos_producto.nomenclaturaCategoria;
     this.Producto.nomenclaturaProveedor = this.proveedor_producto || this.datos_producto.nomenclaturaProveedor;
@@ -317,13 +319,14 @@ export class ProductoComponent implements OnInit {
     this.Producto.nomenclaturaTipoCantidad = this.tipo_cantidad_producto || this.datos_producto.nomenclaturaTipoCantidad;
     this.Producto.precio_granel = this.precio_granel_producto || null;
     this.Producto.venta_granel = this.venta_granel_producto;
+    this.Producto.codigo_barras = this.id_Producto_Input;
   }
 
   CrearProductoInventario(id_producto: string) {
     this.Inventario.id_producto = id_producto;
     this.Inventario.existencias = this.existencias_producto || this.datos_inventario.existencias;
-    this.Inventario.stock_minimo = this.stock_minimo_producto || this.datos_inventario.stock_minimo;
-    this.Inventario.stock_maximo = this.stock_maximo_producto || this.datos_inventario.stock_maximo;
+    this.Inventario.stock_minimo = this.stock_minimo_producto || this.datos_inventario.StockMinimo;
+    this.Inventario.stock_maximo = this.stock_maximo_producto || this.datos_inventario.StockMaximo;
   }
 
   async ModificarProducto() {
@@ -331,17 +334,38 @@ export class ProductoComponent implements OnInit {
     try {
       await this.SubirImagenFirestore();
       this.CrearProducto();
+      console.log(this.Producto);
       const response: any = await this._productoUseCase
-        .putProducto(this.Producto, this.id_Producto_Input)
+        .putProducto(
+          this.Producto.nombre,
+          this.Producto.precio,
+          this.Producto.cantidad,
+          this.Producto.descripcion,
+          this.Producto.url_imagen,
+          this.Producto.nomenclaturaMarca,
+          this.Producto.nomenclaturaCategoria,
+          this.Producto.nomenclaturaProveedor,
+          this.Producto.nomenclaturaAnimal,
+          this.Producto.nomenclaturaTipoCantidad,
+          this.Producto.codigo_barras,
+          this.Producto.precio_granel,
+          this.Producto.venta_granel
+          , this.datos_producto.id)
         .toPromise();
       this.id_producto_inventario = response.id;
+
       await this.CrearProductoInventario(this.id_producto_inventario);
-      await this._inventarioUseCase.putProducto(this.Inventario, this.id_Producto_Input).toPromise();
+          console.log(this.Inventario);
+      await this._inventarioUseCase.putProducto(
+        this.Inventario.existencias,
+        this.Inventario.stock_minimo,
+        this.Inventario.stock_maximo,
+        this.id_producto_inventario).toPromise();
     } catch (error) {
       console.error(error);
     }
     this.loading_save = false;
-    window.location.reload();
+    //window.location.reload();
   }
 
   async SubirImagenFirestore() {

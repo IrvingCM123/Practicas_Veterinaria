@@ -267,16 +267,17 @@ export class EscanerComponent implements OnInit {
         iva: iva.toFixed(2),
 
         detallesVenta: this.productosVenta.map((producto: Agregar_Producto) => {
-          const precioProducto = this.venta_granel_boleean ? producto.Precio_granel : producto.Precio;
+          const precioProducto = this.venta_granel_boleean && producto.VentaGranel ? producto.Precio_granel : producto.Precio;
           const subtotalProducto = producto.Cantidad * precioProducto;
-          const ivaProducto = this.venta_granel_boleean ? subtotalProducto * 0.16 : subtotalProducto * 0.16;
+          const ivaProducto = this.venta_granel_boleean && producto.VentaGranel ? subtotalProducto * 0.16 : subtotalProducto * 0.16;
+          const ventaPorcion = producto.VentaGranel && this.venta_granel_boleean ? true: false;
 
           return {
             id_producto: producto.ID,
             cantidad_vendida: producto.Cantidad,
             precio_producto: precioProducto,
             subtotal: subtotalProducto + ivaProducto,
-            venta_porcion: this.venta_granel_boleean,
+            venta_porcion: ventaPorcion,
             iva: ivaProducto.toFixed(2),
           };
         }),

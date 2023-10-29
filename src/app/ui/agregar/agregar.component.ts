@@ -17,9 +17,9 @@ interface ProductoInterface {
   nomenclaturaProveedor: string;
   nomenclaturaAnimal: string;
   nomenclaturaTipoCantidad: string;
-  precio_granel?: string | null;
+  precio_granel?: string | any;
   venta_granel: boolean;
-  codigo: string | null;
+  codigo: string | any;
 }
 
 interface InventarioInterface {
@@ -211,7 +211,21 @@ export class AgregarComponent implements OnInit {
       await this.SubirImagenFirestore();
       this.CrearProducto();
       const response: any = await this._productoUseCase
-        .postProducto(this.Producto)
+        .postProducto(
+          this.Producto.nombre,
+          this.Producto.precio,
+          this.Producto.cantidad,
+          this.Producto.descripcion,
+          this.Producto.url_imagen,
+          this.Producto.nomenclaturaMarca,
+          this.Producto.nomenclaturaCategoria,
+          this.Producto.nomenclaturaProveedor,
+          this.Producto.nomenclaturaAnimal,
+          this.Producto.nomenclaturaTipoCantidad,
+          this.Producto.codigo,
+          this.Producto.precio_granel,
+          this.Producto.venta_granel
+        )
         .toPromise();
       this.id_producto_inventario = response.id;
       await this.CrearProductoInventario(this.id_producto_inventario);
