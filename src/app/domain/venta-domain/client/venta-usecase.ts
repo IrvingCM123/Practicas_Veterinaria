@@ -11,8 +11,24 @@ export class VentaUseCase {
 
   constructor (private _ventaPort: VentaPort) {}
 
-  postVentaProducto(venta_generada: [] | any): Observable<venta_Entity> {
-    return this._ventaPort.postVenta(venta_generada);
+  postVentaProducto(
+    id_vendedor: string,
+    id_sucursal: number,
+    fecha_venta: string,
+    total_venta: string,
+    subtotal: string,
+    iva: string,
+    detallesVenta: any[]
+  ): Observable<venta_Entity> {
+    return this._ventaPort.postVenta(
+      id_vendedor,
+      id_sucursal,
+      fecha_venta,
+      total_venta,
+      subtotal,
+      iva,
+      detallesVenta
+    );
   }
 
 }

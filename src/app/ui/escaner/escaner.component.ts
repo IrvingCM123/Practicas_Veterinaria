@@ -16,6 +16,8 @@ export interface Agregar_Producto {
   Marca: string;
   Iva: string;
   VentaGranel?: boolean;
+  Precio_granel?: number | string | any;
+  //Codigo_Barras?: string;
 }
 
 export interface Producto {
@@ -42,15 +44,22 @@ export interface ProductoVenta {
   styleUrls: ['./escaner.component.scss'],
 })
 export class EscanerComponent implements OnInit {
+  // Variables para el escaner
   public id_Producto_Input: string = '';
 
+  // Variables para guardar el producto buscado
   public producto_Encontrado: Producto | any = [];
 
+  // Variables para mostrar mensajes
   public Mostrar_Producto = false;
   public mensaje_Aviso: string = '';
   public mostrar_Mensaje_Aviso = false;
 
+  // Variables para mostrar los productos en la lista de venta
   public productosVenta: Agregar_Producto[] | any = [];
+
+  // Variable para decidir si es una venta a granel o no
+  public venta_granel_boleean: any = false;
 
   constructor(
     private http: HttpClient,
@@ -60,7 +69,7 @@ export class EscanerComponent implements OnInit {
     private venta_Service: Venta_Service,
     private cdr: ChangeDetectorRef,
     private _ventaUseCase: VentaUseCase
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.venta_Service.reiniciarProductosEncontrados();
@@ -72,17 +81,22 @@ export class EscanerComponent implements OnInit {
   }
 
   async buscar_Producto() {
+
     if (this.id_Producto_Input.trim() === '') {
       this.mensaje_Aviso = 'Por favor, ingresa un término de búsqueda.';
+
     } else {
+
       let obtener_busqueda: Producto | boolean = await this.buscar_Producto_BD(
         this.id_Producto_Input
       );
 
       if (obtener_busqueda === false) {
+
         this.mensaje_Aviso = 'No se encontró el producto';
         this.Mostrar_Producto = false;
         this.producto_Encontrado = [];
+
       } else {
         this.Mostrar_Producto = true;
         this.producto_Encontrado = obtener_busqueda;
@@ -92,10 +106,14 @@ export class EscanerComponent implements OnInit {
           Nombre: this.producto_Encontrado.nombre,
           Precio: parseFloat(this.producto_Encontrado.precio),
           Cantidad: 1,
-          Subtotal: parseFloat(this.producto_Encontrado.precio) + parseFloat(this.producto_Encontrado.precio) * 0.16,
+          Subtotal:
+            parseFloat(this.producto_Encontrado.precio) +
+            +this.producto_Encontrado.precio * 0.16,
           Marca: this.producto_Encontrado.marca,
           Iva: (this.producto_Encontrado.precio * 0.16).toString(),
           VentaGranel: this.producto_Encontrado.venta_granel,
+          Precio_granel: this.producto_Encontrado.precio_granel,
+          //Codigo_Barras: this.producto_Encontrado.codigo_barras,
         };
 
         await this.venta_Service.agregarProductoEncontrado(productoAgregado);
@@ -115,7 +133,6 @@ export class EscanerComponent implements OnInit {
         .toPromise();
 
       if (busquedaProducto_obtenido) {
-        console.log(busquedaProducto_obtenido);
         return busquedaProducto_obtenido;
       } else {
         return false;
@@ -146,39 +163,47 @@ export class EscanerComponent implements OnInit {
   }
 
   actualizarIva(producto: Agregar_Producto) {
-    producto.Iva = (+(producto.Iva) * producto.Cantidad).toString();
+    producto.Iva = (producto.Precio * 0.16 * producto.Cantidad).toFixed(2);
   }
 
   actualizarSubtotal(producto: Agregar_Producto) {
-    producto.Subtotal = (producto.Precio * producto.Cantidad) + +(producto.Iva);
+
+    this.actualizarIva(producto);
+
+    producto.Subtotal = producto.VentaGranel ? producto.Precio_granel * producto.Cantidad : producto.Precio * producto.Cantidad;
   }
 
+
   generar_Ticket() {
-    const total = this.calcularTotal();
-    const cambio = this.montoAPagar - total;
 
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toLocaleDateString();
     const horaFormateada = fechaActual.toLocaleTimeString();
 
+
+    let iva = this.calcularIvaVenta();
+    let subtotal = this.calcularSubtotal();
+    let totalVenta = this.calcularTotalVenta();
+    const cambio = +(this.montoAPagar - totalVenta).toFixed(2);
+
     const ticket = {
       logoUrl: '../../../assets/Imagenes/logo.png',
       tienda: 'Como perros y gatos',
       fecha: `${fechaFormateada} ${horaFormateada}`,
-
       productos: this.productosVenta.map((producto: Agregar_Producto) => {
+
+        const precioProducto = +(this.venta_granel_boleean && producto.VentaGranel ? producto.Precio_granel : producto.Precio);
         return {
           cantidad: producto.Cantidad,
           nombre: producto.Nombre,
-          precio: `$${producto.Precio.toFixed(2)}`,
-          subtotal: producto.Subtotal.toFixed(2),
+          precio: `$${precioProducto.toFixed(2)}`,
+          subtotal: precioProducto * producto.Cantidad,
           marca: producto.Marca,
-          iva: producto.Iva,
-          venta_granel: producto.VentaGranel,
+          iva: iva,
         };
       }),
 
-      total: `$${total.toFixed(2)}`,
+      total: `$${totalVenta.toFixed(2)}`,
       montoPagado: this.montoAPagar,
       cambio: cambio,
       veterinaria_1: 'M.V.Z. Nilda Carreón F.',
@@ -201,7 +226,15 @@ export class EscanerComponent implements OnInit {
   public cambio: number = 0;
 
   calcularCambio() {
-    this.cambio = this.montoAPagar - this.calcularTotal();
+    if (this.montoAPagar < this.calcularTotalVenta()) {
+      this.mensaje_Aviso = 'El monto a pagar es menor al total de la venta';
+      this.mostrar_Mensaje_Aviso = true;
+      setTimeout(() => {
+        this.mostrar_Mensaje_Aviso = false;
+      }, 1000);
+    } else {
+      this.cambio = this.montoAPagar - this.calcularTotalVenta();
+    }
   }
 
   calcularTotal(): number {
@@ -210,6 +243,7 @@ export class EscanerComponent implements OnInit {
       0
     );
   }
+
   async guardarVenta() {
     try {
       const fechaActual = new Date();
@@ -217,32 +251,60 @@ export class EscanerComponent implements OnInit {
       const mes = fechaActual.getMonth() + 1;
       const dia = fechaActual.getDate();
 
-      const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${ dia < 10 ? '0' : '' }${dia}`;
-      const total = this.calcularTotal();
+      const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`;
+
+      const iva = this.calcularIvaVenta(); // Calcula el IVA acumulado de todos los productos
+      const subtotal = this.calcularSubtotal(); // Calcula el subtotal sin IVA
+
+      const total = subtotal + iva;
 
       const ventaGuardada = {
-        ProductosVendidos: this.productosVenta.map(
-          (producto: Agregar_Producto) => {
-            return {
-              Nombre: producto.Nombre,
-              Precio: producto.Precio,
-              Cantidad: producto.Cantidad,
-              Subtotal: producto.Subtotal,
-            };
-          }
-        ),
-        TotalVenta: `${total.toFixed(2)}`,
-        TotalProductosVendidos: this.productosVenta.length,
-        FechaVenta: fechaVenta,
+        id_vendedor: "IRCM",
+        id_sucursal: 1,
+        fecha_venta: fechaVenta,
+        total_venta: `${total.toFixed(2)}`,
+        subtotal: `${subtotal.toFixed(2)}`,
+        iva: iva.toFixed(2),
+
+        detallesVenta: this.productosVenta.map((producto: Agregar_Producto) => {
+          const precioProducto = this.venta_granel_boleean && producto.VentaGranel ? producto.Precio_granel : producto.Precio;
+          const subtotalProducto = producto.Cantidad * precioProducto;
+          const ivaProducto = this.venta_granel_boleean && producto.VentaGranel ? subtotalProducto * 0.16 : subtotalProducto * 0.16;
+          const ventaPorcion = producto.VentaGranel && this.venta_granel_boleean ? true: false;
+
+          return {
+            id_producto: producto.ID,
+            cantidad_vendida: producto.Cantidad,
+            precio_producto: precioProducto,
+            subtotal: subtotalProducto + ivaProducto,
+            venta_porcion: ventaPorcion,
+            iva: ivaProducto.toFixed(2),
+          };
+        }),
       };
 
-      console.log(ventaGuardada)
-      await this._ventaUseCase.postVentaProducto(ventaGuardada).toPromise();
+      let id_vendedor = ventaGuardada.id_vendedor;
+      let id_sucursal = ventaGuardada.id_sucursal;
+      let fecha_venta = ventaGuardada.fecha_venta;
+      let total_venta = ventaGuardada.total_venta;
+      let subtotal1 = ventaGuardada.subtotal;
+      let iva1 = ventaGuardada.iva;
+      let detallesVenta = ventaGuardada.detallesVenta;
+
+      await this._ventaUseCase.postVentaProducto(
+        id_vendedor,
+        id_sucursal,
+        fecha_venta,
+        total_venta,
+        subtotal1,
+        iva1,
+        detallesVenta
+      ).toPromise();
 
       this.mensaje_Aviso = 'Venta registrada';
 
-      this.limpiarPantalla();
       return true;
+      this.limpiarPantalla();
     } catch (error) {
       this.mensaje_Aviso = 'Error al registrar la venta';
       return false;
@@ -254,11 +316,78 @@ export class EscanerComponent implements OnInit {
     }
   }
 
+  calcularSubtotal(): number {
+    return this.productosVenta.reduce((total: number, producto: Agregar_Producto) => {
+      const precioProducto = producto.VentaGranel && this.venta_granel_boleean ? producto.Precio_granel : producto.Precio;
+      return total + producto.Cantidad * precioProducto;
+    }, 0);
+  }
+
+  calcularTotalVenta(): number {
+    return this.productosVenta.reduce((total: number, producto: Agregar_Producto) => {
+      const precioProducto = producto.VentaGranel && this.venta_granel_boleean ? producto.Precio_granel : producto.Precio;
+      const subtotalProducto = producto.Cantidad * precioProducto;
+      const ivaProducto = producto.VentaGranel ? subtotalProducto * 0.16 : subtotalProducto * 0.16;
+
+      return +(total + subtotalProducto + ivaProducto).toFixed(2);
+    }, 0);
+  }
+
+  calcularIvaVenta(): number {
+    return this.productosVenta.reduce((total: number, producto: Agregar_Producto) => {
+      const precioProducto = producto.VentaGranel && this.venta_granel_boleean ? producto.Precio_granel : producto.Precio;
+      const subtotalProducto = producto.Cantidad * precioProducto;
+      total += +(subtotalProducto * 0.16).toFixed(2);
+      console.log(subtotalProducto)
+      console.log(total)
+      if (!this.venta_granel_boleean) {
+        const ivaProducto = subtotalProducto * 0.16;
+        total += +(ivaProducto).toFixed(2);
+      }
+
+      return +(total).toFixed(2);
+    }, 0);
+  }
+
+
+  calcularIVA(): number {
+    return this.productosVenta.reduce((total: number, producto: Agregar_Producto) => {
+      // Suma el IVA de cada producto al total
+      return total + (producto.Precio * 0.16 * producto.Cantidad);
+    }, 0);
+  }
+
+
   limpiarPantalla() {
     this.productosVenta = [];
     this.montoAPagar = 0;
     this.cambio = 0;
     this.limpiar_Input();
     window.location.reload();
+  }
+
+  actualizarVentaGranel(event: Event): void {
+    this.venta_granel_boleean = (event.target as HTMLInputElement).checked;
+
+    // También puedes llamar a las funciones de actualización aquí si es necesario
+    this.actualizarTotales();
+  }
+
+  actualizarTotales() {
+    this.productosVenta.forEach((producto: Agregar_Producto) => {
+      if (this.venta_granel_boleean) {
+        producto.Subtotal = producto.Precio_granel * producto.Cantidad;
+        producto.Iva = '0'; // No hay IVA en ventas a granel
+      } else {
+        producto.Subtotal = producto.Precio * producto.Cantidad;
+        producto.Iva = (producto.Subtotal * 0.16).toFixed(2);
+      }
+    });
+  }
+
+
+  subtotalVentaGranel(producto: any) {
+    console.log(producto);
+    producto.Subtotal = producto.precio_granel * producto.Cantidad;
   }
 }

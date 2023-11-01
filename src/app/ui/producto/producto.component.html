@@ -144,10 +144,10 @@
                   <h4>Producto para:</h4>
                   <div class="input-group">
                     <input id="mascota-perro" type="radio" name="mascota" (input)="actualizarAnimal($event)"
-                      [value]="1" />
+                      value="P" />
                     <label for="mascota-perro">Perro</label>
                     <input id="mascota-gato" type="radio" name="mascota" (input)="actualizarAnimal($event)"
-                      [value]="2" />
+                      value="G" />
                     <label for="mascota-gato">Gato</label>
                     <!-- <input id="mascota" type="radio" name="mascota" (input)="actualizarAnimal($event)" [value]="3" />
                   <label for="mascota">Ambos</label> -->
@@ -157,7 +157,7 @@
 
               <div class="row">
                 <div class="col-half">
-                  <h4>Stock Max. / Stock Min. / Stock Actual</h4>
+                  <h4>Stock Min. / Stock Max. / Stock Actual</h4>
                   <div class="input-group">
                     <div class="col-third">
                       <label for="stockmaximo"> </label>
