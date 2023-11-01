@@ -35,6 +35,7 @@ import { ProductoPort } from './config/puertos/producto-puertos/producto-puerto'
 import { ProductoAdapter } from './config/adaptadores/producto-adapter/producto-adapter';
 import { InfoProdPort } from './config/puertos/infoProd-puertos/infoProd-ports';
 import { InfoProdAdapter } from './config/adaptadores/infoProd-adapter/infoProd-adapter';
+import { LoginComponent } from './ui/login/login.component';
 
 
 
@@ -51,7 +52,8 @@ import { InfoProdAdapter } from './config/adaptadores/infoProd-adapter/infoProd-
     InicioComponent,
     InventarioComponent,
     ProductoComponent,
-    AgregarComponent
+    AgregarComponent,
+    LoginComponent
   ],
   imports: [
     AngularFireAuthModule,

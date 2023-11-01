@@ -1,6 +1,6 @@
 <body class="Interfaz">
 
-  <main class="Interfaz_Contenedor">
+  <main class="Interfaz_Contenedor" *ngIf="loggedIn">
 
     <header class="Contenedor_Navegador">
       <app-header> </app-header>
@@ -15,5 +15,9 @@
     </footer>
 
   </main>
+
+  <div class="ContenedorLogin" *ngIf="!loggedIn" >
+    <app-login> </app-login>
+  </div>
 
 </body>
