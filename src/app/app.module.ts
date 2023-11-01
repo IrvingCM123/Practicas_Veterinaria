@@ -36,6 +36,8 @@ import { ProductoAdapter } from './config/adaptadores/producto-adapter/producto-
 import { InfoProdPort } from './config/puertos/infoProd-puertos/infoProd-ports';
 import { InfoProdAdapter } from './config/adaptadores/infoProd-adapter/infoProd-adapter';
 import { LoginComponent } from './ui/login/login.component';
+import { LoginPort } from './config/puertos/login-puertos/login-ports';
+import { LoginAdapter } from './config/adaptadores/login-adapter/login-adapter';
 
 
 
@@ -73,7 +75,8 @@ import { LoginComponent } from './ui/login/login.component';
     {provide: VentaPort, useClass: VentasAdapter},
     {provide: InventarioPort, useClass: InventarioAdapter},
     {provide: ProductoPort, useClass: ProductoAdapter},
-    {provide: InfoProdPort, useClass: InfoProdAdapter}
+    {provide: InfoProdPort, useClass: InfoProdAdapter},
+    {provide: LoginPort, useClass: LoginAdapter}
 
   ],
   bootstrap: [AppComponent]
