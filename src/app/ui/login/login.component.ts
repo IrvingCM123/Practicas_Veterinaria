@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Cache_Service } from '../services/cache.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { LoginUseCase } from 'src/app/domain/Login/usecase/getLogin';
 
 
 @Component({
@@ -14,12 +15,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private _IniciarSesion: any
 
   constructor(
     private datosLocales: Cache_Service,
     private router: Router,
     private location: Location,
+    private _IniciarSesion: LoginUseCase
   ) {
   }
 
