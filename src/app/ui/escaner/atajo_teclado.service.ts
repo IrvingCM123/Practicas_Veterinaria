@@ -53,7 +53,7 @@ export class KeyboardShortcutsService {
       this.manejarAtajo_BuscarProducto();
     } else if (event.key === 'z' && this.isYKeyPressed ) {
       this.manejarAtajo_EliminarProductos();
-    } else if (event.key === 'y' && this.isYKeyPressed ) {
+    } else if (event.key === 'x' && this.isYKeyPressed ) {
       this.manejarAtajo_LimpiarBusqueda();
     }
   }
