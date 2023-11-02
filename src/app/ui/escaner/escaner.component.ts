@@ -58,6 +58,7 @@ export interface ProductoVenta {
   styleUrls: ['./escaner.component.scss'],
 })
 export class EscanerComponent implements OnInit, AfterViewInit {
+
   // Variables para el escaner
   public id_Producto_Input: string = '';
 
@@ -79,11 +80,20 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   public montoAPagar: number = 0;
   public cambio: number = 0;
 
-  //Variables para atajos
+  //Ubicar el input de busqueda a través de ViewChild
   @ViewChild('BuscarProducto') inputBusqueda: ElementRef | any;
+
+  //Ubicar el input de cantidad a través de ViewChild
   @ViewChildren('inputDinamicoCantidad') inputDinamicoCantidad: QueryList<ElementRef> | any;
 
-  private inputActual: number = 0;
+  //Ubicar el input de granel a través de ViewChild
+  @ViewChildren('inputDinamicoGranel') inputDinamicoGranel: QueryList<ElementRef> | any;
+
+  //Contador de objetos o productos en lista para el input de cantidad
+  private contadorInputDinamicoCantidad: number = 0;
+
+  //Contador de objetos o productos en lista para el input de granel
+  private contadorInputDinamicoGranel: number = 0;
 
   constructor(
     private http: HttpClient,
@@ -465,8 +475,8 @@ export class EscanerComponent implements OnInit, AfterViewInit {
 
   manejarAtajo_ActualizarCantidad() {
     if (this.inputDinamicoCantidad.length > 0) {
-      this.inputDinamicoCantidad.toArray()[this.inputActual].nativeElement.focus();
-      this.inputActual = (this.inputActual + 1) % this.inputDinamicoCantidad.length;
+      this.inputDinamicoCantidad.toArray()[this.contadorInputDinamicoCantidad].nativeElement.focus();
+      this.contadorInputDinamicoCantidad = (this.contadorInputDinamicoCantidad + 1) % this.inputDinamicoCantidad.length;
     }
   }
 
