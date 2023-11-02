@@ -7,6 +7,8 @@ import {
   AfterViewInit,
   ViewChild,
   HostListener,
+  ViewChildren,
+  QueryList,
 } from '@angular/core';
 
 import { Tickets_Service } from '../services/imprimirTicker.service';
@@ -79,6 +81,9 @@ export class EscanerComponent implements OnInit, AfterViewInit {
 
   //Variables para atajos
   @ViewChild('BuscarProducto') inputBusqueda: ElementRef | any;
+  @ViewChildren('inputDinamicoCantidad') inputDinamicoCantidad: QueryList<ElementRef> | any;
+
+  private inputActual: number = 0;
 
   constructor(
     private http: HttpClient,
@@ -96,6 +101,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   async ngOnInit() {
     this.venta_Service.reiniciarProductosEncontrados();
     this.agregar_VentaProducto();
+    this.registrarAtajosDeTeclado();
   }
 
   ngAfterViewInit() {
@@ -456,6 +462,23 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     console.log(producto);
     producto.Subtotal = producto.precio_granel * producto.Cantidad;
   }
+
+  manejarAtajo_ActualizarCantidad() {
+    if (this.inputDinamicoCantidad.length > 0) {
+      this.inputDinamicoCantidad.toArray()[this.inputActual].nativeElement.focus();
+      this.inputActual = (this.inputActual + 1) % this.inputDinamicoCantidad.length;
+    }
+  }
+
+  registrarAtajosDeTeclado() {
+    document.addEventListener('keydown', this.manejarEventosDeTeclado);
+  }
+
+  manejarEventosDeTeclado = (event: KeyboardEvent) => {
+    if (event.key === 'm') {
+      this.manejarAtajo_ActualizarCantidad();
+    }
+  };
 
   ngOnDestroy() {
     this._keyboardShortcutsService.removerAtajosDeTeclado();

@@ -90,7 +90,7 @@ h1 {
   display: grid;
 
   grid-template-rows: 1.5fr 4fr 3.7fr 1.6fr;
-  grid-template-columns: 1fr 6fr 1.5fr;
+  grid-template-columns: 1fr 5.5fr 1.5fr;
   grid-template-areas:
     "buscador buscador producto"
     "tabla tabla producto"
@@ -126,6 +126,8 @@ h1 {
   grid-template-rows: repeat(3, auto);
   align-items: center;
   padding: 4px;
+
+  overflow-y: hidden;
 }
 
 .producto div {
@@ -133,11 +135,11 @@ h1 {
 }
 
 .producto div img {
-  margin: 10% 0% 0px -14%;
+  margin: 0% 0% 0px -2%;
   object-fit: cover;
 
-  max-width: 140%;
-  max-height: 140%;
+  max-width: 100%;
+  max-height: 98%;
 }
 
 .producto div div p {

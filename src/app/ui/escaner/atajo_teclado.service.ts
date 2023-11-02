@@ -4,6 +4,15 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class KeyboardShortcutsService {
+
+  private objetosCantidad: NodeListOf<HTMLInputElement>;
+  private currentIndex: number = 0;
+
+  constructor() {
+    this.objetosCantidad = document.querySelectorAll('#input_cantidad-producto');
+  }
+
+
   manejarAtajo_BuscarProducto() {
     const inputBusqueda = document.getElementById('input_buscar-Producto');
     if (inputBusqueda) {
@@ -50,7 +59,7 @@ export class KeyboardShortcutsService {
 
   // Manejar eventos de teclado
   manejarEventosDeTeclado = (event: KeyboardEvent) => {
-    
+
     if (event.key === 'b') {
       this.manejarAtajo_BuscarProducto();
     } else if (event.key === 'z') {
