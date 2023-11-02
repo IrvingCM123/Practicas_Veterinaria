@@ -58,7 +58,6 @@ export interface ProductoVenta {
   styleUrls: ['./escaner.component.scss'],
 })
 export class EscanerComponent implements OnInit, AfterViewInit {
-
   // Variables para el escaner
   public id_Producto_Input: string = '';
 
@@ -84,22 +83,24 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   @ViewChild('BuscarProducto') inputBusqueda: ElementRef | any;
 
   //Ubicar el input de cantidad a través de ViewChild
-  @ViewChildren('inputDinamicoCantidad') inputDinamicoCantidad: QueryList<ElementRef> | any;
-
-  //Ubicar el input de granel a través de ViewChild
-  @ViewChildren('inputDinamicoGranel') inputDinamicoGranel: QueryList<ElementRef> | any;
+  @ViewChildren('inputDinamicoCantidad') inputDinamicoCantidad:
+    | QueryList<ElementRef>
+    | any;
 
   //Contador de objetos o productos en lista para el input de cantidad
   private contadorInputDinamicoCantidad: number = 0;
+
+  //Ubicar el input de granel a través de ViewChild
+  @ViewChildren('inputDinamicoGranel') inputDinamicoGranel:
+    | QueryList<ElementRef>
+    | any;
 
   //Contador de objetos o productos en lista para el input de granel
   private contadorInputDinamicoGranel: number = 0;
 
   constructor(
-    private http: HttpClient,
     private _escanerUseCase: EscanerUseCase,
     private ticketService: Tickets_Service,
-    private cache: Datos_Locales,
     private venta_Service: Venta_Service,
     private cdr: ChangeDetectorRef,
     private _ventaUseCase: VentaUseCase,
@@ -234,7 +235,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
         fecha: `${fechaFormateada} ${horaFormateada}`,
         productos: this.productosVenta.map((producto: Agregar_Producto) => {
           const precioProducto = +(this.venta_granel_boleean &&
-          producto.VentaGranel
+            producto.VentaGranel
             ? producto.Precio_granel
             : producto.Precio);
           return {
@@ -298,9 +299,8 @@ export class EscanerComponent implements OnInit, AfterViewInit {
         const mes = fechaActual.getMonth() + 1;
         const dia = fechaActual.getDate();
 
-        const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${
-          dia < 10 ? '0' : ''
-        }${dia}`;
+        const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''
+          }${dia}`;
 
         const iva = this.calcularIvaVenta(); // Calcula el IVA acumulado de todos los productos
         const subtotal = this.calcularSubtotal(); // Calcula el subtotal sin IVA
@@ -475,8 +475,23 @@ export class EscanerComponent implements OnInit, AfterViewInit {
 
   manejarAtajo_ActualizarCantidad() {
     if (this.inputDinamicoCantidad.length > 0) {
-      this.inputDinamicoCantidad.toArray()[this.contadorInputDinamicoCantidad].nativeElement.focus();
-      this.contadorInputDinamicoCantidad = (this.contadorInputDinamicoCantidad + 1) % this.inputDinamicoCantidad.length;
+      this.inputDinamicoCantidad
+        .toArray()
+      [this.contadorInputDinamicoCantidad].nativeElement.focus();
+      this.contadorInputDinamicoCantidad =
+        (this.contadorInputDinamicoCantidad + 1) %
+        this.inputDinamicoCantidad.length;
+    }
+  }
+
+  manejarAtajo_PermitirVentaGranel() {
+    if (this.inputDinamicoGranel.length > 0) {
+      this.inputDinamicoGranel
+        .toArray()
+      [this.contadorInputDinamicoGranel].nativeElement.click();
+      this.contadorInputDinamicoGranel =
+        (this.contadorInputDinamicoGranel + 1) %
+        this.inputDinamicoGranel.length;
     }
   }
 
@@ -487,6 +502,8 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   manejarEventosDeTeclado = (event: KeyboardEvent) => {
     if (event.key === 'm') {
       this.manejarAtajo_ActualizarCantidad();
+    } else if (event.key === 'b') {
+      this.manejarAtajo_PermitirVentaGranel();
     }
   };
 

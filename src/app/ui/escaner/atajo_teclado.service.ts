@@ -5,13 +5,12 @@ import { Injectable } from '@angular/core';
 })
 export class KeyboardShortcutsService {
 
-  private objetosCantidad: NodeListOf<HTMLInputElement>;
-  private currentIndex: number = 0;
+  private isYKeyPressed = false;
 
   constructor() {
-    this.objetosCantidad = document.querySelectorAll('#input_cantidad-producto');
+    document.addEventListener('keydown', this.manejarEventosDeTeclado);
+    document.addEventListener('keyup', this.resetearIsYKeyPressed);
   }
-
 
   manejarAtajo_BuscarProducto() {
     const inputBusqueda = document.getElementById('input_buscar-Producto');
@@ -34,20 +33,6 @@ export class KeyboardShortcutsService {
     }
   }
 
-  manejarAtajo_ActualizarCantidad() {
-    const botonActualizarCantidad = document.getElementById('input_cantidad-producto');
-    if (botonActualizarCantidad) {
-      botonActualizarCantidad.focus();
-    }
-  }
-
-  manejarAtajo_PermitirVentaGranel() {
-    const botonActualizarGranel = document.getElementById('input_granel-producto');
-    if (botonActualizarGranel) {
-      botonActualizarGranel.click();
-    }
-  }
-
   registrarAtajosDeTeclado() {
     document.addEventListener('keydown', this.manejarEventosDeTeclado);
   }
@@ -60,16 +45,22 @@ export class KeyboardShortcutsService {
   // Manejar eventos de teclado
   manejarEventosDeTeclado = (event: KeyboardEvent) => {
 
-    if (event.key === 'b') {
+    if (event.key === 'y' && !this.isYKeyPressed) {
+      // La tecla 'y' ha sido presionada
+      this.isYKeyPressed = true;
+      event.preventDefault();
+    } else if (event.key === 'b' && this.isYKeyPressed )  {
       this.manejarAtajo_BuscarProducto();
-    } else if (event.key === 'z') {
+    } else if (event.key === 'z' && this.isYKeyPressed ) {
       this.manejarAtajo_EliminarProductos();
-    } else if (event.key === 'm') {
-      this.manejarAtajo_ActualizarCantidad();
-    } else if (event.key === 'x') {
-      this.manejarAtajo_PermitirVentaGranel();
-    } else if (event.key === 'y') {
+    } else if (event.key === 'y' && this.isYKeyPressed ) {
       this.manejarAtajo_LimpiarBusqueda();
     }
   }
+
+  resetearIsYKeyPressed = (event: KeyboardEvent) => {
+    if (event.key === 'y') {
+      this.isYKeyPressed = false;
+    }
+  };
 }
