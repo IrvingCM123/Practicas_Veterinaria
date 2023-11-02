@@ -22,8 +22,8 @@
 .Contenedor_Navegador{
   grid-row: 1/1;
   grid-column: 1/4;
-  overflow-y: auto;
-  overflow-x: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
   white-space: nowrap;
 }
 
@@ -34,6 +34,10 @@
   overflow-x: auto;
   white-space: nowrap;
 }
+
+//.Contenedor_Contenido::-webkit-scrollbar {
+//  display: none;
+//}
 
 .Contenedor_Legacy{
   grid-row: 3/5;
