@@ -1,5 +1,5 @@
-import { Observable } from "rxjs";
-import { producto_Entity } from "src/app/domain/producto-domain/models/producto.entity";
+import { Observable } from 'rxjs';
+import { producto_Entity } from 'src/app/domain/producto-domain/models/producto.entity';
 
 export abstract class ProductoPort {
   abstract postProducto(
@@ -15,10 +15,13 @@ export abstract class ProductoPort {
     id_tipoCantidad: string,
     codigoBarra: string,
     precio_granel: string,
-    venta_granel: boolean,
+    venta_granel: boolean
   ): Observable<producto_Entity>;
+
   abstract getProducto(): Observable<producto_Entity[]>;
+
   abstract deleteProducto(productoID: string): Observable<producto_Entity>;
+
   abstract putProducto(
     nombre: string,
     precio: string,
@@ -33,6 +36,7 @@ export abstract class ProductoPort {
     codigoBarra: string,
     precio_granel: string,
     venta_granel: boolean,
-    id_producto: any): Observable<producto_Entity>;
+    id_producto: any
+  ): Observable<producto_Entity>;
   abstract getProductoID(productoID: string): Observable<producto_Entity>;
 }

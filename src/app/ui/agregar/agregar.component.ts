@@ -239,7 +239,7 @@ export class AgregarComponent implements OnInit {
       console.error(error);
     }
     this.loading = false;
-    //window.location.reload();
+    window.location.reload();
   }
 
   async SubirImagenFirestore() {
