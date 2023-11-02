@@ -22,6 +22,7 @@ body {
 .contenedor-header {
   grid-area: buscadores;
   display: grid;
+  margin-left: 1%;
 }
 
 .contenedor-productos {
@@ -33,7 +34,7 @@ body {
     "producto-perro"
     "producto-gato";
   gap: 40px;
-  padding: 20px;
+  padding: 0 1%;
   overflow-x: hidden;
   overflow-y: hidden;
 }
@@ -100,7 +101,7 @@ body {
   margin: 1rem auto;
   border: 1px solid #0b05b022;
   background-color: #7e92c3;
-  background: linear-gradient(0deg, rgb(39, 56, 105) 0%, rgba(172, 3, 3, 0.5) 100%);
+  background: linear-gradient(0deg, rgb(39, 56, 105) 0%, rgba(27, 92, 142, 0.6) 100%);
   box-shadow: 0 7px 20px 5px #cdd3d788;
   border-radius: .7rem;
   backdrop-filter: blur(7px);
@@ -382,24 +383,31 @@ h1 {
   margin: 500px 0;
   padding: 0;
 }
-
 }
 
+.grupo-input {
+  display: flex;
+  flex-direction: row;
+  margin: 0%;
+  width: 100%;
+  min-width: 100vw;
+}
 
 .inputs {
-  height: 100%;
+  margin: 2% 0;
+  height: 70%;
   width: 100%;
   border: 1px solid #0b132b;
   border-radius: 10px;
-  background: #dfe2ea;
+  background: #ffffff;
 }
 
 .botones {
-  height: 60%;
+  height: 55%;
   width: 100%;
   border: 1px solid #0b132b;
   border-radius: 10px;
-  margin-top: 4px;
+  margin: 2%;
   background: #3c66da;
 }
 

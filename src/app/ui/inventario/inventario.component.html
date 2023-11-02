@@ -9,30 +9,46 @@
 </div>
 
 <div class="contenedor">
-
   <div class="contenedor-header">
     <h1>Catálogo de Productos</h1>
 
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <input type="text" class="form-control inputs" placeholder="Buscar por nombre" [(ngModel)]="nombreProducto">
-      </div>
-      <div style="margin-right: 10px;">
-        <button class="btn btn-primary botones" (click)="buscarPorNombre()">Buscar</button>
+    <div class="form-row grupo-input">
+      <div class="form-group col-md-2">
+        <input
+          type="text"
+          class="form-control inputs"
+          placeholder="Buscar por nombre"
+          [(ngModel)]="nombreProducto"
+          (change)="buscarPorNombre()"
+        />
       </div>
       <div class="form-group col-md-2">
-        <select [(ngModel)]="ordenSeleccionado" (change)="ordenarProductos()" class="inputs">
+        <select
+          [(ngModel)]="ordenSeleccionado"
+          (change)="ordenarProductos()"
+          class="inputs"
+        >
           <option value="Rango Precio">Ordenar Precio</option>
           <option value="menor">Menor a Mayor Precio</option>
           <option value="mayor">Mayor a Menor Precio</option>
         </select>
       </div>
       <div class="form-group col-md-2">
-        <label style=" font-size: 100%; color: black; font-weight: 700; margin: 10px;"
-          for="seleccionarMarca">Seleccionar Marca:</label>
-        <select id="seleccionarMarca" [(ngModel)]="marcaSeleccionada" (change)="filtrarPorMarca()" class="inputs">
+        <label
+          style="font-size: 100%; color: black; font-weight: 700; margin: 10px"
+          for="seleccionarMarca"
+          >Seleccionar Marca:</label
+        >
+        <select
+          id="seleccionarMarca"
+          [(ngModel)]="marcaSeleccionada"
+          (change)="filtrarPorMarca()"
+          class="inputs"
+        >
           <option value="Todas">Todas</option>
-          <option *ngFor="let marca of marcasUnicas" [value]="marca">{{ marca }}</option>
+          <option *ngFor="let marca of marcasUnicas" [value]="marca">
+            {{ marca }}
+          </option>
         </select>
       </div>
     </div>
@@ -41,43 +57,50 @@
   <!-- Tabla de productos -->
 
   <section class="contenedor-productos">
-
     <div class="contenedor-perros" id="contenedorperros" *ngIf="mostar_todos">
       <h1 class="contenedor-perros-Titulo">Producto Perros:</h1>
 
       <div class="contenedor-productos-perros">
         <div *ngFor="let producto of productos">
-          <div *ngIf="producto.id_animal == 'Perros' ">
-            <div class="nft" (click)="SeleccionarProducto(producto.codigo_barras)" style="cursor: pointer;">
-              <div class='main'>
-                <img class='tokenImage' [src]="producto.imagen" alt="imagen" />
-                <h2 style="font-size: 140%; justify-content: center;"> {{producto.nombre}} </h2>
-                <p class='description'> {{producto.descripcion}} </p>
-                <div class='tokenInfo'>
+          <div *ngIf="producto.id_animal == 'Perros'">
+            <div
+              class="nft"
+              (click)="SeleccionarProducto(producto.codigo_barras)"
+              style="cursor: pointer"
+            >
+              <div class="main">
+                <img class="tokenImage" [src]="producto.imagen" alt="imagen" />
+                <h2 style="font-size: 140%; justify-content: center">
+                  {{ producto.nombre }}
+                </h2>
+                <p class="description">{{ producto.descripcion }}</p>
+                <div class="tokenInfo">
                   <div class="price">
                     <ins></ins>
-                    <p> ${{producto.precio}} </p>
+                    <p>${{ producto.precio }}</p>
                   </div>
                   <div class="duration">
                     <ins>◷</ins>
-                    <p> {{producto.cantidad}} </p>
+                    <p>{{ producto.cantidad }}</p>
                   </div>
                 </div>
                 <hr />
-                <div class='creator'>
-                  <div class='wrapper'>
+                <div class="creator">
+                  <div class="wrapper">
                     <img
                       src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80"
-                      alt="Creator" />
+                      alt="Creator"
+                    />
                   </div>
-                  <p><ins>Marca: {{producto.id_marca}}</ins> </p>
+                  <p>
+                    <ins>Marca: {{ producto.id_marca }}</ins>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
     <div class="contenedor-gatos" id="contenedorgatos" *ngIf="mostar_todos">
@@ -85,119 +108,133 @@
 
       <div class="contenedor-productos-gatos">
         <div *ngFor="let producto of productos">
-          <div *ngIf="producto.id_animal == 'Gatos' ">
-            <div class="nft" (click)="SeleccionarProducto(producto.codigo_barras)" style="cursor: pointer;">
-              <div class='main'>
-                <img class='tokenImage' [src]="producto.imagen" alt="NFT" />
-                <h2 style="font-size: 140%; justify-content: center;"> {{producto.nombre}} </h2>
-                <p class='description'> {{producto.descripcion}} </p>
-                <div class='tokenInfo'>
+          <div *ngIf="producto.id_animal == 'Gatos'">
+            <div
+              class="nft"
+              (click)="SeleccionarProducto(producto.codigo_barras)"
+              style="cursor: pointer"
+            >
+              <div class="main">
+                <img class="tokenImage" [src]="producto.imagen" alt="NFT" />
+                <h2 style="font-size: 140%; justify-content: center">
+                  {{ producto.nombre }}
+                </h2>
+                <p class="description">{{ producto.descripcion }}</p>
+                <div class="tokenInfo">
                   <div class="price">
                     <ins></ins>
-                    <p> ${{producto.precio}} </p>
+                    <p>${{ producto.precio }}</p>
                   </div>
                   <div class="duration">
                     <ins>◷</ins>
-                    <p> {{producto.cantidad}} </p>
+                    <p>{{ producto.cantidad }}</p>
                   </div>
                 </div>
                 <hr />
-                <div class='creator'>
-                  <div class='wrapper'>
+                <div class="creator">
+                  <div class="wrapper">
                     <img
                       src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80"
-                      alt="Creator" />
+                      alt="Creator"
+                    />
                   </div>
-                  <p><ins>Marca: {{producto.id_marca}} </ins></p>
+                  <p>
+                    <ins>Marca: {{ producto.id_marca }} </ins>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
-
-    <section class="contenedor-gatos" id="contenedorgatos" *ngIf="mostrar_marca">
-
-      <h1 class="contenedor-perros-Titulo">Marca: {{marcaSeleccionada}} </h1>
+    <section
+      class="contenedor-gatos"
+      id="contenedorgatos"
+      *ngIf="mostrar_marca"
+    >
+      <h1 class="contenedor-perros-Titulo">Marca: {{ marcaSeleccionada }}</h1>
 
       <div class="contenedor-productos-gatos">
         <div *ngFor="let producto of productosFiltradosMarcas">
           <div>
             <div class="nft">
-              <div class='main'>
-                <img class='tokenImage' [src]="producto.imagen" alt="NFT" />
-                <h2 style="font-size: 140%; justify-content: center;"> {{producto.nombre}} </h2>
-                <p class='description'> {{producto.descripcion}} </p>
-                <div class='tokenInfo'>
+              <div class="main">
+                <img class="tokenImage" [src]="producto.imagen" alt="NFT" />
+                <h2 style="font-size: 140%; justify-content: center">
+                  {{ producto.nombre }}
+                </h2>
+                <p class="description">{{ producto.descripcion }}</p>
+                <div class="tokenInfo">
                   <div class="price">
                     <ins></ins>
-                    <p> ${{producto.precio}} </p>
+                    <p>${{ producto.precio }}</p>
                   </div>
                   <div class="duration">
                     <ins>◷</ins>
-                    <p> {{producto.cantidad}} </p>
+                    <p>{{ producto.cantidad }}</p>
                   </div>
                 </div>
                 <hr />
-                <div class='creator'>
-                  <div class='wrapper'>
+                <div class="creator">
+                  <div class="wrapper">
                     <img
                       src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80"
-                      alt="Creator" />
+                      alt="Creator"
+                    />
                   </div>
-                  <p> <ins>Marca: </ins> {{producto.id_marca}} </p>
+                  <p><ins>Marca: </ins> {{ producto.id_marca }}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </section>
 
-    <section class="contenedor-gatos" id="contenedorgatos" *ngIf="mostrar_nombre">
-
-      <h1 class="contenedor-perros-Titulo">Nombre: {{nombreProducto}} </h1>
+    <section
+      class="contenedor-gatos"
+      id="contenedorgatos"
+      *ngIf="mostrar_nombre"
+    >
+      <h1 class="contenedor-perros-Titulo">Nombre: {{ nombreProducto }}</h1>
 
       <div class="contenedor-productos-gatos">
         <div *ngFor="let producto of productosFiltradosNombre">
           <div>
             <div class="nft">
-              <div class='main'>
-                <img class='tokenImage' [src]="producto.imagen" alt="NFT" />
-                <h2 style="font-size: 140%; justify-content: center;"> {{producto.nombre}} </h2>
-                <p class='description'> {{producto.descripcion}} </p>
-                <div class='tokenInfo'>
+              <div class="main">
+                <img class="tokenImage" [src]="producto.imagen" alt="NFT" />
+                <h2 style="font-size: 140%; justify-content: center">
+                  {{ producto.nombre }}
+                </h2>
+                <p class="description">{{ producto.descripcion }}</p>
+                <div class="tokenInfo">
                   <div class="price">
                     <ins></ins>
-                    <p> ${{producto.precio}} </p>
+                    <p>${{ producto.precio }}</p>
                   </div>
                   <div class="duration">
                     <ins>◷</ins>
-                    <p> {{producto.cantidad}} </p>
+                    <p>{{ producto.cantidad }}</p>
                   </div>
                 </div>
                 <hr />
-                <div class='creator'>
-                  <div class='wrapper'>
+                <div class="creator">
+                  <div class="wrapper">
                     <img
                       src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80"
-                      alt="Creator" />
+                      alt="Creator"
+                    />
                   </div>
-                  <p><ins>Marca: </ins> {{producto.id_marca}} </p>
+                  <p><ins>Marca: </ins> {{ producto.id_marca }}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </section>
-
-
   </section>
-
 </div>
