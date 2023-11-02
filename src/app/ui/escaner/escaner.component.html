@@ -15,24 +15,43 @@
   </div>
 
   <div class="container">
+
     <div class="buscador">
+
       <p class="buscador-titulo">Registro Ventas</p>
 
       <div class="buscador_buscar-input">
         <div class="input-container">
-          <input #BuscarProducto type="text" (keydown.enter)="buscar_Producto()" [(ngModel)]="id_Producto_Input"
-            placeholder="Escribe tu búsqueda..." />
+
+          <input
+            #BuscarProducto
+            id="input_buscar-Producto"
+            type="text"
+            (keydown.enter)="buscar_Producto()"
+            [(ngModel)]="id_Producto_Input"
+            placeholder="Escribe tu búsqueda..."
+          />
+
           <i class="fa fa-times clear-icon" (click)="limpiar_Input()"></i>
+
         </div>
 
-        <button class="buscador_buscar-limpiar" (click)="limpiar_Input()">
+        <button
+          id="botonEliminar"
+          class="buscador_buscar-limpiar"
+          (click)="limpiar_Input()"
+        >
           Borrar
         </button>
+
       </div>
+
     </div>
 
     <div class="producto">
+
       <div *ngIf="Mostrar_Producto">
+
         <img [src]="producto_Encontrado.imagen" alt="" />
         <div>
           <p>
@@ -49,6 +68,7 @@
             </span>
           </p>
         </div>
+
       </div>
     </div>
 
@@ -70,14 +90,26 @@
           <tr async *ngFor="let producto of productosVenta; let i = index">
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ producto.Nombre }}</td>
-            <td> ${{ producto.Precio }}</td>
+            <td>${{ producto.Precio }}</td>
             <td>
-              <input style="font-size: 95%; font-weight: 600" class="input_productos" type="number"
-                [(ngModel)]="producto.Cantidad" (change)="actualizarSubtotal(producto)"
-                (change)="actualizarIva(producto)" min="1" />
+              <input
+                style="font-size: 95%; font-weight: 600"
+                class="input_productos"
+                id="input_cantidad-producto"
+                type="number"
+                [(ngModel)]="producto.Cantidad"
+                (change)="actualizarSubtotal(producto)"
+                (change)="actualizarIva(producto)"
+                min="1"
+              />
             </td>
             <td *ngIf="producto.VentaGranel">
-              <input (change)="actualizarVentaGranel($event)" type="checkbox" name="No" id="" />
+              <input
+                (change)="actualizarVentaGranel($event)"
+                type="checkbox"
+                name="No"
+                id="input_granel-producto"
+              />
             </td>
             <td *ngIf="!producto.VentaGranel">No Disponible</td>
 
@@ -87,20 +119,20 @@
             <td *ngIf="!producto.VentaGranel">No Disponible</td>
 
             <td *ngIf="!producto.VentaGranel">
-              {{ (producto.Precio * producto.Cantidad) | currency }}
+              {{ producto.Precio * producto.Cantidad | currency }}
             </td>
 
             <td>
-              <div *ngIf="producto.VentaGranel && venta_granel_boleean ">
+              <div *ngIf="producto.VentaGranel && venta_granel_boleean">
                 {{ producto.Precio_granel * producto.Cantidad | currency }}
               </div>
 
-              <div *ngIf="producto.VentaGranel && !venta_granel_boleean ">
+              <div *ngIf="producto.VentaGranel && !venta_granel_boleean">
                 {{ producto.Precio * producto.Cantidad | currency }}
               </div>
+            </td>
+
             <td>
-
-
               <button (click)="eliminar_VentaProducto(producto)">
                 <i class="fa fa-times"></i>
               </button>
@@ -114,7 +146,9 @@
       <div class="total_venta">
         <p>
           Total:
-          <span style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%">
+          <span
+            style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%"
+          >
             $ {{ calcularTotalVenta() }}
           </span>
         </p>
@@ -122,17 +156,23 @@
         <!-- El IVA se muestra solo en ventas normales -->
         <p>
           IVA:
-          <span style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%">
+          <span
+            style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%"
+          >
             $ {{ calcularIvaVenta() }}
           </span>
         </p>
-
       </div>
 
       <div class="cambio_venta">
         <label for="Total"> Paga con: $</label>
 
-        <input id="Total" type="number" [(ngModel)]="montoAPagar" (change)="calcularCambio()" />
+        <input
+          id="Total"
+          type="number"
+          [(ngModel)]="montoAPagar"
+          (change)="calcularCambio()"
+        />
 
         <p style="padding-top: 2px">Cambio: ${{ cambio }}</p>
       </div>

@@ -18,6 +18,7 @@ import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
 
 import { Datos_Locales } from '../services/DatosLocales.service';
 import { Venta_Service } from '../services/Lista_Ticket.service';
+import { KeyboardShortcutsService } from './atajo_teclado.service';
 
 export interface Agregar_Producto {
   ID: string;
@@ -72,6 +73,10 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   // Variable para decidir si es una venta a granel o no
   public venta_granel_boleean: any = false;
 
+  //Variables para el ticket
+  public montoAPagar: number = 0;
+  public cambio: number = 0;
+
   //Variables para atajos
   @ViewChild('BuscarProducto') inputBusqueda: ElementRef | any;
 
@@ -82,8 +87,11 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     private cache: Datos_Locales,
     private venta_Service: Venta_Service,
     private cdr: ChangeDetectorRef,
-    private _ventaUseCase: VentaUseCase
-  ) { }
+    private _ventaUseCase: VentaUseCase,
+    private _keyboardShortcutsService: KeyboardShortcutsService
+  ) {
+    this._keyboardShortcutsService.registrarAtajosDeTeclado();
+  }
 
   async ngOnInit() {
     this.venta_Service.reiniciarProductosEncontrados();
@@ -91,7 +99,6 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Establecer el enfoque en el input al iniciar el componente
     this.inputBusqueda.nativeElement.focus();
   }
 
@@ -204,7 +211,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
       fecha: `${fechaFormateada} ${horaFormateada}`,
       productos: this.productosVenta.map((producto: Agregar_Producto) => {
         const precioProducto = +(this.venta_granel_boleean &&
-          producto.VentaGranel
+        producto.VentaGranel
           ? producto.Precio_granel
           : producto.Precio);
         return {
@@ -236,9 +243,6 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     this.limpiarPantalla();
   }
 
-  public montoAPagar: number = 0;
-  public cambio: number = 0;
-
   calcularCambio() {
     if (this.montoAPagar < this.calcularTotalVenta()) {
       this.mensaje_Aviso = 'El monto a pagar es menor al total de la venta';
@@ -251,13 +255,6 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  calcularTotal(): number {
-    return this.productosVenta.reduce(
-      (total: any, producto: any) => total + producto.Subtotal,
-      0
-    );
-  }
-
   async guardarVenta() {
     try {
       const fechaActual = new Date();
@@ -265,8 +262,9 @@ export class EscanerComponent implements OnInit, AfterViewInit {
       const mes = fechaActual.getMonth() + 1;
       const dia = fechaActual.getDate();
 
-      const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''
-        }${dia}`;
+      const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${
+        dia < 10 ? '0' : ''
+      }${dia}`;
 
       const iva = this.calcularIvaVenta(); // Calcula el IVA acumulado de todos los productos
       const subtotal = this.calcularSubtotal(); // Calcula el subtotal sin IVA
@@ -433,5 +431,9 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   subtotalVentaGranel(producto: any) {
     console.log(producto);
     producto.Subtotal = producto.precio_granel * producto.Cantidad;
+  }
+
+  ngOnDestroy() {
+    this._keyboardShortcutsService.removerAtajosDeTeclado();
   }
 }
