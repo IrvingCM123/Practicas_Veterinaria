@@ -229,12 +229,17 @@ export class AgregarComponent implements OnInit {
         .toPromise();
       this.id_producto_inventario = response.id;
       await this.CrearProductoInventario(this.id_producto_inventario);
-      await this._inventarioUseCase.postProducto(this.Inventario).toPromise();
+      await this._inventarioUseCase.postProducto(
+        this.Inventario.existencias,
+        this.Inventario.stock_minimo,
+        this.Inventario.stock_maximo,
+        this.id_producto_inventario
+      ).toPromise();
     } catch (error) {
       console.error(error);
     }
     this.loading = false;
-    window.location.reload();
+    //window.location.reload();
   }
 
   async SubirImagenFirestore() {

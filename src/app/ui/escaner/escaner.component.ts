@@ -13,8 +13,6 @@ import {
 
 import { Tickets_Service } from '../services/imprimirTicker.service';
 
-import { HttpClient } from '@angular/common/http';
-
 import { EscanerUseCase } from '../../domain/escaner-domain/client/escaner-usecase';
 import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
 

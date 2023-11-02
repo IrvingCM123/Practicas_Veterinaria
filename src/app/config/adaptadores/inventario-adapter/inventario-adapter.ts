@@ -13,11 +13,20 @@ export class InventarioAdapter implements InventarioPort {
 
   constructor(private http: HttpClient) {}
 
-  postProducto(producto: any | []): Observable<Inventario> {
-    console.log(producto);
-    return this.http.post<Inventario>(this.apiUrl, producto);
+  postProducto(
+    existencias: string | number,
+    StockMinimo: string | number,
+    StockMaximo: string | number,
+    id_producto: any
+  ): Observable<Inventario> {
+    return this.http.post<Inventario>(this.apiUrl, {
+      existencias,
+      StockMinimo,
+      StockMaximo,
+      id_producto,
+    });
   }
-
+  
   getProducto(): Observable<Inventario[]> {
     return this.http.get<Inventario[]>(this.apiUrl);
   }

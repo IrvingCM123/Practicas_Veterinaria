@@ -8,10 +8,20 @@ import { InventarioPort } from 'src/app/config/puertos/inventario-puertos/invent
   providedIn: 'root',
 })
 export class InventarioUseCase {
-  constructor(private _inventarioPort: InventarioPort) {}
+  constructor(private _inventarioPort: InventarioPort) { }
 
-  postProducto(producto: any | []): Observable<Inventario> {
-    return this._inventarioPort.postProducto(producto);
+  postProducto(
+    existencias: string | number,
+    StockMinimo: string | number,
+    StockMaximo: string | number,
+    id_producto: any
+  ): Observable<Inventario> {
+    return this._inventarioPort.postProducto(
+      existencias,
+      StockMinimo,
+      StockMaximo,
+      id_producto
+    );
   }
 
   getProducto(): Observable<Inventario[]> {
