@@ -144,7 +144,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     this.mostrar_Mensaje_Aviso = true;
     setTimeout(() => {
       this.mostrar_Mensaje_Aviso = false;
-    }, 1000);
+    }, 2000);
   }
 
   async buscar_Producto_BD(producto_deseado: string) {
@@ -183,6 +183,10 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     }
   }
 
+  eliminar_UltimoProducto() {
+    this.venta_Service.eliminarUltimoProductoEncontrado();
+  }
+
   actualizarIva(producto: Agregar_Producto) {
     producto.Iva = (producto.Precio * 0.16 * producto.Cantidad).toFixed(2);
   }
@@ -196,145 +200,166 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   }
 
   generar_Ticket() {
-    const fechaActual = new Date();
-    const fechaFormateada = fechaActual.toLocaleDateString();
-    const horaFormateada = fechaActual.toLocaleTimeString();
+    if (!this.calcularCambio()) {
+      return;
+    } else {
+      const fechaActual = new Date();
+      const fechaFormateada = fechaActual.toLocaleDateString();
+      const horaFormateada = fechaActual.toLocaleTimeString();
 
-    let iva = this.calcularIvaVenta();
-    let subtotal = this.calcularSubtotal();
-    let totalVenta = this.calcularTotalVenta();
-    const cambio = +(this.montoAPagar - totalVenta).toFixed(2);
+      let iva = this.calcularIvaVenta();
+      let subtotal = this.calcularSubtotal();
+      let totalVenta = this.calcularTotalVenta();
+      const cambio = +(this.montoAPagar - totalVenta).toFixed(2);
 
-    const ticket = {
-      logoUrl: '../../../assets/Imagenes/logo.png',
-      tienda: 'Como perros y gatos',
-      fecha: `${fechaFormateada} ${horaFormateada}`,
-      productos: this.productosVenta.map((producto: Agregar_Producto) => {
-        const precioProducto = +(this.venta_granel_boleean &&
-        producto.VentaGranel
-          ? producto.Precio_granel
-          : producto.Precio);
-        return {
-          cantidad: producto.Cantidad,
-          nombre: producto.Nombre,
-          precio: `$${precioProducto.toFixed(2)}`,
-          subtotal: precioProducto * producto.Cantidad,
-          marca: producto.Marca,
-          iva: iva,
-        };
-      }),
+      const ticket = {
+        logoUrl: '../../../assets/Imagenes/logo.png',
+        tienda: 'Como perros y gatos',
+        fecha: `${fechaFormateada} ${horaFormateada}`,
+        productos: this.productosVenta.map((producto: Agregar_Producto) => {
+          const precioProducto = +(this.venta_granel_boleean &&
+          producto.VentaGranel
+            ? producto.Precio_granel
+            : producto.Precio);
+          return {
+            cantidad: producto.Cantidad,
+            nombre: producto.Nombre,
+            precio: `$${precioProducto.toFixed(2)}`,
+            subtotal: precioProducto * producto.Cantidad,
+            marca: producto.Marca,
+            iva: iva,
+          };
+        }),
 
-      total: `$${totalVenta.toFixed(2)}`,
-      montoPagado: this.montoAPagar,
-      cambio: cambio,
-      veterinaria_1: 'M.V.Z. Nilda Carreón F.',
-      veterinaria_2: 'M.V.Z. Marisa R. Carreón',
-      direccion:
-        'Junto al garaje del Hotel Trueba. Sur. 11 No. 337 Orizaba, Ver.',
-      tel: '272-724-2852',
-      cel_1: '272-114-6086',
-      cel_2: '272-154-7909',
-      lema: '¡Consentimos a tu mascota!',
-    };
+        total: `$${totalVenta.toFixed(2)}`,
+        montoPagado: this.montoAPagar,
+        cambio: cambio,
+        veterinaria_1: 'M.V.Z. Nilda Carreón F.',
+        veterinaria_2: 'M.V.Z. Marisa R. Carreón',
+        direccion:
+          'Junto al garaje del Hotel Trueba. Sur. 11 No. 337 Orizaba, Ver.',
+        tel: '272-724-2852',
+        cel_1: '272-114-6086',
+        cel_2: '272-154-7909',
+        lema: '¡Consentimos a tu mascota!',
+      };
 
-    this.ticketService.imprimir(ticket);
-    this.guardarVenta();
-    this.venta_Service.reiniciarProductosEncontrados();
-    this.limpiarPantalla();
+      this.ticketService.imprimir(ticket);
+      this.guardarVenta();
+      this.venta_Service.reiniciarProductosEncontrados();
+      this.limpiarPantalla();
+    }
   }
 
   calcularCambio() {
-    if (this.montoAPagar < this.calcularTotalVenta()) {
+    if (this.montoAPagar === 0) {
+      this.mensaje_Aviso = 'Por favor, ingresa el monto a pagar';
+      this.mostrar_Mensaje_Aviso = true;
+      setTimeout(() => {
+        this.mostrar_Mensaje_Aviso = false;
+      }, 1000);
+      return false;
+    } else if (this.montoAPagar < this.calcularTotalVenta()) {
       this.mensaje_Aviso = 'El monto a pagar es menor al total de la venta';
       this.mostrar_Mensaje_Aviso = true;
       setTimeout(() => {
         this.mostrar_Mensaje_Aviso = false;
       }, 1000);
+      return false;
     } else {
       this.cambio = this.montoAPagar - this.calcularTotalVenta();
+      return true;
     }
   }
 
   async guardarVenta() {
-    try {
-      const fechaActual = new Date();
-      const año = fechaActual.getFullYear();
-      const mes = fechaActual.getMonth() + 1;
-      const dia = fechaActual.getDate();
+    if (!this.calcularCambio()) {
+      return;
+    } else {
+      try {
+        const fechaActual = new Date();
+        const año = fechaActual.getFullYear();
+        const mes = fechaActual.getMonth() + 1;
+        const dia = fechaActual.getDate();
 
-      const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${
-        dia < 10 ? '0' : ''
-      }${dia}`;
+        const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${
+          dia < 10 ? '0' : ''
+        }${dia}`;
 
-      const iva = this.calcularIvaVenta(); // Calcula el IVA acumulado de todos los productos
-      const subtotal = this.calcularSubtotal(); // Calcula el subtotal sin IVA
+        const iva = this.calcularIvaVenta(); // Calcula el IVA acumulado de todos los productos
+        const subtotal = this.calcularSubtotal(); // Calcula el subtotal sin IVA
 
-      const total = subtotal + iva;
+        const total = subtotal + iva;
 
-      const ventaGuardada = {
-        id_vendedor: 'IRCM',
-        id_sucursal: 1,
-        fecha_venta: fechaVenta,
-        total_venta: `${total.toFixed(2)}`,
-        subtotal: `${subtotal.toFixed(2)}`,
-        iva: iva.toFixed(2),
+        const ventaGuardada = {
+          id_vendedor: 'IRCM',
+          id_sucursal: 1,
+          fecha_venta: fechaVenta,
+          total_venta: `${total.toFixed(2)}`,
+          subtotal: `${subtotal.toFixed(2)}`,
+          iva: iva.toFixed(2),
 
-        detallesVenta: this.productosVenta.map((producto: Agregar_Producto) => {
-          const precioProducto =
-            this.venta_granel_boleean && producto.VentaGranel
-              ? producto.Precio_granel
-              : producto.Precio;
-          const subtotalProducto = producto.Cantidad * precioProducto;
-          const ivaProducto =
-            this.venta_granel_boleean && producto.VentaGranel
-              ? subtotalProducto * 0.16
-              : subtotalProducto * 0.16;
-          const ventaPorcion =
-            producto.VentaGranel && this.venta_granel_boleean ? true : false;
+          detallesVenta: this.productosVenta.map(
+            (producto: Agregar_Producto) => {
+              const precioProducto =
+                this.venta_granel_boleean && producto.VentaGranel
+                  ? producto.Precio_granel
+                  : producto.Precio;
+              const subtotalProducto = producto.Cantidad * precioProducto;
+              const ivaProducto =
+                this.venta_granel_boleean && producto.VentaGranel
+                  ? subtotalProducto * 0.16
+                  : subtotalProducto * 0.16;
+              const ventaPorcion =
+                producto.VentaGranel && this.venta_granel_boleean
+                  ? true
+                  : false;
 
-          return {
-            id_producto: producto.ID,
-            cantidad_vendida: producto.Cantidad,
-            precio_producto: precioProducto,
-            subtotal: subtotalProducto + ivaProducto,
-            venta_porcion: ventaPorcion,
-            iva: ivaProducto.toFixed(2),
-          };
-        }),
-      };
+              return {
+                id_producto: producto.ID,
+                cantidad_vendida: producto.Cantidad,
+                precio_producto: precioProducto,
+                subtotal: subtotalProducto + ivaProducto,
+                venta_porcion: ventaPorcion,
+                iva: ivaProducto.toFixed(2),
+              };
+            }
+          ),
+        };
 
-      let id_vendedor = ventaGuardada.id_vendedor;
-      let id_sucursal = ventaGuardada.id_sucursal;
-      let fecha_venta = ventaGuardada.fecha_venta;
-      let total_venta = ventaGuardada.total_venta;
-      let subtotal1 = ventaGuardada.subtotal;
-      let iva1 = ventaGuardada.iva;
-      let detallesVenta = ventaGuardada.detallesVenta;
+        let id_vendedor = ventaGuardada.id_vendedor;
+        let id_sucursal = ventaGuardada.id_sucursal;
+        let fecha_venta = ventaGuardada.fecha_venta;
+        let total_venta = ventaGuardada.total_venta;
+        let subtotal1 = ventaGuardada.subtotal;
+        let iva1 = ventaGuardada.iva;
+        let detallesVenta = ventaGuardada.detallesVenta;
 
-      await this._ventaUseCase
-        .postVentaProducto(
-          id_vendedor,
-          id_sucursal,
-          fecha_venta,
-          total_venta,
-          subtotal1,
-          iva1,
-          detallesVenta
-        )
-        .toPromise();
+        await this._ventaUseCase
+          .postVentaProducto(
+            id_vendedor,
+            id_sucursal,
+            fecha_venta,
+            total_venta,
+            subtotal1,
+            iva1,
+            detallesVenta
+          )
+          .toPromise();
 
-      this.mensaje_Aviso = 'Venta registrada';
+        this.mensaje_Aviso = 'Venta registrada';
 
-      return true;
-      this.limpiarPantalla();
-    } catch (error) {
-      this.mensaje_Aviso = 'Error al registrar la venta';
-      return false;
-    } finally {
-      this.mostrar_Mensaje_Aviso = true;
-      setTimeout(() => {
-        this.mostrar_Mensaje_Aviso = false;
-      }, 1000);
+        return true;
+        this.limpiarPantalla();
+      } catch (error) {
+        this.mensaje_Aviso = 'Error al registrar la venta';
+        return false;
+      } finally {
+        this.mostrar_Mensaje_Aviso = true;
+        setTimeout(() => {
+          this.mostrar_Mensaje_Aviso = false;
+        }, 1000);
+      }
     }
   }
 
@@ -412,7 +437,6 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   actualizarVentaGranel(event: Event): void {
     this.venta_granel_boleean = (event.target as HTMLInputElement).checked;
 
-    // También puedes llamar a las funciones de actualización aquí si es necesario
     this.actualizarTotales();
   }
 
@@ -420,7 +444,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     this.productosVenta.forEach((producto: Agregar_Producto) => {
       if (this.venta_granel_boleean) {
         producto.Subtotal = producto.Precio_granel * producto.Cantidad;
-        producto.Iva = '0'; // No hay IVA en ventas a granel
+        producto.Iva = '0';
       } else {
         producto.Subtotal = producto.Precio * producto.Cantidad;
         producto.Iva = (producto.Subtotal * 0.16).toFixed(2);

@@ -37,11 +37,19 @@
         </div>
 
         <button
-          id="botonEliminar"
+          id="boton_limpiar_busqueda"
           class="buscador_buscar-limpiar"
           (click)="limpiar_Input()"
         >
-          Borrar
+          Limpiar Busqueda
+        </button>
+
+        <button
+          id="boton_borrar_producto"
+          class="buscador_buscar-limpiar"
+          (click)="eliminar_UltimoProducto()"
+        >
+          Borrar Producto
         </button>
 
       </div>
@@ -67,6 +75,7 @@
               {{ producto_Encontrado.inventario[0].existencias }}
             </span>
           </p>
+
         </div>
 
       </div>
@@ -103,26 +112,36 @@
                 min="1"
               />
             </td>
-            <td *ngIf="producto.VentaGranel">
+            <td >
               <input
+                *ngIf="producto.VentaGranel"
                 (change)="actualizarVentaGranel($event)"
                 type="checkbox"
                 name="No"
                 id="input_granel-producto"
               />
-            </td>
-            <td *ngIf="!producto.VentaGranel">No Disponible</td>
 
-            <td *ngIf="producto.VentaGranel">
-              {{ producto.Precio_granel | currency }}
-            </td>
-            <td *ngIf="!producto.VentaGranel">No Disponible</td>
+              <div *ngIf="!producto.VentaGranel">No Disponible</div>
 
-            <td *ngIf="!producto.VentaGranel">
-              {{ producto.Precio * producto.Cantidad | currency }}
             </td>
 
             <td>
+              <div *ngIf="producto.VentaGranel">
+                {{ producto.Precio_granel | currency }}
+              </div>
+
+              <div *ngIf="!producto.VentaGranel">
+                No Disponible
+              </div>
+
+            </td>
+
+            <td>
+
+              <div *ngIf="!producto.VentaGranel">
+                {{ producto.Precio * producto.Cantidad | currency }}
+              </div>
+
               <div *ngIf="producto.VentaGranel && venta_granel_boleean">
                 {{ producto.Precio_granel * producto.Cantidad | currency }}
               </div>
@@ -133,7 +152,9 @@
             </td>
 
             <td>
-              <button (click)="eliminar_VentaProducto(producto)">
+              <button
+              style="cursor: pointer;"
+              (click)="eliminar_VentaProducto(producto)">
                 <i class="fa fa-times"></i>
               </button>
             </td>

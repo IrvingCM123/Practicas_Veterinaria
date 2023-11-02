@@ -11,8 +11,15 @@ export class KeyboardShortcutsService {
     }
   }
 
+  manejarAtajo_LimpiarBusqueda() {
+    const botonLimpiarBusqueda = document.getElementById('boton_limpiar_busqueda');
+    if (botonLimpiarBusqueda) {
+      botonLimpiarBusqueda.click();
+    }
+  }
+
   manejarAtajo_EliminarProductos() {
-    const botonEliminar = document.getElementById('boton_eliminar-productos');
+    const botonEliminar = document.getElementById('boton_borrar_producto');
     if (botonEliminar) {
       botonEliminar.click();
     }
@@ -43,7 +50,7 @@ export class KeyboardShortcutsService {
 
   // Manejar eventos de teclado
   manejarEventosDeTeclado = (event: KeyboardEvent) => {
-    // Detectar las teclas presionadas y ejecutar las funciones correspondientes
+    
     if (event.key === 'b') {
       this.manejarAtajo_BuscarProducto();
     } else if (event.key === 'z') {
@@ -52,6 +59,8 @@ export class KeyboardShortcutsService {
       this.manejarAtajo_ActualizarCantidad();
     } else if (event.key === 'x') {
       this.manejarAtajo_PermitirVentaGranel();
+    } else if (event.key === 'y') {
+      this.manejarAtajo_LimpiarBusqueda();
     }
   }
 }

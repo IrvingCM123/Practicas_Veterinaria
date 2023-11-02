@@ -89,18 +89,17 @@ h1 {
 .container {
   display: grid;
 
-  grid-template-rows: 1.5fr 4fr 4fr 0.3fr;
-  grid-template-columns: 1fr 6fr 2fr;
+  grid-template-rows: 1.5fr 4fr 3.7fr 1.6fr;
+  grid-template-columns: 1fr 6fr 1.5fr;
   grid-template-areas:
     "buscador buscador producto"
     "tabla tabla producto"
     "tabla tabla producto"
     "ticket ticket producto";
   width: fit-content;
-  min-width: 90vw;
+  min-width: 97vw;
   max-height: 74vh;
   margin: 1px 0px 0 2%;
-  padding-right: 10px;
 
   transition: 1s;
   transform-origin: left center;
@@ -120,12 +119,13 @@ h1 {
   scrollbar-width: thin;
   scrollbar-color: #4a90e2 #0b132b;
   max-height: 90%;
+  min-width: 100%;
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: repeat(3, auto);
   align-items: center;
-  padding: 10px;
+  padding: 4px;
 }
 
 .producto div {
@@ -133,11 +133,11 @@ h1 {
 }
 
 .producto div img {
-  margin: 1% 0px 0px 25%;
+  margin: 10% 0% 0px -14%;
   object-fit: cover;
 
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 140%;
+  max-height: 140%;
 }
 
 .producto div div p {
