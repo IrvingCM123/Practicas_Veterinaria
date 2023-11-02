@@ -20,7 +20,7 @@
 
       <div class="buscador_buscar-input">
         <div class="input-container">
-          <input type="text" (keydown.enter)="buscar_Producto()" [(ngModel)]="id_Producto_Input"
+          <input #BuscarProducto type="text" (keydown.enter)="buscar_Producto()" [(ngModel)]="id_Producto_Input"
             placeholder="Escribe tu búsqueda..." />
           <i class="fa fa-times clear-icon" (click)="limpiar_Input()"></i>
         </div>
@@ -36,27 +36,16 @@
         <img [src]="producto_Encontrado.imagen" alt="" />
         <div>
           <p>
-            Nombre:
-            <span style="color: rgb(224, 97, 97)">
-              {{ producto_Encontrado.nombre }}
-            </span>
-          </p>
-          <p>
-            Precio: $
-            <span style="color: rgb(236, 30, 19)">
-              {{ producto_Encontrado.precio }}
-            </span>
-          </p>
-          <p>
-            Descripcion
-            <span style="color: rgb(200, 26, 34)">
-              {{ producto_Encontrado.descripcion }}
-            </span>
-          </p>
-          <p>
             Marca:
             <span style="color: blue">
               {{ producto_Encontrado.marca.nombre }}
+            </span>
+          </p>
+
+          <p>
+            Existencias:
+            <span style="color: blue">
+              {{ producto_Encontrado.inventario[0].existencias }}
             </span>
           </p>
         </div>
