@@ -37,16 +37,12 @@ export class LoginComponent implements OnInit {
 
   async login(usuario: string, contraseña: string) {
 
-    if (usuario == 'admin' || contraseña == 'demo') {
-      return this.responseSuccessful = true;
-    } else {
       let response$;
       this.responseSuccessful = false;
 
       response$ = await this._IniciarSesion
         .postLogin(usuario, contraseña)
         .toPromise();
-      console.log(response$);
       try {
         const Resp: any = await response$;
         this.datosLocales.guardar_DatoLocal('Resp', Resp.token);
@@ -56,7 +52,6 @@ export class LoginComponent implements OnInit {
       }
 
       return this.responseSuccessful;
-    }
   }
 
   async IniciarSesion() {
@@ -64,7 +59,7 @@ export class LoginComponent implements OnInit {
     if (loginSuccessful) {
       this.datosLocales.Actualizar_Login(true);
       this.datosLocales.guardar_DatoLocal('login', true);
-      this.router.navigate(['/Sistema/Inicio/']);
+      this.router.navigate(['/inicio/']);
     } else {
       this.datosLocales.Actualizar_Login(false);
       this.loginFailed = true;

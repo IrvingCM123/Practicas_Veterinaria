@@ -96,6 +96,10 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   //Contador de objetos o productos en lista para el input de granel
   private contadorInputDinamicoGranel: number = 0;
 
+  //Variable para mostrar los mensajes de alerta o de carga
+  MostrarAlertaPantalla: boolean = false;
+  MensajeAlertaPantalla: string = '';
+
   constructor(
     private _escanerUseCase: EscanerUseCase,
     private ticketService: Tickets_Service,
@@ -123,17 +127,23 @@ export class EscanerComponent implements OnInit, AfterViewInit {
 
   async buscar_Producto() {
     if (this.id_Producto_Input.trim() === '') {
-      this.mensaje_Aviso = 'Por favor, ingresa un término de búsqueda.';
+      this.MensajeAlertaPantalla = 'Por favor, ingresa un término de búsqueda.';
+      this.MostrarAlertaPantalla = true;
     } else {
       let obtener_busqueda: Producto | boolean = await this.buscar_Producto_BD(
         this.id_Producto_Input
       );
 
       if (obtener_busqueda === false) {
-        this.mensaje_Aviso = 'No se encontró el producto';
+
+        this.MensajeAlertaPantalla = 'Producto no encontrado.';
+        this.MostrarAlertaPantalla = true;
+
         this.Mostrar_Producto = false;
         this.producto_Encontrado = [];
+
       } else {
+
         this.Mostrar_Producto = true;
         this.producto_Encontrado = obtener_busqueda;
 
@@ -156,9 +166,9 @@ export class EscanerComponent implements OnInit, AfterViewInit {
       }
     }
 
-    this.mostrar_Mensaje_Aviso = true;
+    this.MostrarAlertaPantalla = true;
     setTimeout(() => {
-      this.mostrar_Mensaje_Aviso = false;
+      this.MostrarAlertaPantalla = false;
     }, 2000);
   }
 

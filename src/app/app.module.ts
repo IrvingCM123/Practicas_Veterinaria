@@ -39,6 +39,8 @@ import { LoginComponent } from './ui/login/login.component';
 import { LoginPort } from './config/puertos/login-puertos/login-ports';
 import { LoginAdapter } from './config/adaptadores/login-adapter/login-adapter';
 import { KeyboardShortcutsService } from './ui/escaner/atajo_teclado.service';
+import { AlertComponent } from './ui/alert/alert.component';
+import { HelpersComponent } from './helpers/helpers.component';
 
 
 
@@ -56,7 +58,9 @@ import { KeyboardShortcutsService } from './ui/escaner/atajo_teclado.service';
     InventarioComponent,
     ProductoComponent,
     AgregarComponent,
-    LoginComponent
+    LoginComponent,
+    AlertComponent,
+    HelpersComponent
   ],
   imports: [
     AngularFireAuthModule,
