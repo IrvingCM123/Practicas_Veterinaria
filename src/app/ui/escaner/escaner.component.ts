@@ -130,11 +130,15 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   }
 
   async buscar_Producto() {
+
     if (this.id_Producto_Input.trim() === '') {
+
       this.MensajeAlertaPantalla = Mensajes_Ventas.Busqueda_ID_Producto_Vacio
-      this.TipoAlertaPantalla = TypeAlert.Alert_Success;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Warning;
       this.MostrarAlertaPantalla = true;
+
     } else {
+
       let obtener_busqueda: Producto | boolean = await this.buscar_Producto_BD(
         this.id_Producto_Input
       );
@@ -172,13 +176,17 @@ export class EscanerComponent implements OnInit, AfterViewInit {
       }
     }
 
-    this.MostrarAlertaPantalla = true;
     setTimeout(() => {
       this.MostrarAlertaPantalla = false;
-    }, 3000);
+    }, 1000);
   }
 
   async buscar_Producto_BD(producto_deseado: string) {
+
+    this.MensajeAlertaPantalla = Mensajes_Ventas.Busqueda_ID_Producto_Cargando
+    this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
+    this.MostrarAlertaPantalla = true;
+
     try {
       const busquedaProducto_obtenido: any = await this._escanerUseCase
         .getProductoEscaneado(producto_deseado)
@@ -191,6 +199,8 @@ export class EscanerComponent implements OnInit, AfterViewInit {
       }
     } catch (error) {
       return false;
+    } finally {
+      this.MostrarAlertaPantalla = false;
     }
   }
 

@@ -44,6 +44,7 @@
 
   max-width: 100%;
 }
+
 .imgbox {
   text-align: center;
 }
@@ -94,7 +95,7 @@
   background: #ff3636;
 }
 
-#success {
+#Mensaje {
   display: block;
   position: fixed;
   top: 60%;
@@ -102,10 +103,36 @@
   transform: translate(-50%, -50%);
 }
 
-#error {
-  display: block;
-  position: fixed;
-  top: 60%;
+
+.loading-overlay {
+  position: relative;
+  margin: 10% auto;
+  padding: 20% 0 10% 0;
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  animation: spin 2s linear infinite;
+}
+
+.loading-text {
+  font-size: 24px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
