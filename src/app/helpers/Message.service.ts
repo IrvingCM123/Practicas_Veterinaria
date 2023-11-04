@@ -1,4 +1,4 @@
-enum Mensajes_Inventario {
+export enum Mensajes_Inventario {
   Producto_Eliminado_Success = 'Producto eliminado con éxito',
   Producto_Eliminado_Error = 'Error al eliminar el producto',
   Producto_Actualizado_Success = 'Producto actualizado con éxito',
@@ -9,7 +9,8 @@ enum Mensajes_Inventario {
   Cargando_Productos = 'Cargando productos...',
 }
 
-enum Mensajes_Ventas {
+export enum Mensajes_Ventas {
+
   Venta_Productos_Success = 'Venta de productos realizada con éxito',
   Venta_Productos_Error = 'Error al realizar la venta de productos',
   Venta_Producto_Cargando = 'Realizando venta de producto...',
@@ -20,9 +21,10 @@ enum Mensajes_Ventas {
   Busqueda_ID_Producto_Error = 'Error al buscar el producto por ID',
   Busqueda_ID_Producto_Success = 'Producto encontrado',
   Busqueda_ID_Producto_No_Exist = 'No existe el producto',
+  Busqueda_ID_Producto_Vacio = 'Por favor ingrese un ID válido',
 }
 
-enum Mensajes_Login {
+export enum Mensajes_Login {
   Login_Success = 'Login exitoso',
   Login_Error = 'Error al iniciar sesión',
   Login_Cargando = 'Iniciando sesión...',

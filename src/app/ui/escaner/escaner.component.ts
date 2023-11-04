@@ -18,6 +18,8 @@ import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
 import { Venta_Service } from '../services/Lista_Ticket.service';
 import { KeyboardShortcutsService } from './atajo_teclado.service';
 
+import { Mensajes_Ventas } from '../../helpers/Message.service';
+
 export interface Agregar_Producto {
   ID: string;
   Nombre: string;
@@ -105,7 +107,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     private venta_Service: Venta_Service,
     private cdr: ChangeDetectorRef,
     private _ventaUseCase: VentaUseCase,
-    private _keyboardShortcutsService: KeyboardShortcutsService
+    private _keyboardShortcutsService: KeyboardShortcutsService,
   ) {
     this._keyboardShortcutsService.registrarAtajosDeTeclado();
   }
@@ -126,7 +128,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
 
   async buscar_Producto() {
     if (this.id_Producto_Input.trim() === '') {
-      this.MensajeAlertaPantalla = 'Por favor, ingresa un término de búsqueda.';
+      this.MensajeAlertaPantalla = Mensajes_Ventas.Busqueda_ID_Producto_Vacio
       this.MostrarAlertaPantalla = true;
     } else {
       let obtener_busqueda: Producto | boolean = await this.buscar_Producto_BD(
@@ -426,8 +428,6 @@ export class EscanerComponent implements OnInit, AfterViewInit {
             : producto.Precio;
         const subtotalProducto = producto.Cantidad * precioProducto;
         total += +(subtotalProducto * 0.16).toFixed(2);
-        console.log(subtotalProducto);
-        console.log(total);
         if (!this.venta_granel_boleean) {
           const ivaProducto = subtotalProducto * 0.16;
           total += +ivaProducto.toFixed(2);
