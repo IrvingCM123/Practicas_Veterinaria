@@ -97,9 +97,12 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   private contadorInputDinamicoGranel: number = 0;
 
   //Variable para mostrar los mensajes de alerta o de carga
-  MostrarAlertaPantalla: boolean = false;
-  TipoAlertaPantalla: string = '';
-  MensajeAlertaPantalla: string = '';
+  public MostrarAlertaPantalla: boolean = false;
+  public TipoAlertaPantalla: string = '';
+  public MensajeAlertaPantalla: string = '';
+
+  //Variable para difuminar la pantalla
+  public OcultarPantalla: boolean = false;
 
   constructor(
     private _escanerUseCase: EscanerUseCase,
@@ -378,16 +381,21 @@ export class EscanerComponent implements OnInit, AfterViewInit {
           .toPromise();
 
         this.MensajeAlertaPantalla = Mensajes_Ventas.Venta_Productos_Success;
+        this.TipoAlertaPantalla = TypeAlert.Alert_Success;
+        this.OcultarPantalla = true;
 
         return true;
         this.limpiarPantalla();
       } catch (error) {
         this.MensajeAlertaPantalla = Mensajes_Ventas.Venta_Productos_Error;
+        this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+        this.OcultarPantalla = true;
         return false;
       } finally {
         this.MostrarAlertaPantalla = true;
         setTimeout(() => {
           this.MostrarAlertaPantalla = false;
+          this.OcultarPantalla = false;
         }, 1000);
       }
     }

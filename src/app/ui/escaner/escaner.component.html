@@ -1,5 +1,11 @@
-<div class="interfaz">
+<!-- Mandar a llamar el componente del mensaje, pasando como parametro el tipo de mensaje que se desea junto a su mensaje esperado a mostrar-->
+<app-alert
+  *ngIf="MostrarAlertaPantalla"
+  [messageToShow]="TipoAlertaPantalla"
+  [messageText]="MensajeAlertaPantalla"
+></app-alert>
 
+<div class="interfaz" [ngClass]="{ blurred: OcultarPantalla }">
   <div class="menu">
     <nav>
       Veterinaria
@@ -12,14 +18,11 @@
   </div>
 
   <div class="container">
-
     <div class="buscador">
-
       <p class="buscador-titulo">Registro Ventas</p>
 
       <div class="buscador_buscar-input">
         <div class="input-container">
-
           <input
             #BuscarProducto
             id="input_buscar-Producto"
@@ -30,7 +33,6 @@
           />
 
           <i class="fa fa-times clear-icon" (click)="limpiar_Input()"></i>
-
         </div>
 
         <button
@@ -48,21 +50,17 @@
         >
           Borrar Producto
         </button>
-
       </div>
-
     </div>
 
     <div class="producto">
-
       <div *ngIf="Mostrar_Producto">
-
         <img [src]="producto_Encontrado.imagen" alt="" />
         <div>
           <p>
             Marca:
             <span
-            style="color: rgb(18, 20, 137); font-weight: 600; font-size: 120%"
+              style="color: rgb(18, 20, 137); font-weight: 600; font-size: 120%"
             >
               {{ producto_Encontrado.marca.nombre }}
             </span>
@@ -71,14 +69,12 @@
           <p>
             Existencias:
             <span
-            style="color: rgb(18, 20, 137); font-weight: 600; font-size: 120%"
+              style="color: rgb(18, 20, 137); font-weight: 600; font-size: 120%"
             >
               {{ producto_Encontrado.inventario[0].existencias }}
             </span>
           </p>
-
         </div>
-
       </div>
     </div>
 
@@ -114,7 +110,7 @@
                 min="1"
               />
             </td>
-            <td >
+            <td>
               <input
                 *ngIf="producto.VentaGranel"
                 (change)="actualizarVentaGranel($event)"
@@ -125,7 +121,6 @@
               />
 
               <div *ngIf="!producto.VentaGranel">No Disponible</div>
-
             </td>
 
             <td>
@@ -133,14 +128,10 @@
                 {{ producto.Precio_granel | currency }}
               </div>
 
-              <div *ngIf="!producto.VentaGranel">
-                No Disponible
-              </div>
-
+              <div *ngIf="!producto.VentaGranel">No Disponible</div>
             </td>
 
             <td>
-
               <div *ngIf="!producto.VentaGranel">
                 {{ producto.Precio * producto.Cantidad | currency }}
               </div>
@@ -156,9 +147,10 @@
 
             <td>
               <button
-              #botonEliminarProducto
-              style="cursor: pointer;"
-              (click)="eliminar_VentaProducto(producto)">
+                #botonEliminarProducto
+                style="cursor: pointer"
+                (click)="eliminar_VentaProducto(producto)"
+              >
                 <i class="fa fa-times"></i>
               </button>
             </td>
@@ -172,7 +164,7 @@
         <p>
           Total:
           <span
-          style="color: rgb(18, 20, 137); font-weight: 600; font-size: 120%"
+            style="color: rgb(18, 20, 137); font-weight: 600; font-size: 120%"
           >
             $ {{ calcularTotalVenta() }}
           </span>
@@ -212,7 +204,3 @@
     </section>
   </div>
 </div>
-
-<!-- Mandar a llamar el componente del mensaje, pasando como parametro el tipo de mensaje que se desea junto a su mensaje esperado a mostrar-->
-<app-alert *ngIf="MostrarAlertaPantalla" [messageToShow]="TipoAlertaPantalla" [messageText]="MensajeAlertaPantalla"></app-alert>
-

@@ -509,3 +509,12 @@ h1 {
 
 
 }
+
+.blurred {
+  filter: blur(20px);
+  //transform: scale(0.5); hacer más chico el componente
+
+    //Dimuninar la pantalla
+
+  //background-color: rgba(0,0,0, $alpha: 0.4);
+}
