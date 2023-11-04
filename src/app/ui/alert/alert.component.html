@@ -14,20 +14,15 @@
   </div>
 
 
-  <div id="error" [style.display]="messageToShow === 'failed' ? 'block' : 'none' ">
-    <a href="#" class="trigger_popup" id="error_trigger">Error</a>
+  <div id="error" [style.display]="messageToShow === 'error' ? 'block' : 'none' ">
     <div class="popup" id="error">
       <div class="popup-content">
         <div class="imgbox">
           <img src="../../../assets/Imagenes/cancel.png" alt="" class="img">
         </div>
         <div class="title">
-          <h3> Sorry :( </h3>
+          <h3> {{messageText}} </h3>
         </div>
-        <p class="para">Something went wrong. Please try again!</p>
-        <form action="">
-          <a href="#" class="button" id="e_button">TRY AGAIN</a>
-        </form>
       </div>
     </div>
   </div>
