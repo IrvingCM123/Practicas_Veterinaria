@@ -8,8 +8,7 @@
         <div class="imgbox">
           <img src="../../../assets/Imagenes/checked.png" alt="" class="img" />
         </div>
-        <div class="title"
-        style="word-wrap: break-word; color: aliceblue;">
+        <div class="title" style="word-wrap: break-word; color: aliceblue">
           {{ messageText }}
         </div>
       </div>
@@ -21,12 +20,12 @@
     [style.display]="messageToShow === 'error' ? 'block' : 'none'"
   >
     <div class="popup" id="error">
-      <div class="popup-content">
+      <div class="popup-content"  style="background: rgba(168, 11, 11, 0.9)">
         <div class="imgbox">
           <img src="../../../assets/Imagenes/cancel.png" alt="" class="img" />
         </div>
-        <div class="title">
-          <h3>{{ messageText }}</h3>
+        <div class="title" style="word-wrap: break-word; color: aliceblue">
+          {{ messageText }}
         </div>
       </div>
     </div>
