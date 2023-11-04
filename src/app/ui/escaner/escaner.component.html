@@ -216,5 +216,6 @@
   </div>
 </div>
 
-<app-alert *ngIf="MostrarAlertaPantalla" [messageToShow]="'success'" [messageText]="'Operación exitosa'"></app-alert>
+<!-- Mandar a llamar el componente del mensaje, pasando como parametro el tipo de mensaje que se desea junto a su mensaje esperado a mostrar-->
+<app-alert *ngIf="MostrarAlertaPantalla" [messageToShow]="TipoAlertaPantalla" [messageText]="MensajeAlertaPantalla"></app-alert>
 

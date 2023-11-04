@@ -19,6 +19,7 @@ import { Venta_Service } from '../services/Lista_Ticket.service';
 import { KeyboardShortcutsService } from './atajo_teclado.service';
 
 import { Mensajes_Ventas } from '../../helpers/Message.service';
+import { TypeAlert } from 'src/app/helpers/TypeAlert.service';
 
 export interface Agregar_Producto {
   ID: string;
@@ -65,8 +66,6 @@ export class EscanerComponent implements OnInit, AfterViewInit {
 
   // Variables para mostrar mensajes
   public Mostrar_Producto = false;
-  public mensaje_Aviso: string = '';
-  public mostrar_Mensaje_Aviso = false;
 
   // Variables para mostrar los productos en la lista de venta
   public productosVenta: Agregar_Producto[] | any = [];
@@ -99,6 +98,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
 
   //Variable para mostrar los mensajes de alerta o de carga
   MostrarAlertaPantalla: boolean = false;
+  TipoAlertaPantalla: string = '';
   MensajeAlertaPantalla: string = '';
 
   constructor(
@@ -129,6 +129,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   async buscar_Producto() {
     if (this.id_Producto_Input.trim() === '') {
       this.MensajeAlertaPantalla = Mensajes_Ventas.Busqueda_ID_Producto_Vacio
+      this.TipoAlertaPantalla = TypeAlert.Alert_Success;
       this.MostrarAlertaPantalla = true;
     } else {
       let obtener_busqueda: Producto | boolean = await this.buscar_Producto_BD(
@@ -137,7 +138,8 @@ export class EscanerComponent implements OnInit, AfterViewInit {
 
       if (obtener_busqueda === false) {
 
-        this.MensajeAlertaPantalla = 'Producto no encontrado.';
+        this.MensajeAlertaPantalla = Mensajes_Ventas.Busqueda_ID_Producto_Error
+        this.TipoAlertaPantalla = TypeAlert.Alert_Error;
         this.MostrarAlertaPantalla = true;
 
         this.Mostrar_Producto = false;
@@ -170,7 +172,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     this.MostrarAlertaPantalla = true;
     setTimeout(() => {
       this.MostrarAlertaPantalla = false;
-    }, 2000);
+    }, 3000);
   }
 
   async buscar_Producto_BD(producto_deseado: string) {
@@ -279,17 +281,20 @@ export class EscanerComponent implements OnInit, AfterViewInit {
 
   calcularCambio() {
     if (this.montoAPagar === 0) {
-      this.mensaje_Aviso = 'Por favor, ingresa el monto a pagar';
-      this.mostrar_Mensaje_Aviso = true;
+      this.MensajeAlertaPantalla = Mensajes_Ventas.Monto_Pago_Vacio;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Warning;
+
+      this.MostrarAlertaPantalla = true;
       setTimeout(() => {
-        this.mostrar_Mensaje_Aviso = false;
+        this.MostrarAlertaPantalla = false;
       }, 1000);
       return false;
     } else if (this.montoAPagar < this.calcularTotalVenta()) {
-      this.mensaje_Aviso = 'El monto a pagar es menor al total de la venta';
-      this.mostrar_Mensaje_Aviso = true;
+      this.MensajeAlertaPantalla = Mensajes_Ventas.Monto_Pago_Menor;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Warning;
+      this.MostrarAlertaPantalla = true;
       setTimeout(() => {
-        this.mostrar_Mensaje_Aviso = false;
+        this.MostrarAlertaPantalla = false;
       }, 1000);
       return false;
     } else {
@@ -372,17 +377,17 @@ export class EscanerComponent implements OnInit, AfterViewInit {
           )
           .toPromise();
 
-        this.mensaje_Aviso = 'Venta registrada';
+        this.MensajeAlertaPantalla = Mensajes_Ventas.Venta_Productos_Success;
 
         return true;
         this.limpiarPantalla();
       } catch (error) {
-        this.mensaje_Aviso = 'Error al registrar la venta';
+        this.MensajeAlertaPantalla = Mensajes_Ventas.Venta_Productos_Error;
         return false;
       } finally {
-        this.mostrar_Mensaje_Aviso = true;
+        this.MostrarAlertaPantalla = true;
         setTimeout(() => {
-          this.mostrar_Mensaje_Aviso = false;
+          this.MostrarAlertaPantalla = false;
         }, 1000);
       }
     }
@@ -442,7 +447,6 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   calcularIVA(): number {
     return this.productosVenta.reduce(
       (total: number, producto: Agregar_Producto) => {
-        // Suma el IVA de cada producto al total
         return total + producto.Precio * 0.16 * producto.Cantidad;
       },
       0
@@ -476,7 +480,6 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   }
 
   subtotalVentaGranel(producto: any) {
-    console.log(producto);
     producto.Subtotal = producto.precio_granel * producto.Cantidad;
   }
 

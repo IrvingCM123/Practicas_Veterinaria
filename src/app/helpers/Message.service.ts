@@ -22,6 +22,11 @@ export enum Mensajes_Ventas {
   Busqueda_ID_Producto_Success = 'Producto encontrado',
   Busqueda_ID_Producto_No_Exist = 'No existe el producto',
   Busqueda_ID_Producto_Vacio = 'Por favor ingrese un ID válido',
+
+  Monto_Pago_Vacio = 'Por favor ingrese un monto válido',
+  Monto_Pago_Error = 'Error al ingresar el monto',
+  Monto_Pago_Menor = 'El monto ingresado es menor al total a pagar',
+  
 }
 
 export enum Mensajes_Login {
