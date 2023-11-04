@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  NgZone,
   ChangeDetectorRef,
   ElementRef,
   AfterViewInit,
@@ -16,7 +15,6 @@ import { Tickets_Service } from '../services/imprimirTicker.service';
 import { EscanerUseCase } from '../../domain/escaner-domain/client/escaner-usecase';
 import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
 
-import { Datos_Locales } from '../services/DatosLocales.service';
 import { Venta_Service } from '../services/Lista_Ticket.service';
 import { KeyboardShortcutsService } from './atajo_teclado.service';
 
@@ -56,6 +54,7 @@ export interface ProductoVenta {
   styleUrls: ['./escaner.component.scss'],
 })
 export class EscanerComponent implements OnInit, AfterViewInit {
+
   // Variables para el escaner
   public id_Producto_Input: string = '';
 
