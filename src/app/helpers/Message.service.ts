@@ -1,12 +1,17 @@
 export enum Mensajes_Inventario {
   Producto_Eliminado_Success = 'Producto eliminado con éxito',
   Producto_Eliminado_Error = 'Error al eliminar el producto',
+
   Producto_Actualizado_Success = 'Producto actualizado con éxito',
   Producto_Actualizado_Error = 'Error al actualizar el producto',
+
   Producto_Agregar_Existente = 'El producto ya existe',
   Producto_Agregar_Succes = 'Producto agregado con éxito',
   Producto_Agregar_Error = 'Error al agregar el producto',
+
   Cargando_Productos = 'Cargando productos...',
+  Cargando_Productos_Error = 'Error al cargar los productos',
+  Cargando_Productos_Vacio = 'No hay productos registrados',
 }
 
 export enum Mensajes_Ventas {

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Datos_Locales } from '../services/DatosLocales.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 
 import { InfoProdUseCase } from 'src/app/domain/infoProd-domain/client/InfoProd-usecase';
 import { ProductoUseCase } from 'src/app/domain/producto-domain/client/producto-usecase';
 
+import { Mensajes_Inventario } from 'src/app/helpers/Message.service';
+import { TypeAlert } from 'src/app/helpers/TypeAlert.service';
 
 interface productoInterface {
   id: number;
@@ -29,20 +31,17 @@ interface InformacionInterface {
   nomenclatura: string;
 }
 
-
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
   styleUrls: ['./inventario.component.scss'],
 })
 export class InventarioComponent implements OnInit {
-
-
   //Variables para obtener las marcas
   public marcas: InformacionInterface = {
     id_informacion: 0,
     nombre: '',
-    nomenclatura: ''
+    nomenclatura: '',
   };
 
   public arreglo_marcas: [] | any = [];
@@ -51,7 +50,7 @@ export class InventarioComponent implements OnInit {
   public proveedores: InformacionInterface = {
     id_informacion: 0,
     nombre: '',
-    nomenclatura: ''
+    nomenclatura: '',
   };
 
   public arreglo_proveedores: [] | any = [];
@@ -60,7 +59,7 @@ export class InventarioComponent implements OnInit {
   public categorias: InformacionInterface | [] = {
     id_informacion: 0,
     nombre: '',
-    nomenclatura: ''
+    nomenclatura: '',
   };
 
   public arrelo_categorias: [] | any = [];
@@ -69,7 +68,7 @@ export class InventarioComponent implements OnInit {
   public animales: InformacionInterface | [] = {
     id_informacion: 0,
     nombre: '',
-    nomenclatura: ''
+    nomenclatura: '',
   };
 
   public arreglo_animales: [] | any = [];
@@ -78,10 +77,18 @@ export class InventarioComponent implements OnInit {
   public tipos_cantidad: InformacionInterface | [] = {
     id_informacion: 0,
     nombre: '',
-    nomenclatura: ''
+    nomenclatura: '',
   };
 
   public arreglo_tipos_cantidad: [] | any = [];
+
+  //Variables para mostrar los mensajes de alerta
+  public MostrarAlertaPantalla: boolean = false;
+  public TipoAlertaPantalla: string = '';
+  public MensajeAlertaPantalla: string = '';
+
+  //Variable para difuminar la pantalla
+  public OcultarPantalla: boolean = false;
 
   constructor(
     private router: Router,
@@ -96,7 +103,7 @@ export class InventarioComponent implements OnInit {
   }
 
   //Variable para almacenar los productos obtenidos de la base de datos
-  public productos: any = [ ];
+  public productos: any = [];
 
   //Variables para realizar los filtros de los productos
   public mostar_todos = true;
@@ -113,83 +120,136 @@ export class InventarioComponent implements OnInit {
   public marcasUnicas: string[] = [];
   public nombreProducto: string = '';
 
+  consultaTerminada$ = new Subject<boolean>();
+
   async obtenerProductos() {
-    const productosObservable = this._productoUseCase.getProducto();
-    this.productos = await this._productoUseCase.getProducto().toPromise();
-    const marcasObservable = this._info.getMarcas();
-    const proveedoresObservable = this._info.getProveedores();
-    const categoriasObservable = this._info.getCategorias();
-    const animalesObservable = this._info.getAnimales();
-    const tipoCantidadObservable = this._info.getTipoCantidad();
+    try {
+      this.MensajeAlertaPantalla = Mensajes_Inventario.Cargando_Productos;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
+      this.MostrarAlertaPantalla = true;
+      this.OcultarPantalla = true;
 
-    forkJoin([
-      productosObservable,
-      marcasObservable,
-      proveedoresObservable,
-      categoriasObservable,
-      animalesObservable,
-      tipoCantidadObservable
-    ]).subscribe(
-      ([productos, marcas, proveedores, categorías, animales, tiposCantidad]) => {
+      const productosObservable = this._productoUseCase.getProducto();
+      this.productos = await this._productoUseCase.getProducto().toPromise();
+      const marcasObservable = this._info.getMarcas();
+      const proveedoresObservable = this._info.getProveedores();
+      const categoriasObservable = this._info.getCategorias();
+      const animalesObservable = this._info.getAnimales();
+      const tipoCantidadObservable = this._info.getTipoCantidad();
 
-        console.log(this.productos);
-        // Mapea el campo id_marca de productos al nombre correspondiente
-        this.productos.forEach((producto: any) => {
-          const marca = marcas.find((marca) => marca.id_marca === producto.id_marca);
-          if (marca) {
-            producto.id_marca = marca.nombre;
-          }
-        });
+      forkJoin([
+        productosObservable,
+        marcasObservable,
+        proveedoresObservable,
+        categoriasObservable,
+        animalesObservable,
+        tipoCantidadObservable,
+      ]).subscribe(
+        ([
+          productos,
+          marcas,
+          proveedores,
+          categorías,
+          animales,
+          tiposCantidad,
+        ]) => {
+          // Mapea el campo id_marca de productos al nombre correspondiente
+          this.productos.forEach((producto: any) => {
+            const marca = marcas.find(
+              (marca) => marca.id_marca === producto.id_marca
+            );
+            if (marca) {
+              producto.id_marca = marca.nombre;
+            }
+          });
 
-        // Mapea el campo id_proveedor de productos al nombre correspondiente
-        this.productos.forEach((producto: any) => {
-          const proveedor = proveedores.find((proveedor) => proveedor.id_proveedor === producto.id_proveedor);
-          if (proveedor) {
-            producto.id_proveedor = proveedor.nombre;
-          }
-        });
+          // Mapea el campo id_proveedor de productos al nombre correspondiente
+          this.productos.forEach((producto: any) => {
+            const proveedor = proveedores.find(
+              (proveedor) => proveedor.id_proveedor === producto.id_proveedor
+            );
+            if (proveedor) {
+              producto.id_proveedor = proveedor.nombre;
+            }
+          });
 
-        // Mapea el campo id_categoria de productos al nombre correspondiente
-        this.productos.forEach((producto: any) => {
-          const categoria = categorías.find((categoria) => categoria.id_categoria === producto.id_categoria);
-          if (categoria) {
-            producto.id_categoria = categoria.nombre;
-          }
-        });
+          // Mapea el campo id_categoria de productos al nombre correspondiente
+          this.productos.forEach((producto: any) => {
+            const categoria = categorías.find(
+              (categoria) => categoria.id_categoria === producto.id_categoria
+            );
+            if (categoria) {
+              producto.id_categoria = categoria.nombre;
+            }
+          });
 
-        // Mapea el campo id_animal de productos al nombre correspondiente
-        this.productos.forEach((producto: any) => {
-          const animal = animales.find((animal) => animal.id_categoria === producto.id_animal);
-          if (animal) {
-            producto.id_animal = animal.nombre;
-          }
-        });
+          // Mapea el campo id_animal de productos al nombre correspondiente
+          this.productos.forEach((producto: any) => {
+            const animal = animales.find(
+              (animal) => animal.id_categoria === producto.id_animal
+            );
+            if (animal) {
+              producto.id_animal = animal.nombre;
+            }
+          });
 
-        // Mapea el campo id_tipoCantidad de productos al nombre correspondiente
-        this.productos.forEach((producto: any) => {
-          const tipoCantidad = tiposCantidad.find((tipoCantidad) => tipoCantidad.id_tipoCantidad === producto.id_tipoCantidad);
-          if (tipoCantidad) {
-            producto.id_tipoCantidad = tipoCantidad.nombre;
-          }
-        });
+          // Mapea el campo id_tipoCantidad de productos al nombre correspondiente
+          this.productos.forEach((producto: any) => {
+            const tipoCantidad = tiposCantidad.find(
+              (tipoCantidad) =>
+                tipoCantidad.id_tipoCantidad === producto.id_tipoCantidad
+            );
+            if (tipoCantidad) {
+              producto.id_tipoCantidad = tipoCantidad.nombre;
+            }
+          });
 
-        // Mapea el campo venta_granel de productos al nombre correspondiente
-        this.productos.forEach((producto: any) => {
-          if (producto.venta_granel) {
-            producto.venta_granel = 'Si';
-          } else {
-            producto.venta_granel = 'No';
-          }
-        });
+          // Mapea el campo venta_granel de productos al nombre correspondiente
+          this.productos.forEach((producto: any) => {
+            if (producto.venta_granel) {
+              producto.venta_granel = 'Si';
+            } else {
+              producto.venta_granel = 'No';
+            }
+          });
 
-        this.marcasUnicas = this.obtenerMarcasUnicas();
-                this.productosFiltradosMarcas = this.productos;
-        this.productosFiltradosNombre = this.productos;
-      },
-      (error) => {
-        console.error(error);
+          this.marcasUnicas = this.obtenerMarcasUnicas();
+          this.productosFiltradosMarcas = this.productos;
+          this.productosFiltradosNombre = this.productos;
+          this.consultaTerminada$.next(true);
+        },
+        (error) => {
+          this.MensajeAlertaPantalla =
+            Mensajes_Inventario.Cargando_Productos_Error;
+          this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+          this.MostrarAlertaPantalla = true;
+          this.consultaTerminada$.next(true);
+        }
+      );
+
+      if (this.productos.length === 0) {
+        this.MensajeAlertaPantalla =
+          Mensajes_Inventario.Cargando_Productos_Vacio;
+        this.TipoAlertaPantalla = TypeAlert.Alert_Warning;
+        this.MostrarAlertaPantalla = true;
       }
-    );
+
+    } catch (error) {
+      this.MensajeAlertaPantalla = Mensajes_Inventario.Cargando_Productos_Error;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+      this.MostrarAlertaPantalla = true;
+      this.consultaTerminada$.next(true);
+
+      setTimeout(() => {
+        this.MostrarAlertaPantalla = false;
+        this.OcultarPantalla = false;
+      }, 1500);
+    } finally {
+      this.consultaTerminada$.subscribe(() => {
+        this.MostrarAlertaPantalla = false;
+        this.OcultarPantalla = false;
+      });
+    }
   }
   obtenerMarcasUnicas() {
     const marcasUnicas = new Set<string>();
@@ -213,7 +273,7 @@ export class InventarioComponent implements OnInit {
   }
 
   filtrarPorMarca() {
-    console.log(this.productos)
+    console.log(this.productos);
 
     if (this.marcaSeleccionada === 'Todas') {
       this.productosFiltradosMarcas = this.productos;
@@ -253,7 +313,6 @@ export class InventarioComponent implements OnInit {
     this.cache.guardar_DatoLocal('producto', id_producto);
     this.router.navigate(['/producto']);
   }
-
 
   async LlenarDatos() {
     await this._info.getMarcas().subscribe(
@@ -300,6 +359,5 @@ export class InventarioComponent implements OnInit {
         console.log(error);
       }
     );
-
   }
 }

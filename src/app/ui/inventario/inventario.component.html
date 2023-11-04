@@ -1,3 +1,12 @@
+
+<app-alert
+  *ngIf="MostrarAlertaPantalla"
+  [messageToShow]="TipoAlertaPantalla"
+  [messageText]="MensajeAlertaPantalla"
+></app-alert>
+
+<div  [ngClass]="{ blurred: OcultarPantalla }">
+
 <div class="menu">
   <nav>
     Veterinaria
@@ -237,4 +246,6 @@
       </div>
     </section>
   </section>
+</div>
+
 </div>
