@@ -241,7 +241,6 @@ body {
   display: grid;
   grid-template-rows: 1fr;
   font-family: "Raleway", sans-serif;
-  background-color: #01e37f;
 }
 
 h3 {
@@ -253,6 +252,7 @@ h3 {
 img {
   max-width: 100%;
   filter: drop-shadow(1px 1px 3px $color-secondary);
+  background-color: transparent;
 }
 
 /* ----- Product Section ----- */
@@ -264,16 +264,19 @@ img {
   padding:  0;
   min-width: 100%;
   width: 89vw;
-  background-color: white;
+  //background-color: white;
   border-radius: 5px;
   overflow-y: auto;
   overflow-x: hidden;
 
+  background-color: transparent;
 }
 
 /* ----- Photo Section ----- */
 .product__photo {
   position: relative;
+
+  background-color: transparent;
 }
 
 .photo-container {
@@ -284,7 +287,10 @@ img {
   width: 100%;
   height: 100%;
   border-radius: 6px;
+  background: none;
   box-shadow: 4px 4px 25px -2px rgba(0, 0, 0, 0.3);
+
+  background-color: transparent;
 }
 
 .photo-main {
@@ -308,13 +314,14 @@ img {
     max-width: 109.7%;
     max-height: 90%;
     filter: saturate(150%) contrast(120%) hue-rotate(10deg) drop-shadow(1px 20px 10px rgba(0, 0, 0, 0.3));
+    background-color: transparent;
   }
 }
 
 .photo-album {
   padding: 0.7em 1em;
   border-radius: 0 0 6px 6px;
-  background-color: #fff;
+  background: none;
 
   ul {
     display: flex;
@@ -442,7 +449,7 @@ select {
   width: 100%;
   padding: 1em;
   line-height: 1.4;
-  background-color: #f9f9f9;
+  background-color: transparent;
   border: 1px solid #e5e5e5;
   border-radius: 3px;
   -webkit-transition: 0.35s ease-in-out;
@@ -709,4 +716,8 @@ select option {
   font-weight: 400;
   color: #4c4c4c;
   font-style: italic;
+}
+
+.blurred {
+  filter: blur(40px);
 }

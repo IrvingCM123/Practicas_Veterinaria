@@ -14,6 +14,21 @@ export enum Mensajes_Inventario {
   Cargando_Productos_Vacio = 'No hay productos registrados',
 }
 
+export enum Mensajes_Productos_Modificar {
+
+  Producto_Cargando_ID = 'Cargando producto por ID...',
+  Producto_Cargando_ID_Error = 'Error al cargar el producto por ID',
+  Producto_Cargando_ID_Vacio = 'Por favor ingrese un ID válido',
+
+  Producto_Modificar_Success = 'Producto modificado con éxito',
+  Producto_Modificar_Error = 'Error al modificar el producto',
+  Producto_Modificar_Cargando = 'Modificando producto...',
+
+  Producto_Eliminar_Success = 'Producto eliminado con éxito',
+  Producto_Eliminar_Error = 'Error al eliminar el producto',
+  Producto_Eliminar_Cargando = 'Eliminando producto...',
+}
+
 export enum Mensajes_Ventas {
 
   Venta_Productos_Success = 'Venta de productos realizada con éxito',

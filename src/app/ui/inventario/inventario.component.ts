@@ -233,7 +233,6 @@ export class InventarioComponent implements OnInit {
         this.TipoAlertaPantalla = TypeAlert.Alert_Warning;
         this.MostrarAlertaPantalla = true;
       }
-
     } catch (error) {
       this.MensajeAlertaPantalla = Mensajes_Inventario.Cargando_Productos_Error;
       this.TipoAlertaPantalla = TypeAlert.Alert_Error;
