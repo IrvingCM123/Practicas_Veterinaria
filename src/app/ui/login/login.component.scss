@@ -1,0 +1,225 @@
+.contenedor {
+  max-height: 100%;
+  max-width: 100%;
+
+  height: 100vh;
+  width: 100vw;
+
+  background-color: #0a4258;
+
+  padding: 0% 0;
+}
+
+.fondo {
+  background-image: url("../../../assets/Imagenes/Login.png");
+
+  min-height: 100%;
+  min-width: 100%;
+
+  max-height: 100%;
+  max-width: 100%;
+
+  display: flex;
+
+  background-position: center 40%;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  display: grid;
+  grid-area: "contenedor2";
+}
+
+.contenedor2 {
+  grid-area: "contenedor2";
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "formulario"
+    "formulario";
+
+  padding: 3%;
+
+  justify-content: flex-end;
+  align-items: center;
+  justify-items: flex-end;
+}
+
+.formulario {
+  grid-area: formulario;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: transparent;
+  border-radius: 100px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+
+  width: 35%;
+  height: 35%;
+
+  margin: 10% 13%;
+
+  @media (max-width: 700px) {
+    width: 30%;
+    height: 200px;
+    margin: 4% -2%;
+  }
+
+  @media (max-width: 1000px) {
+    width: 35%;
+    height: 200px;
+    margin: 4% 12%;
+  }
+
+  @media (max-width: 1200px) {
+    width: 40%;
+    height: 150px;
+    margin: 4% 13%;
+  }
+
+  @media (max-width: 1600px) {
+    width: 37%;
+    height: 190px;
+    margin: 4% 12%;
+  }
+}
+
+.formulario h3 {
+  margin-left: 30%;
+  margin-bottom: 2%;
+  color: #ffffff;
+  font-size: 2em;
+  font-weight: bold;
+
+  @media (max-width: 700px) {
+    font-size: 40px;
+  }
+
+  @media (max-width: 1000px) {
+    font-size: 30px;
+  }
+
+  @media (max-width: 1200px) {
+    font-size: 20px;
+    margin-left: 18%;
+  }
+
+  @media (max-width: 1600px) {
+    font-size: 20px;
+    margin-left: 30%;
+  }
+}
+
+.formulario div input {
+  margin-left: 20%;
+  min-width: 170%;
+
+  background-color: #ffffff;
+  color: #0a4258;
+  border: none;
+  border-radius: 100px;
+  box-shadow: 20px 10px 10px rgba(2, 19, 54, 0.624);
+  backdrop-filter: blur(10px);
+
+  font-size: 1em;
+  font-weight: bold;
+  padding: 2% 0;
+  padding-left: 10%;
+
+  @media (max-width: 700px) {
+    min-width: 70%;
+    font-size: 0.5em;
+  }
+
+  @media (max-width: 1000px) {
+    min-width: 80%;
+    font-size: 0.5em;
+  }
+
+  @media (max-width: 1200px) {
+    min-width: 170%;
+    margin-left: 10%;
+    font-size: 0.7em;
+  }
+
+  @media (max-width: 1400px) {
+    min-width: 100%;
+    margin-left: 10%;
+    font-size: 0.4em;
+  }
+
+  @media (max-width: 1600px) {
+    min-width: 200%;
+    margin-left: 19%;
+    font-size: 0.8em;
+  }
+
+}
+
+.formulario div input:focus {
+  outline: none;
+
+}
+
+.formulario div input::placeholder {
+  color: #0a4258;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding-left: 10%;
+}
+
+.formulario button {
+  margin-left: 31%;
+  min-width: 40%;
+
+  background-color: #0a4258;
+  color: #ffffff;
+  border: none;
+  border-radius: 100px;
+  box-shadow: 20px 10px 10px rgba(2, 19, 54, 0.624);
+  backdrop-filter: blur(10px);
+
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 1% 0;
+
+  cursor: pointer;
+
+  @media (max-width: 700px) {
+    min-width: 40%;
+
+  }
+
+  @media (max-width: 1000px) {
+    min-width: 40%;
+
+  }
+
+  @media (max-width: 1200px) {
+    min-width: 40%;
+    font-size: 0.8em;
+
+  }
+}
+
+.formulario button:hover {
+  background-color: #ffffff;
+  color: #0a4258;
+  border: none;
+  border-radius: 100px;
+  box-shadow: 20px 10px 10px rgba(2, 19, 54, 0.624);
+  backdrop-filter: blur(10px);
+}
+
+.blurred .formulario div input {
+  background-color: transparent; /* Cambia el fondo a transparente en .formulario input cuando .blurred está activo */
+  box-shadow: none; /* Elimina la sombra en .formulario input cuando .blurred está activo */
+  backdrop-filter: none; /* Elimina el efecto de desenfoque en .formulario input cuando .blurred está activo */
+}
+
+.blurred .formulario button {
+  background-color: transparent; /* Cambia el fondo a transparente en .formulario input cuando .blurred está activo */
+  box-shadow: none; /* Elimina la sombra en .formulario input cuando .blurred está activo */
+  backdrop-filter: none; /* Elimina el efecto de desenfoque en .formulario input cuando .blurred está activo */
+}

@@ -11,8 +11,32 @@ export class VentaUseCase {
 
   constructor (private _ventaPort: VentaPort) {}
 
-  postVentaRegistrada(venta: [] | any): Observable<[] | any> {
-    return this._ventaPort.postVenta(venta);
+  postVentaRegistrada(
+    id_vendedor: string,
+    id_sucursal: number,
+    fecha_venta: string,
+    total_venta: string,
+    subtotal: string,
+    iva: string,
+    detallesVenta: any[]
+  ): Observable<[] | any> {
+    console.log("usecase",
+      id_vendedor,
+      id_sucursal,
+      fecha_venta,
+      total_venta,
+      subtotal,
+      iva,
+    );
+    return this._ventaPort.postVenta(
+      id_vendedor,
+      id_sucursal,
+      fecha_venta,
+      total_venta,
+      subtotal,
+      iva,
+      detallesVenta
+    );
   }
 
   getVentaRegistrada(fecha: string): Observable<any> {

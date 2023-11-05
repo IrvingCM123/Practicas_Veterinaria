@@ -10,11 +10,11 @@ import { InfoProdPort } from '../../puertos/infoProd-puertos/infoProd-ports';
 
 export class InfoProdAdapter implements InfoProdPort {
   apiUrl = environment.url;
-  url_marca = this.apiUrl + "/marcas";
-  url_proveedor = this.apiUrl + "/proveedores";
-  url_categoria = this.apiUrl + "/categorias";
-  url_animal = this.apiUrl + "/animales";
-  url_tipoCantidad = this.apiUrl + "/tipos-cantidad";
+  url_marca = this.apiUrl + "/marcas/";
+  url_proveedor = this.apiUrl + "/proveedores/";
+  url_categoria = this.apiUrl + "/categorias/";
+  url_animal = this.apiUrl + "/animales/";
+  url_tipoCantidad = this.apiUrl + "/tipoProducto/";
 
   constructor(private http: HttpClient) { }
 

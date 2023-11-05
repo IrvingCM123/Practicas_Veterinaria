@@ -21,7 +21,7 @@ import { HeaderComponent } from './ui/header/header.component';
 import { FooterComponent } from './ui/footer/footer.component';
 import { HistorialVentasComponent } from './ui/historial-ventas/historial-ventas.component';
 import { VentaPort } from './config/puertos/venta-puertos/venta-ports';
-import { VentaAdapter } from './config/adaptadores/historial-adapter/venta-adapter';
+import { VentasAdapter } from './config/adaptadores/venta-adapter/venta-adapter';
 import { HistorialComponent } from './ui/historial/historial.component';
 import { GraficasComponent } from './ui/graficas/graficas.component';
 import { InicioComponent } from './ui/inicio/inicio.component';
@@ -35,8 +35,11 @@ import { ProductoPort } from './config/puertos/producto-puertos/producto-puerto'
 import { ProductoAdapter } from './config/adaptadores/producto-adapter/producto-adapter';
 import { InfoProdPort } from './config/puertos/infoProd-puertos/infoProd-ports';
 import { InfoProdAdapter } from './config/adaptadores/infoProd-adapter/infoProd-adapter';
-
-
+import { LoginComponent } from './ui/login/login.component';
+import { LoginPort } from './config/puertos/login-puertos/login-ports';
+import { LoginAdapter } from './config/adaptadores/login-adapter/login-adapter';
+import { KeyboardShortcutsService } from './ui/escaner/atajo_teclado.service';
+import { AlertComponent } from './ui/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,9 @@ import { InfoProdAdapter } from './config/adaptadores/infoProd-adapter/infoProd-
     InicioComponent,
     InventarioComponent,
     ProductoComponent,
-    AgregarComponent
+    AgregarComponent,
+    LoginComponent,
+    AlertComponent,
   ],
   imports: [
     AngularFireAuthModule,
@@ -68,10 +73,12 @@ import { InfoProdAdapter } from './config/adaptadores/infoProd-adapter/infoProd-
   ],
   providers: [
     {provide: EscanerPort, useClass: EscanerAdapter},
-    {provide: VentaPort, useClass: VentaAdapter},
+    {provide: VentaPort, useClass: VentasAdapter},
     {provide: InventarioPort, useClass: InventarioAdapter},
     {provide: ProductoPort, useClass: ProductoAdapter},
-    {provide: InfoProdPort, useClass: InfoProdAdapter}
+    {provide: InfoProdPort, useClass: InfoProdAdapter},
+    {provide: LoginPort, useClass: LoginAdapter},
+    {provide: KeyboardShortcutsService}
 
   ],
   bootstrap: [AppComponent]
