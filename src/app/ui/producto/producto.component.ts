@@ -350,7 +350,6 @@ export class ProductoComponent implements OnInit {
         this.MostrarAlertaPantalla = false;
         this.OcultarPantalla = false;
       }, 1000);
-
     } finally {
       consultaTerminada$.subscribe(() => {
         this.MostrarAlertaPantalla = false;
@@ -472,7 +471,6 @@ export class ProductoComponent implements OnInit {
     }
   }
 
-
   async SubirImagenFirestore() {
     if (this.archivo_imagen) {
       const filePath = `images/${this.archivo_imagen.name}`;
@@ -507,35 +505,25 @@ export class ProductoComponent implements OnInit {
   }
 
   async LlenarDatos() {
-    await this._info.getMarcas().subscribe(
-      (response: any) => {
-        this.arreglo_marcas = response;
-      }
-    );
+    await this._info.getMarcas().subscribe((response: any) => {
+      this.arreglo_marcas = response;
+    });
 
-    this._info.getProveedores().subscribe(
-      (response: any) => {
-        this.arreglo_proveedores = response;
-      }
-    );
+    this._info.getProveedores().subscribe((response: any) => {
+      this.arreglo_proveedores = response;
+    });
 
-    this._info.getCategorias().subscribe(
-      (response: any) => {
-        this.arrelo_categorias = response;
-      }
-    );
+    this._info.getCategorias().subscribe((response: any) => {
+      this.arrelo_categorias = response;
+    });
 
-    this._info.getAnimales().subscribe(
-      (response: any) => {
-        this.arreglo_animales = response;
-      }
-    );
+    this._info.getAnimales().subscribe((response: any) => {
+      this.arreglo_animales = response;
+    });
 
-    this._info.getTipoCantidad().subscribe(
-      (response: any) => {
-        this.arreglo_tipos_cantidad = response;
-      }
-    );
+    this._info.getTipoCantidad().subscribe((response: any) => {
+      this.arreglo_tipos_cantidad = response;
+    });
   }
 
   actualizarNombre(event: Event): void {
