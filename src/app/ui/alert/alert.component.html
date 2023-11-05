@@ -1,0 +1,77 @@
+<body>
+  <div
+    id="Mensaje"
+    [style.display]="messageToShow === 'success' ? 'block' : 'none'"
+  >
+    <div class="popup" id="Mensaje">
+      <div class="popup-content" style="background: rgba(11, 168, 27, 0.9)">
+        <div class="imgbox">
+          <img src="../../../assets/Imagenes/checked.png" alt="" class="img" />
+        </div>
+        <div class="title" style="word-wrap: break-word; color: aliceblue">
+          {{ messageText }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    id="Mensaje"
+    [style.display]="messageToShow === 'error' ? 'block' : 'none'"
+  >
+    <div class="popup" id="Mensaje">
+      <div class="popup-content"  style="background: rgba(168, 11, 11, 1)">
+        <div class="imgbox">
+          <img src="../../../assets/Imagenes/cancel.png" alt="" class="img" />
+        </div>
+        <div class="title" style="word-wrap: break-word; color: aliceblue">
+          {{ messageText }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div
+    id="Mensaje"
+    [style.display]="messageToShow === 'warning' ? 'block' : 'none'"
+  >
+
+    <div class="popup" id="Mensaje">
+      <div class="popup-content" style="background: rgba(168, 168, 11,1)">
+        <div class="imgbox">
+          <img src="../../../assets/Imagenes/warning.png" alt="" class="img" />
+        </div>
+        <div class="title" style="word-wrap: break-word; color: aliceblue">
+          {{ messageText }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div
+    id="Mensaje"
+    [style.display]="messageToShow === 'loading' ? 'block' : 'none'"
+  >
+
+    <div class="popup" id="Mensaje">
+      <div class="popup-content"
+      style="background-color: rgb(255, 255, 255);
+      border: 1px solid #000000;
+      border-radius: 10px;
+      ">
+
+        <div class="imgbox loading-overlay">
+          <div class="loading-spinner"></div>
+        </div>
+
+        <div class="title" style="word-wrap: break-word; color: rgb(0, 0, 0);">
+          {{ messageText }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>

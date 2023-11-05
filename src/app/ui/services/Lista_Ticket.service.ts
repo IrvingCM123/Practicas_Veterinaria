@@ -49,4 +49,10 @@ export class Venta_Service {
     this.datos_locales.eliminar_DatoLocal("Productos");
   }
 
+  eliminarUltimoProductoEncontrado() {
+    this.productosEncontrados.pop();
+    this.datos_locales.eliminar_DatoLocal("Productos");
+    this.datos_locales.guardar_ArregloLocal("Productos", this.productosEncontrados);
+  }
+
 }

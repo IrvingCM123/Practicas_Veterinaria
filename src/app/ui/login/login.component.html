@@ -1,0 +1,63 @@
+<app-alert
+  *ngIf="MostrarAlertaPantalla"
+  [messageToShow]="TipoAlertaPantalla"
+  [messageText]="MensajeAlertaPantalla"
+></app-alert>
+
+<main class="contenedor">
+  <section class="fondo"  [ngClass]="{ blurred: OcultarPantalla }">
+    <section class="contenedor2">
+      <div class="imagen"></div>
+
+      <div class="formulario">
+        <h3
+          style="
+            text-transform: uppercase;
+            font-size: 150%;
+            font-family: 'Poppins-SemiBold';
+            text-align: center;
+          "
+        >
+          Iniciar Sesión
+        </h3>
+
+        <div class="form-group">
+          <div class="form-wrapper" style="position: relative">
+            <i class="fa fa-key"></i>
+          </div>
+          <input
+            class="form-control"
+            id="txt-input"
+            type="email"
+            placeholder="@UsuarioDemo: admin@hotmail.com"
+            [value]="Correo_Usuario"
+            (input)="updateUsername($event)"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <div class="form-wrapper" style="position: relative">
+            <i class="fa fa-key"></i>
+          </div>
+          <input
+            class="form-control"
+            type="password"
+            id="pwd"
+            name="password"
+            placeholder="@ContraseñaDemo: demo"
+            [value]="Contrasena_Usuario"
+            (input)="updatePassword($event)"
+            required
+          />
+        </div>
+        <button
+          class="log-in"
+          (click)="IniciarSesion()"
+        >
+          Iniciar Sesión
+        </button>
+      </div>
+    </section>
+  </section>
+</main>

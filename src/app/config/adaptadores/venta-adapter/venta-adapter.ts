@@ -9,9 +9,9 @@ import { venta_Entity } from 'src/app/domain/venta-domain/models/venta.entity';
   providedIn: 'root'
 })
 export class VentasAdapter implements VentaPort {
-  apiUrl = environment.url+"RegistrarUsuarios/";
+  apiUrl = environment.url + "/venta/";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   getVentas(fecha: string): Observable<any> {
     throw new Error('Method not implemented.');
   }
@@ -19,8 +19,34 @@ export class VentasAdapter implements VentaPort {
     throw new Error('Method not implemented.');
   }
 
-  postVenta(venta: any): Observable<venta_Entity> {
-    return this.http.post<any>(`${this.apiUrl}`, venta);
+  postVenta(
+    id_vendedor: string,
+    id_sucursal: number,
+    fecha_venta: string,
+    total_venta: string,
+    subtotal: string,
+    iva: string,
+    detallesVenta: any[]
+  ): Observable<venta_Entity> {
+    console.log("adapter",
+      id_vendedor,
+      id_sucursal,
+      fecha_venta,
+      total_venta,
+      subtotal,
+      iva,
+      detallesVenta
+    );
+    return this.http.post<any>(`${this.apiUrl}`, {
+      id_vendedor,
+      id_sucursal,
+      fecha_venta,
+      total_venta,
+      subtotal,
+      iva,
+      detallesVenta,
+    }
+    );
   }
 
 

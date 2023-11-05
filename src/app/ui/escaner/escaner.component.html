@@ -1,8 +1,11 @@
-<div class="interfaz">
-  <div *ngIf="mostrar_Mensaje_Aviso" class="scan-success-message">
-    {{ mensaje_Aviso }}
-  </div>
+<!-- Mandar a llamar el componente del mensaje, pasando como parametro el tipo de mensaje que se desea junto a su mensaje esperado a mostrar-->
+<app-alert
+  *ngIf="MostrarAlertaPantalla"
+  [messageToShow]="TipoAlertaPantalla"
+  [messageText]="MensajeAlertaPantalla"
+></app-alert>
 
+<div class="interfaz" [ngClass]="{ blurred: OcultarPantalla }">
   <div class="menu">
     <nav>
       Veterinaria
@@ -20,37 +23,56 @@
 
       <div class="buscador_buscar-input">
         <div class="input-container">
-          <input type="text" (keydown.enter)="buscar_Producto()" [(ngModel)]="id_Producto_Input"
-            placeholder="Escribe tu búsqueda..." />
+          <input
+            #BuscarProducto
+            id="input_buscar-Producto"
+            type="text"
+            (keydown.enter)="buscar_Producto()"
+            [(ngModel)]="id_Producto_Input"
+            placeholder="Escribe tu búsqueda..."
+          />
+
           <i class="fa fa-times clear-icon" (click)="limpiar_Input()"></i>
         </div>
 
-        <button class="buscador_buscar-limpiar" (click)="limpiar_Input()">
-          Borrar
+        <button
+          id="boton_limpiar_busqueda"
+          class="buscador_buscar-limpiar"
+          (click)="limpiar_Input()"
+        >
+          Limpiar Busqueda
+        </button>
+
+        <button
+          id="boton_borrar_producto"
+          class="buscador_buscar-limpiar"
+          (click)="eliminar_UltimoProducto()"
+        >
+          Borrar Producto
         </button>
       </div>
     </div>
 
     <div class="producto">
       <div *ngIf="Mostrar_Producto">
-        <img [src]='producto_Encontrado.imagen'
-          alt="" />
+        <img [src]="producto_Encontrado.imagen" alt="" />
         <div>
           <p>
-            Nombre:
-            <span style="color: rgb(224, 97, 97)"> {{ producto_Encontrado.nombre }} </span>
-          </p>
-          <p>
-            Precio: $
-            <span style="color: rgb(236, 30, 19)"> {{ producto_Encontrado.precio }} </span>
-          </p>
-          <p>
-            Descripcion
-            <span style="color: rgb(200, 26, 34)"> {{ producto_Encontrado.descripcion }} </span>
-          </p>
-          <p>
             Marca:
-            <span style="color: blue"> {{ producto_Encontrado.marca.nombre }} </span>
+            <span
+              style="color: rgb(18, 20, 137); font-weight: 600; font-size: 120%"
+            >
+              {{ producto_Encontrado.marca.nombre }}
+            </span>
+          </p>
+
+          <p>
+            Existencias:
+            <span
+              style="color: rgb(18, 20, 137); font-weight: 600; font-size: 120%"
+            >
+              {{ producto_Encontrado.inventario[0].existencias }}
+            </span>
           </p>
         </div>
       </div>
@@ -62,10 +84,10 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Prod</th>
-            <th scope="col">Precio</th>
+            <th scope="col">Costo</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Granel</th>
-            <th scope="col">Iva</th>
+            <th scope="col">$ Granel</th>
             <th scope="col">Subtotal</th>
             <th scope="col">Quitar</th>
           </tr>
@@ -73,43 +95,101 @@
         <tbody>
           <tr async *ngFor="let producto of productosVenta; let i = index">
             <th scope="row">{{ i + 1 }}</th>
-            <td>{{ producto.Nombre }} </td>
-            <td>{{ producto.Precio }}</td>
+            <td>{{ producto.Nombre }}</td>
+            <td>${{ producto.Precio }}</td>
             <td>
-              <input style="font-size: 95%; font-weight: 600;" class="input_productos" type="number"
-                [(ngModel)]="producto.Cantidad" (change)="actualizarSubtotal(producto)" min="1" />
+              <input
+                style="font-size: 95%; font-weight: 600"
+                class="input_productos"
+                id="input_cantidad-producto"
+                #inputDinamicoCantidad
+                type="number"
+                [(ngModel)]="producto.Cantidad"
+                (change)="actualizarSubtotal(producto)"
+                (change)="actualizarIva(producto)"
+                min="1"
+              />
             </td>
-            <td *ngIf="producto.VentaGranel"> <input type="checkbox" name="Yes" id=""> </td>
-            <td *ngIf="!producto.VentaGranel"> No Disponible </td>
-            <td> {{producto.Iva}} </td>
-            <td>{{ producto.Subtotal }}</td>
             <td>
-              <button (click)="eliminar_VentaProducto(producto)">
+              <input
+                *ngIf="producto.VentaGranel"
+                (change)="actualizarVentaGranel($event)"
+                type="checkbox"
+                name="No"
+                #inputDinamicoGranel
+                id="input_granel-producto"
+              />
+
+              <div *ngIf="!producto.VentaGranel">No Disponible</div>
+            </td>
+
+            <td>
+              <div *ngIf="producto.VentaGranel">
+                {{ producto.Precio_granel | currency }}
+              </div>
+
+              <div *ngIf="!producto.VentaGranel">No Disponible</div>
+            </td>
+
+            <td>
+              <div *ngIf="!producto.VentaGranel">
+                {{ producto.Precio * producto.Cantidad | currency }}
+              </div>
+
+              <div *ngIf="producto.VentaGranel && venta_granel_boleean">
+                {{ producto.Precio_granel * producto.Cantidad | currency }}
+              </div>
+
+              <div *ngIf="producto.VentaGranel && !venta_granel_boleean">
+                {{ producto.Precio * producto.Cantidad | currency }}
+              </div>
+            </td>
+
+            <td>
+              <button
+                #botonEliminarProducto
+                style="cursor: pointer"
+                (click)="eliminar_VentaProducto(producto)"
+              >
                 <i class="fa fa-times"></i>
               </button>
             </td>
-
           </tr>
         </tbody>
       </table>
     </div>
 
     <section class="ticket">
-
       <div class="total_venta">
         <p>
           Total:
-          <span style="color: rgb(255, 0, 0); font-weight: 800; font-size: 120%">
-            $ {{ calcularTotal() }}
+          <span
+            style="color: rgb(18, 20, 137); font-weight: 600; font-size: 120%"
+          >
+            $ {{ calcularTotalVenta() }}
+          </span>
+        </p>
+
+        <!-- El IVA se muestra solo en ventas normales -->
+        <p>
+          IVA:
+          <span
+            style="color: rgb(18, 20, 137); font-weight: 600; font-size: 120%"
+          >
+            $ {{ calcularIvaVenta() }}
           </span>
         </p>
       </div>
 
-
       <div class="cambio_venta">
         <label for="Total"> Paga con: $</label>
 
-        <input id="Total" type="number" [(ngModel)]="montoAPagar" (change)="calcularCambio()" />
+        <input
+          id="Total"
+          type="number"
+          [(ngModel)]="montoAPagar"
+          (change)="calcularCambio()"
+        />
 
         <p style="padding-top: 2px">Cambio: ${{ cambio }}</p>
       </div>

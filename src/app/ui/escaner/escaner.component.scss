@@ -16,7 +16,7 @@ body {
   position: fixed;
   height: 62%;
   background: #0b132b;
-  width: 6%;
+  width: 2%;
   box-shadow: 1px 0 2px rgba(184, 1, 1, 0.2);
   transition: 1s;
   margin-top: 3%;
@@ -89,18 +89,17 @@ h1 {
 .container {
   display: grid;
 
-  grid-template-rows: 1.5fr 4fr 4fr 0.5fr;
-  grid-template-columns: 1fr 5fr 3fr;
+  grid-template-rows: 1.5fr 4fr 3.7fr 1.6fr;
+  grid-template-columns: 1fr 5.5fr 1.5fr;
   grid-template-areas:
     "buscador buscador producto"
     "tabla tabla producto"
     "tabla tabla producto"
     "ticket ticket producto";
   width: fit-content;
-  min-width: 90vw;
+  min-width: 97vw;
   max-height: 74vh;
-  margin: 1px 0px 0 7%;
-  padding-right: 10px;
+  margin: 1px 0px 0 2%;
 
   transition: 1s;
   transform-origin: left center;
@@ -120,12 +119,15 @@ h1 {
   scrollbar-width: thin;
   scrollbar-color: #4a90e2 #0b132b;
   max-height: 90%;
+  min-width: 100%;
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: repeat(3, auto);
   align-items: center;
-  padding: 10px;
+  padding: 4px;
+
+  overflow-y: hidden;
 }
 
 .producto div {
@@ -133,11 +135,11 @@ h1 {
 }
 
 .producto div img {
-  margin: 1% 0px 0px 25%;
+  margin: 0% 0% 0px -2%;
   object-fit: cover;
 
-  max-width: 50%;
-  max-height: 50%;
+  max-width: 100%;
+  max-height: 98%;
 }
 
 .producto div div p {
@@ -243,7 +245,7 @@ h1 {
 .input-container {
   position: relative;
   width: 45%;
-  height: 4vh;
+  height: 5.3vh;
   margin-left: 3%;
   margin-top: 3px;
   border: 2px;
@@ -256,7 +258,7 @@ h1 {
 
 .input-container input {
   width: 90%;
-  height: 2vh;
+  height: 5vh;
   background-color: transparent;
   border: none;
   margin-right: 0;
@@ -506,4 +508,13 @@ h1 {
   }
 
 
+}
+
+.blurred {
+  filter: blur(20px);
+  //transform: scale(0.5); hacer más chico el componente
+
+    //Dimuninar la pantalla
+
+  //background-color: rgba(0,0,0, $alpha: 0.4);
 }
