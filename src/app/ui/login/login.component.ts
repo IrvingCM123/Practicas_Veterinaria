@@ -4,28 +4,25 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { LoginUseCase } from 'src/app/domain/Login/usecase/getLogin';
 
+import { Mensajes_Login } from 'src/app/helpers/Message.service';
+import { TypeAlert } from 'src/app/helpers/TypeAlert.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 
   constructor(
     private datosLocales: Cache_Service,
     private router: Router,
     private location: Location,
     private _IniciarSesion: LoginUseCase
-  ) {
-  }
+  ) {}
 
-  onSubmit() {
-  }
+  onSubmit() {}
 
   Correo_Usuario: string = '';
   Contrasena_Usuario: string = '';
@@ -35,27 +32,36 @@ export class LoginComponent implements OnInit {
   public Token: any;
   responseSuccessful = false;
 
+  //Variables para mostrar las alertas de mensajes
+  public MostrarAlertaPantalla: boolean = false;
+  public MensajeAlertaPantalla: string = '';
+  public TipoAlertaPantalla: string = '';
+
+  //Difuminar pantalla
+  public OcultarPantalla: boolean = false;
+
   async login(usuario: string, contraseña: string) {
-
-      let response$;
+    try {
+      const Resp: any = await this._IniciarSesion.postLogin(usuario, contraseña).toPromise();
+      this.datosLocales.guardar_DatoLocal('Resp', Resp.token);
+      this.responseSuccessful = true;
+    } catch (error) {
       this.responseSuccessful = false;
-
-      response$ = await this._IniciarSesion
-        .postLogin(usuario, contraseña)
-        .toPromise();
-      try {
-        const Resp: any = await response$;
-        this.datosLocales.guardar_DatoLocal('Resp', Resp.token);
-        this.responseSuccessful = true;
-      } catch (error) {
-        this.responseSuccessful = false;
-      }
-
-      return this.responseSuccessful;
+      // Aquí puedes manejar el error, mostrar una alerta, etc.
+      this.MensajeAlertaPantalla = Mensajes_Login.Login_Error;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+      this.MostrarAlertaPantalla = true;
+      this.OcultarPantalla = true;
+    }
+    return this.responseSuccessful;
   }
 
+
   async IniciarSesion() {
-    const loginSuccessful = await this.login(this.Correo_Usuario, this.Contrasena_Usuario);
+    const loginSuccessful = await this.login(
+      this.Correo_Usuario,
+      this.Contrasena_Usuario
+    );
     if (loginSuccessful) {
       this.datosLocales.Actualizar_Login(true);
       this.datosLocales.guardar_DatoLocal('login', true);
@@ -64,6 +70,15 @@ export class LoginComponent implements OnInit {
       this.datosLocales.Actualizar_Login(false);
       this.loginFailed = true;
       this.loggedIn = false;
+
+      this.MensajeAlertaPantalla = Mensajes_Login.Login_Error;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+      this.MostrarAlertaPantalla = true;
+      this.OcultarPantalla = true;
+      setTimeout(() => {
+        this.MostrarAlertaPantalla = false;
+        this.OcultarPantalla = false;
+      }, 1000);
     }
   }
 
@@ -74,5 +89,4 @@ export class LoginComponent implements OnInit {
   updatePassword(event: Event): void {
     this.Contrasena_Usuario = (event.target as HTMLInputElement).value;
   }
-
 }

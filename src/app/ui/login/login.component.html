@@ -18,8 +18,14 @@
 </div>
 -->
 
+<app-alert
+  *ngIf="MostrarAlertaPantalla"
+  [messageToShow]="TipoAlertaPantalla"
+  [messageText]="MensajeAlertaPantalla"
+></app-alert>
+
 <main class="contenedor">
-  <section class="fondo">
+  <section class="fondo"  [ngClass]="{ blurred: OcultarPantalla }">
     <section class="contenedor2">
       <div class="imagen"></div>
 

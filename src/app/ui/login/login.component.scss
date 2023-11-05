@@ -184,6 +184,8 @@
   font-weight: bold;
   padding: 1% 0;
 
+  cursor: pointer;
+
   @media (max-width: 700px) {
     min-width: 40%;
 
@@ -210,3 +212,14 @@
   backdrop-filter: blur(10px);
 }
 
+.blurred .formulario div input {
+  background-color: transparent; /* Cambia el fondo a transparente en .formulario input cuando .blurred está activo */
+  box-shadow: none; /* Elimina la sombra en .formulario input cuando .blurred está activo */
+  backdrop-filter: none; /* Elimina el efecto de desenfoque en .formulario input cuando .blurred está activo */
+}
+
+.blurred .formulario button {
+  background-color: transparent; /* Cambia el fondo a transparente en .formulario input cuando .blurred está activo */
+  box-shadow: none; /* Elimina la sombra en .formulario input cuando .blurred está activo */
+  backdrop-filter: none; /* Elimina el efecto de desenfoque en .formulario input cuando .blurred está activo */
+}
