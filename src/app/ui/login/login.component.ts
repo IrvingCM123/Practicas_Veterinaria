@@ -43,8 +43,15 @@ export class LoginComponent implements OnInit {
   async login(usuario: string, contraseña: string) {
     try {
       const Resp: any = await this._IniciarSesion.postLogin(usuario, contraseña).toPromise();
-      this.datosLocales.guardar_DatoLocal('Resp', Resp.token);
-      this.responseSuccessful = true;
+
+      if (Resp.token != null || Resp.token != undefined) {
+        this.loggedIn = true;
+        this.Token = Resp.token;
+        this.datosLocales.guardar_DatoLocal('Token', this.Token);
+        this.responseSuccessful = true;
+      } else {
+        this.responseSuccessful = false;
+      }
     } catch (error) {
       this.responseSuccessful = false;
       // Aquí puedes manejar el error, mostrar una alerta, etc.
