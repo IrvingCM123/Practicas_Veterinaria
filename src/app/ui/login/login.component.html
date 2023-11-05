@@ -1,25 +1,11 @@
-<!--
-
-<div class="login-page">
-  <div class="login-container">
-      <h2>Iniciar Sesión</h2>
-      <form (submit)="onSubmit()">
-          <div class="input-group">
-              <label for="username">Username</label>
-              <input type="text" id="username" [(ngModel)]="username" name="username">
-          </div>
-          <div class="input-group">
-              <label for="password">Password</label>
-              <input type="password" id="password" [(ngModel)]="password" name="password">
-          </div>
-          <button type="submit">login</button>
-      </form>
-  </div>
-</div>
--->
+<app-alert
+  *ngIf="MostrarAlertaPantalla"
+  [messageToShow]="TipoAlertaPantalla"
+  [messageText]="MensajeAlertaPantalla"
+></app-alert>
 
 <main class="contenedor">
-  <section class="fondo">
+  <section class="fondo"  [ngClass]="{ blurred: OcultarPantalla }">
     <section class="contenedor2">
       <div class="imagen"></div>
 
@@ -43,7 +29,7 @@
             class="form-control"
             id="txt-input"
             type="email"
-            placeholder="@UsuarioDemo: admin"
+            placeholder="@UsuarioDemo: admin@hotmail.com"
             [value]="Correo_Usuario"
             (input)="updateUsername($event)"
             required
@@ -68,7 +54,6 @@
         <button
           class="log-in"
           (click)="IniciarSesion()"
-          routerLink="Sistema/Inicio"
         >
           Iniciar Sesión
         </button>

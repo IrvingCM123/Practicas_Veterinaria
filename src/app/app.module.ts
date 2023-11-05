@@ -38,8 +38,8 @@ import { InfoProdAdapter } from './config/adaptadores/infoProd-adapter/infoProd-
 import { LoginComponent } from './ui/login/login.component';
 import { LoginPort } from './config/puertos/login-puertos/login-ports';
 import { LoginAdapter } from './config/adaptadores/login-adapter/login-adapter';
-
-
+import { KeyboardShortcutsService } from './ui/escaner/atajo_teclado.service';
+import { AlertComponent } from './ui/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,8 @@ import { LoginAdapter } from './config/adaptadores/login-adapter/login-adapter';
     InventarioComponent,
     ProductoComponent,
     AgregarComponent,
-    LoginComponent
+    LoginComponent,
+    AlertComponent,
   ],
   imports: [
     AngularFireAuthModule,
@@ -76,7 +77,8 @@ import { LoginAdapter } from './config/adaptadores/login-adapter/login-adapter';
     {provide: InventarioPort, useClass: InventarioAdapter},
     {provide: ProductoPort, useClass: ProductoAdapter},
     {provide: InfoProdPort, useClass: InfoProdAdapter},
-    {provide: LoginPort, useClass: LoginAdapter}
+    {provide: LoginPort, useClass: LoginAdapter},
+    {provide: KeyboardShortcutsService}
 
   ],
   bootstrap: [AppComponent]
