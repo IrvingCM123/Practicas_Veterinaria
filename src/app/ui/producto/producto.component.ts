@@ -328,6 +328,7 @@ export class ProductoComponent implements OnInit {
         Mensajes_Productos_Modificar.Producto_Eliminar_Cargando;
       this.TipoAlertaPantalla = TypeAlert.Alert_Warning;
       this.MostrarAlertaPantalla = true;
+      this.OcultarPantalla = true;
 
       await this._inventarioUseCase
         .deleteProducto(this.datos_producto.id)
@@ -347,6 +348,7 @@ export class ProductoComponent implements OnInit {
 
       setTimeout(() => {
         this.MostrarAlertaPantalla = false;
+        this.OcultarPantalla = false;
       }, 1000);
 
     } finally {
@@ -449,6 +451,7 @@ export class ProductoComponent implements OnInit {
 
       setTimeout(() => {
         this.MostrarAlertaPantalla = false;
+        this.OcultarPantalla = false;
       }, 1000);
     } finally {
       // Después de que el bloque try...catch...finally ha terminado,
@@ -458,7 +461,7 @@ export class ProductoComponent implements OnInit {
           Mensajes_Productos_Modificar.Producto_Modificar_Success;
         this.TipoAlertaPantalla = TypeAlert.Alert_Success;
         this.MostrarAlertaPantalla = true;
-        this.OcultarPantalla = false;
+        this.OcultarPantalla = true;
 
         setTimeout(() => {
           this.MostrarAlertaPantalla = false;
