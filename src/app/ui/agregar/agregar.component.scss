@@ -272,7 +272,6 @@ img {
   padding:  0;
   min-width: 100%;
   width: 89vw;
-  background-color: white;
   border-radius: 5px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -704,4 +703,8 @@ select option {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.blurred {
+  filter: blur(90px);
 }

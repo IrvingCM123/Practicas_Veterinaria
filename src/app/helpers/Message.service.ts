@@ -15,7 +15,6 @@ export enum Mensajes_Inventario {
 }
 
 export enum Mensajes_Productos_Modificar {
-
   Producto_Cargando_ID = 'Cargando producto por ID...',
   Producto_Cargando_ID_Error = 'Error al cargar el producto por ID',
   Producto_Cargando_ID_Vacio = 'Por favor ingrese un ID válido',
@@ -29,8 +28,16 @@ export enum Mensajes_Productos_Modificar {
   Producto_Eliminar_Cargando = 'Eliminando producto...',
 }
 
-export enum Mensajes_Ventas {
+export enum Mensajes_Productos_Agregar {
+  Producto_Agregar_Existente = 'El producto ya existe',
+  Producto_Agregar_Succes = 'Producto agregado con éxito',
+  Producto_Agregar_Error = 'Error al agregar el producto',
+  Producto_Agregar_Cargando = 'Agregando producto...',
 
+  Informacion_Adicional_Vacia = 'Error al cargar la información adicional del producto',
+}
+
+export enum Mensajes_Ventas {
   Venta_Productos_Success = 'Venta de productos realizada con éxito',
   Venta_Productos_Error = 'Error al realizar la venta de productos',
   Venta_Producto_Cargando = 'Realizando venta de producto...',
@@ -47,7 +54,6 @@ export enum Mensajes_Ventas {
   Monto_Pago_Vacio = 'Por favor ingrese un monto válido',
   Monto_Pago_Error = 'Error al ingresar el monto',
   Monto_Pago_Menor = 'El monto ingresado es menor al total a pagar',
-
 }
 
 export enum Mensajes_Login {

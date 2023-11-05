@@ -14,11 +14,11 @@ export class AlertComponent implements OnInit {
   constructor(private renderer: Renderer2, private el: ElementRef) {}
 
   ngOnInit(): void {
-
+    console.log(this.messageText);
     if (this.messageToShow) {
       // Mostrar la alerta
       this.renderer.addClass(document.body, 'showing-alert');
     }
-    
+
   }
 }

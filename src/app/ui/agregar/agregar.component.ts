@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Location } from '@angular/common';
@@ -5,6 +6,11 @@ import { Location } from '@angular/common';
 import { ProductoUseCase } from 'src/app/domain/producto-domain/client/producto-usecase';
 import { InventarioUseCase } from 'src/app/domain/inventario-domain/client/inventario-usecase';
 import { InfoProdUseCase } from 'src/app/domain/infoProd-domain/client/InfoProd-usecase';
+
+import { Mensajes_Productos_Agregar } from 'src/app/helpers/Message.service';
+import { TypeAlert } from 'src/app/helpers/TypeAlert.service';
+
+import { Router } from '@angular/router';
 
 interface ProductoInterface {
   nombre: string;
@@ -144,18 +150,24 @@ export class AgregarComponent implements OnInit {
   //Variable para el id del producto
   public id_producto_inventario: string | any = '';
 
-  //Variable para el loading
-  loading: boolean = false;
-
   //Variable para el codigo de barras
   public codigoExistente: any;
+
+  //Variable para mostrar las alertas de los mensajes
+  public MostrarAlertaPantalla: boolean = false;
+  public MensajeAlertaPantalla: string = '';
+  public TipoAlertaPantalla: string = '';
+
+  //Variable para difuminar la pantalla
+  public OcultarPantalla: boolean = false;
 
   constructor(
     private storage: AngularFireStorage,
     private _productoUseCase: ProductoUseCase,
     private _location: Location,
     private _inventarioUseCase: InventarioUseCase,
-    private _info: InfoProdUseCase
+    private _info: InfoProdUseCase,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -184,12 +196,18 @@ export class AgregarComponent implements OnInit {
 
   GeneradorCodigoBarras(): string {
     // Genera un número aleatorio de 12 dígitos (código UPC)
-    const randomNumber = Math.floor(100000000000 + Math.random() * 900000000000).toString();
+    const randomNumber = Math.floor(
+      100000000000 + Math.random() * 900000000000
+    ).toString();
 
     // Calcula el dígito de verificación (checksum)
     const digits = randomNumber.split('').map(Number);
-    const evenSum = digits.filter((_, index) => index % 2 === 0).reduce((acc, curr) => acc + curr, 0);
-    const oddSum = digits.filter((_, index) => index % 2 !== 0).reduce((acc, curr) => acc + curr, 0);
+    const evenSum = digits
+      .filter((_, index) => index % 2 === 0)
+      .reduce((acc, curr) => acc + curr, 0);
+    const oddSum = digits
+      .filter((_, index) => index % 2 !== 0)
+      .reduce((acc, curr) => acc + curr, 0);
     const checksum = (10 - ((evenSum * 3 + oddSum) % 10)) % 10;
 
     // Crea el código EAN-13
@@ -206,8 +224,15 @@ export class AgregarComponent implements OnInit {
   }
 
   async GuardarProducto() {
-    this.loading = true;
+    let errorOcurrido = false;
+
     try {
+      this.MensajeAlertaPantalla =
+        Mensajes_Productos_Agregar.Producto_Agregar_Cargando;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
+      this.MostrarAlertaPantalla = true;
+      this.OcultarPantalla = true;
+
       await this.SubirImagenFirestore();
       this.CrearProducto();
       const response: any = await this._productoUseCase
@@ -229,17 +254,41 @@ export class AgregarComponent implements OnInit {
         .toPromise();
       this.id_producto_inventario = response.id;
       await this.CrearProductoInventario(this.id_producto_inventario);
-      await this._inventarioUseCase.postProducto(
-        this.Inventario.existencias,
-        this.Inventario.stock_minimo,
-        this.Inventario.stock_maximo,
-        this.id_producto_inventario
-      ).toPromise();
+      await this._inventarioUseCase
+        .postProducto(
+          this.Inventario.existencias,
+          this.Inventario.stock_minimo,
+          this.Inventario.stock_maximo,
+          this.id_producto_inventario
+        )
+        .toPromise();
     } catch (error) {
-      console.error(error);
+      errorOcurrido = true;
+      this.MensajeAlertaPantalla =
+        Mensajes_Productos_Agregar.Producto_Agregar_Error;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+      this.MostrarAlertaPantalla = true;
+      this.OcultarPantalla = true;
+
+      setTimeout(() => {
+        this.MostrarAlertaPantalla = false;
+        this.OcultarPantalla = false;
+      }, 1000);
+    } finally {
+      if (!errorOcurrido) {
+        this.MensajeAlertaPantalla =
+          Mensajes_Productos_Agregar.Producto_Agregar_Succes;
+        this.TipoAlertaPantalla = TypeAlert.Alert_Success;
+        this.MostrarAlertaPantalla = true;
+        this.OcultarPantalla = true;
+
+        setTimeout(() => {
+          this.MostrarAlertaPantalla = false;
+          this.OcultarPantalla = false;
+          this.router.navigate(['/inventario']);
+        }, 1000);
+      }
     }
-    this.loading = false;
-    window.location.reload();
   }
 
   async SubirImagenFirestore() {
@@ -270,51 +319,81 @@ export class AgregarComponent implements OnInit {
   }
 
   async LlenarDatos() {
-    await this._info.getMarcas().subscribe(
-      (response: any) => {
-        this.arreglo_marcas = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    let errorOcurrido = false;
 
-    this._info.getProveedores().subscribe(
-      (response: any) => {
-        this.arreglo_proveedores = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    try {
+      await this._info.getMarcas().subscribe(
+        (response: any) => {
+          this.arreglo_marcas = response;
+        },
+        (error: any) => {
+          errorOcurrido = true;
+          this.ManejarError();
+        }
+      );
 
-    this._info.getCategorias().subscribe(
-      (response: any) => {
-        this.arrelo_categorias = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      await this._info.getProveedores().subscribe(
+        (response: any) => {
+          this.arreglo_proveedores = response;
+        },
+        (error: any) => {
+          errorOcurrido = true;
+          this.ManejarError();
+        }
+      );
 
-    this._info.getAnimales().subscribe(
-      (response: any) => {
-        console.log(response);
-        this.arreglo_animales = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      await this._info.getCategorias().subscribe(
+        (response: any) => {
+          this.arrelo_categorias = response;
+        },
+        (error: any) => {
+          errorOcurrido = true;
+          this.ManejarError();
+        }
+      );
 
-    this._info.getTipoCantidad().subscribe(
-      (response: any) => {
-        this.arreglo_tipos_cantidad = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      await this._info.getAnimales().subscribe(
+        (response: any) => {
+          this.arreglo_animales = response;
+        },
+        (error: any) => {
+          errorOcurrido = true;
+          this.ManejarError(); 
+        }
+      );
+
+      await this._info.getTipoCantidad().subscribe(
+        (response: any) => {
+          this.arreglo_tipos_cantidad = response;
+        },
+        (error: any) => {
+          errorOcurrido = true;
+          this.ManejarError();
+        }
+      );
+    } catch (error) {
+      errorOcurrido = true;
+      this.ManejarError();
+    }
+
+    if (!errorOcurrido) {
+      // Realizar acciones adicionales si no hubo errores
+    }
+  }
+
+  ManejarError() {
+    this.MensajeAlertaPantalla =
+      Mensajes_Productos_Agregar.Informacion_Adicional_Vacia;
+    this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+    this.MostrarAlertaPantalla = true;
+    this.OcultarPantalla = true;
+
+    console.log('Error al cargar la información adicional del producto');
+
+    setTimeout(() => {
+      this.MostrarAlertaPantalla = false;
+      this.OcultarPantalla = false;
+    }, 1000);
   }
 
   actualizarNombre(event: Event): void {
@@ -345,7 +424,6 @@ export class AgregarComponent implements OnInit {
   actualizarAnimal(event: Event): void {
     this.animal_producto = (event.target as HTMLInputElement).value;
     console.log(this.animal_producto);
-
   }
 
   actualizarCantidad(event: Event): void {
