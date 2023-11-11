@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VentaUseCase } from 'src/app/domain/historial-domain/client/venta-usecase';
+import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
 
 @Component({
   selector: 'app-historial',
@@ -19,16 +19,18 @@ export class HistorialComponent implements OnInit {
     try {
       // Realiza la solicitud para obtener la respuesta
       const response = await this._ventaUseCase
-        .getFechasVentaRegistrada()
+        .getFechaVentas()
         .toPromise();
+
+      console.log(response);
 
       // Verifica que response sea un objeto con la propiedad 'nombresDocumentos'
       if (
         typeof response === 'object' &&
-        Array.isArray(response.nombresDocumentos)
+        Array.isArray(response)
       ) {
         // Obtén los nombres de documentos del campo 'nombresDocumentos'
-        this.Array_Fecha = response.nombresDocumentos;
+        this.Array_Fecha = response;
       } else {
         // Manejo de error si la respuesta no contiene la propiedad 'nombresDocumentos'
         console.error(
@@ -45,13 +47,15 @@ export class HistorialComponent implements OnInit {
   async seleccionarFecha() {
     try {
       const resultado = await this._ventaUseCase
-        .getVentaRegistrada(this.fecha)
+        .getVentas(this.fecha)
         .toPromise();
 
+      console.log(resultado);
+
       // Verificamos que los datos sean válidos antes de asignarlos al array
-      if (resultado && resultado.datosDocumento) {
+      if (resultado && resultado) {
         // Asigna los datos de venta recibidos al array Array_Venta
-        this.Array_Venta = resultado.datosDocumento;
+        this.Array_Venta = resultado;
 
         // Marca la bandera Datos_Recibidos como verdadera
         this.Datos_Recibidos = true;
