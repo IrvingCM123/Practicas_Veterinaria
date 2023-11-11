@@ -311,7 +311,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
       }, 1000);
       return false;
     } else {
-      this.cambio = this.montoAPagar - this.calcularTotalVenta();
+      this.cambio = +(this.montoAPagar - this.calcularTotalVenta()).toFixed(2);
       return true;
     }
   }

@@ -41,7 +41,7 @@
 
     <div class="table-responsive" *ngIf="Datos_Recibidos">
 
-      <div *ngFor="let producto of Array_Venta; let i = index"  class="Mostrar_Tabla">
+      <div *ngFor="let producto of Array_Venta; let i = index" class="Mostrar_Tabla">
 
         <div class="tablaheader">
           <p>
@@ -53,12 +53,13 @@
             <strong> Vendedor: </strong> {{producto.vendedor.acronimo}}
           </p>
 
-          <button class="button-59" role="button"> <strong (click)="DetalleVenta(producto.id_venta)"> Mostrar Detalle De Venta </strong> </button>
+          <button class="button-59" role="button"> <strong (click)="DetalleVenta(producto.id_venta)"> Mostrar Detalle De
+              Venta </strong> </button>
 
         </div>
 
         <div *ngIf="ID_Detalle == producto.id_venta && Mostrar_Detalle">
-          <div *ngFor="let productos of Array_Detalle">
+          <div *ngFor="let productos of Array_Detalle;  let id = index">
             <table class="table">
 
               <thead class="tabla">
@@ -72,8 +73,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let producto of productos.id_producto">
-                  <th scope="row">{{i+1}}</th>
+                <tr *ngFor="let producto of productos.id_producto;">
+                  <th scope="row">{{id+1}}</th>
                   <td>{{producto.nombre}}</td>
                   <td>{{productos.venta_granel}}</td>
                   <td>{{productos.cantidad_vendida}}</td>
@@ -88,6 +89,14 @@
         <div class="tablafooter">
           <p>
             <strong> Total: $</strong> {{producto.total_venta}}
+          </p>
+
+          <p>
+            <strong> Subtotal: $ </strong> {{producto.subtotal}}
+          </p>
+
+          <p>
+            <strong> IVA: $ </strong> {{producto.iva}}
           </p>
 
           <p>
