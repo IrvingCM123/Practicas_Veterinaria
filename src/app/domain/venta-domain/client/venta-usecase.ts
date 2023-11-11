@@ -31,4 +31,16 @@ export class VentaUseCase {
     );
   }
 
+  getVentas(fecha: string): Observable<any> {
+    return this._ventaPort.getVentas(fecha);
+  }
+
+  getFechaVentas(): Observable<any> {
+    return this._ventaPort.getFechaVentas();
+  }
+
+  getDetalleVenta(id: number): Observable<any> {
+    return this._ventaPort.getDetalleVenta(id);
+  }
+
 }

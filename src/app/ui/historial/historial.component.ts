@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VentaUseCase } from 'src/app/domain/historial-domain/client/venta-usecase';
+import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
 
 @Component({
   selector: 'app-historial',
@@ -7,7 +7,7 @@ import { VentaUseCase } from 'src/app/domain/historial-domain/client/venta-useca
   styleUrls: ['./historial.component.scss'],
 })
 export class HistorialComponent implements OnInit {
-  constructor(private _ventaUseCase: VentaUseCase) {}
+  constructor(private _ventaUseCase: VentaUseCase) { }
 
   // Propiedades públicas para almacenar datos y controlar la interfaz de usuario
   public fecha: any;
@@ -15,20 +15,24 @@ export class HistorialComponent implements OnInit {
   public Array_Venta: any = [];
   public Datos_Recibidos: boolean = false;
 
+  public Mostrar_Detalle: boolean = false;
+  public Array_Detalle: any = [];
+  public ID_Detalle: string = '';
+
   async ngOnInit() {
     try {
       // Realiza la solicitud para obtener la respuesta
       const response = await this._ventaUseCase
-        .getFechasVentaRegistrada()
+        .getFechaVentas()
         .toPromise();
 
       // Verifica que response sea un objeto con la propiedad 'nombresDocumentos'
       if (
         typeof response === 'object' &&
-        Array.isArray(response.nombresDocumentos)
+        Array.isArray(response)
       ) {
         // Obtén los nombres de documentos del campo 'nombresDocumentos'
-        this.Array_Fecha = response.nombresDocumentos;
+        this.Array_Fecha = response;
       } else {
         // Manejo de error si la respuesta no contiene la propiedad 'nombresDocumentos'
         console.error(
@@ -45,13 +49,13 @@ export class HistorialComponent implements OnInit {
   async seleccionarFecha() {
     try {
       const resultado = await this._ventaUseCase
-        .getVentaRegistrada(this.fecha)
+        .getVentas(this.fecha)
         .toPromise();
 
       // Verificamos que los datos sean válidos antes de asignarlos al array
-      if (resultado && resultado.datosDocumento) {
+      if (resultado && resultado) {
         // Asigna los datos de venta recibidos al array Array_Venta
-        this.Array_Venta = resultado.datosDocumento;
+        this.Array_Venta = resultado;
 
         // Marca la bandera Datos_Recibidos como verdadera
         this.Datos_Recibidos = true;
@@ -81,4 +85,18 @@ export class HistorialComponent implements OnInit {
       select.classList.remove('selected');
     }
   }
+
+  async DetalleVenta(id_venta: number | any) {
+
+    if (this.Mostrar_Detalle) {
+      this.Mostrar_Detalle = false;
+    } else {
+      this.Mostrar_Detalle = true;
+      this.ID_Detalle = id_venta;
+      let resultado = await this._ventaUseCase.getDetalleVenta(id_venta).toPromise();
+      this.Array_Detalle = resultado;
+    }
+
+  }
+
 }

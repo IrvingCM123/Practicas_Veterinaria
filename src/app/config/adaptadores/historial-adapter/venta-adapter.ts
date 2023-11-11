@@ -10,7 +10,6 @@ import { venta } from 'src/app/domain/historial-domain/models/venta.entity';
   providedIn: 'root',
 })
 export class VentaAdapter extends VentaPort {
-
   api_url = environment.url;
 
   constructor(private _http: HttpClient) {
@@ -24,25 +23,38 @@ export class VentaAdapter extends VentaPort {
   getVentas(fecha: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-
     });
     const options = { headers: headers };
 
-    return this._http.get<any>(`${this.api_url}` + '/venta/' + fecha, options);
+    return this._http.get<any>(
+      `${this.api_url}` + '/venta/fechas/' + fecha,
+      options
+    );
   }
 
   getFechaVentas(): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Origin': 'https://practicas-veterinaria-j4pmzhsb3-irvingconde.vercel.app', // Agrega el origen de tu aplicación
-        'mode': "cors",
-        'Access-Control-Allow-Origin': '*',
-      })
+      }),
     };
 
-    return this._http.get<any>(`${this.api_url}` + '/venta', httpOptions);
+    return this._http.get<any>(
+      `${this.api_url}` + '/venta/fechas/',
+      httpOptions
+    );
   }
 
+  getDetalleVenta(id: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const options = { headers: headers };
+
+    return this._http.get<any>(
+      `${this.api_url}` + '/detalleVenta/venta/' + id,
+      options
+    );
+  }
 
 }

@@ -17,7 +17,7 @@ body {
   position: fixed;
   height: 62%;
   background: #0b132b;
-  width: 6%;
+  width: 2%;
   box-shadow: 1px 0 2px rgba(184, 1, 1, 0.2);
   transition: 1s;
   margin-top: 3%;
@@ -98,10 +98,9 @@ h1 {
     "tabla tabla"
     "tabla tabla";
   width: fit-content;
-  min-width: 90vw;
+  min-width: 96vw;
   max-height: 74vh;
-  margin: 1px 0px 0 7%;
-  padding-right: 10px;
+  margin: 1px 0px 0 3%;
 
   transition: 1s;
   transform-origin: left center;
@@ -128,11 +127,15 @@ table {
 .tabla {
   background: rgba(8, 29, 91, 0.882);
   border-radius: 10px;
+  height: 13%;
+  padding: 0;
 }
 
 .tabla tr th {
   color: #eee;
   font-size: 110%;
+  margin: 0;
+  padding: 0;
 }
 
 table tbody tr td {
@@ -146,6 +149,9 @@ table tbody tr td {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  border-bottom-left-radius : 10px;
+  border-bottom-right-radius: 10px;
+  padding: 0 1%;
 }
 
 .tablafooter p, .tablafooter p strong {
@@ -288,5 +294,74 @@ select.selected {
     margin: 0;
     padding: 0;
   }
+
+}
+
+
+/* CSS */
+.button-59 {
+  align-items: center;
+  background-color: #fff;
+  border: 0px solid #00000049;
+  box-sizing: border-box;
+  color: #000;
+  cursor: pointer;
+  display: inline-flex;
+  fill: #000;
+  font-family: Inter,sans-serif;
+  font-size: 100%;
+  font-weight: 400;
+  height: 5%;
+  justify-content: center;
+  letter-spacing: -.8px;
+  line-height: 24px;
+  min-width: 140px;
+  outline: 0;
+  padding: 0.2%;
+  text-align: center;
+  text-decoration: none;
+  transition: all .3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin: 0.3% 0;
+  background-color: #ffffff;
+}
+
+.button-59:focus {
+  color: #171e29;
+}
+
+.button-59:hover {
+  border-color: #06f;
+  color: #06f;
+  fill: #06f;
+}
+
+.button-59:active {
+  border-color: #06f;
+  color: #06f;
+  fill: #06f;
+}
+
+@media (min-width: 768px) {
+  .button-59 {
+    min-width: 170px;
+  }
+}
+
+.Mostrar_Tabla {
+  margin-top: 2%;
+  border: 1px solid #0b132b;
+  border-radius: 10px;
+  padding: 0.2%;
+}
+
+.Letra_Botones {
+  cursor: pointer;
+  margin: 0 1%;
+  font-size: 120%;
+  font-weight: 500;
+  color: #0b132b;
 
 }

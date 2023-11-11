@@ -20,7 +20,9 @@
         <label class="form-label Titulos"> Fecha Venta: </label>
         <!-- Elemento de selección (select) para la fecha de venta -->
         <!-- Enlace bidireccional con la variable 'fecha' en el componente -->
-        <select style="margin-left: 1%;" class="form-select input" aria-label="Default select example" [(ngModel)]="fecha" (change)="seleccionarFecha()" (change)="handleSelectChange($event)">  <!-- Evento que se activa cuando se cambia la selección -->
+        <select style="margin-left: 1%;" class="form-select input" aria-label="Default select example"
+          [(ngModel)]="fecha" (change)="seleccionarFecha()" (change)="handleSelectChange($event)">
+          <!-- Evento que se activa cuando se cambia la selección -->
           <!-- Opción por defecto -->
           <option selected>Selecciona una fecha: </option>
           <!-- Recorre el array 'Array_Fecha' para crear opciones dinámicas -->
@@ -29,46 +31,86 @@
             <option [ngValue]="item"> {{ item }} </option>
           </ng-container>
         </select>
-      </div>
 
-      <button style="cursor: pointer;" *ngIf="Datos_Recibidos">
-        Generar Reporte
-      </button>
+        <button class=" Letra_Botones button-59" role="button" *ngIf="Datos_Recibidos">
+          Generar Reporte Mensual
+        </button>
+
+        <button class="Letra_Botones button-59" role="button" *ngIf="Datos_Recibidos">
+          Generar Reporte del Dia
+        </button>
+      </div>
 
     </div>
 
-    <div class="table-responsive"  *ngIf="Datos_Recibidos" >
-      <table class="table">
-        <thead class="tabla">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let producto of Array_Venta.ProductosVendidos; let i = index" >
-            <th scope="row"> {{i + 1}} </th>
-            <td> {{producto.Nombre}} </td>
-            <td> {{producto.Cantidad}} </td>
-            <td> ${{producto.Precio}} </td>
-            <td> ${{producto.Subtotal}} </td>
-          </tr>
+    <div class="table-responsive" *ngIf="Datos_Recibidos">
 
-        </tbody>
-      </table>
+      <div *ngFor="let producto of Array_Venta; let i = index" class="Mostrar_Tabla">
 
-      <div class="tablafooter">
-        <p>
-          <strong> Total: $</strong> {{Array_Venta.TotalVenta}}
-        </p>
+        <div class="tablaheader">
+          <p>
+            <strong> Sucursal: </strong> {{producto.sucursal.nombre}} , {{producto.sucursal.ciudad}} -
+            {{producto.sucursal.estado}}
+          </p>
 
-        <p>
-          <strong> Fecha: </strong> {{Array_Venta.FechaVenta}}
-        </p>
+          <p>
+            <strong> Vendedor: </strong> {{producto.vendedor.acronimo}}
+          </p>
+
+          <button class="button-59" role="button">
+            <strong (click)="DetalleVenta(producto.id_venta)"> Mostrar Detalle De Venta </strong>
+          </button>
+
+        </div>
+
+        <div *ngIf="ID_Detalle == producto.id_venta && Mostrar_Detalle">
+          <div *ngFor="let productos of Array_Detalle;  let id = index">
+            <table class="table">
+
+              <thead class="tabla">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Venta Granel</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Precio</th>
+                  <th scope="col">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let producto of productos.id_producto;">
+                  <th scope="row">{{id+1}}</th>
+                  <td>{{producto.nombre}}</td>
+                  <td>{{productos.venta_granel}}</td>
+                  <td>{{productos.cantidad_vendida}}</td>
+                  <td> $ {{productos.precio_producto}}</td>
+                  <td> $ {{productos.subtotal}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tablafooter">
+          <p>
+            <strong> Total: $</strong> {{producto.total_venta}}
+          </p>
+
+          <p>
+            <strong> Subtotal: $ </strong> {{producto.subtotal}}
+          </p>
+
+          <p>
+            <strong> IVA: $ </strong> {{producto.iva}}
+          </p>
+
+          <p>
+            <strong> Fecha: </strong> {{producto.fecha_venta}}
+          </p>
+        </div>
+
       </div>
+
     </div>
   </div>
 
