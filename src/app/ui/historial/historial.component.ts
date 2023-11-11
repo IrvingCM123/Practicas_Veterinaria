@@ -15,14 +15,16 @@ export class HistorialComponent implements OnInit {
   public Array_Venta: any = [];
   public Datos_Recibidos: boolean = false;
 
+  public Mostrar_Detalle: boolean = false;
+  public Array_Detalle: any = [];
+  public ID_Detalle: string = '';
+
   async ngOnInit() {
     try {
       // Realiza la solicitud para obtener la respuesta
       const response = await this._ventaUseCase
         .getFechaVentas()
         .toPromise();
-
-      console.log(response);
 
       // Verifica que response sea un objeto con la propiedad 'nombresDocumentos'
       if (
@@ -49,8 +51,6 @@ export class HistorialComponent implements OnInit {
       const resultado = await this._ventaUseCase
         .getVentas(this.fecha)
         .toPromise();
-
-      console.log(resultado);
 
       // Verificamos que los datos sean válidos antes de asignarlos al array
       if (resultado && resultado) {
@@ -85,4 +85,12 @@ export class HistorialComponent implements OnInit {
       select.classList.remove('selected');
     }
   }
+
+  async DetalleVenta(id_venta: number | any) {
+    this.Mostrar_Detalle = true;
+    this.ID_Detalle = id_venta;
+    let resultado = await this._ventaUseCase.getDetalleVenta(id_venta).toPromise();
+    this.Array_Detalle = resultado;
+  }
+
 }
