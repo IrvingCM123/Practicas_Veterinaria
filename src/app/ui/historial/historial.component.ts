@@ -7,7 +7,7 @@ import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
   styleUrls: ['./historial.component.scss'],
 })
 export class HistorialComponent implements OnInit {
-  constructor(private _ventaUseCase: VentaUseCase) {}
+  constructor(private _ventaUseCase: VentaUseCase) { }
 
   // Propiedades públicas para almacenar datos y controlar la interfaz de usuario
   public fecha: any;
@@ -87,10 +87,16 @@ export class HistorialComponent implements OnInit {
   }
 
   async DetalleVenta(id_venta: number | any) {
-    this.Mostrar_Detalle = true;
-    this.ID_Detalle = id_venta;
-    let resultado = await this._ventaUseCase.getDetalleVenta(id_venta).toPromise();
-    this.Array_Detalle = resultado;
+
+    if (this.Mostrar_Detalle) {
+      this.Mostrar_Detalle = false;
+    } else {
+      this.Mostrar_Detalle = true;
+      this.ID_Detalle = id_venta;
+      let resultado = await this._ventaUseCase.getDetalleVenta(id_venta).toPromise();
+      this.Array_Detalle = resultado;
+    }
+
   }
 
 }
