@@ -31,11 +31,15 @@
             <option [ngValue]="item"> {{ item }} </option>
           </ng-container>
         </select>
-      </div>
 
-      <button style="cursor: pointer;" *ngIf="Datos_Recibidos">
-        Generar Reporte
-      </button>
+        <button class=" Letra_Botones button-59" role="button" *ngIf="Datos_Recibidos">
+          Generar Reporte Mensual
+        </button>
+
+        <button class="Letra_Botones button-59" role="button" *ngIf="Datos_Recibidos">
+          Generar Reporte del Dia
+        </button>
+      </div>
 
     </div>
 

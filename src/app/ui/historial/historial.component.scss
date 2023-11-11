@@ -17,7 +17,7 @@ body {
   position: fixed;
   height: 62%;
   background: #0b132b;
-  width: 6%;
+  width: 2%;
   box-shadow: 1px 0 2px rgba(184, 1, 1, 0.2);
   transition: 1s;
   margin-top: 3%;
@@ -98,10 +98,9 @@ h1 {
     "tabla tabla"
     "tabla tabla";
   width: fit-content;
-  min-width: 90vw;
+  min-width: 93vw;
   max-height: 74vh;
-  margin: 1px 0px 0 7%;
-  padding-right: 10px;
+  margin: 1px 0px 0 3%;
 
   transition: 1s;
   transform-origin: left center;
@@ -356,4 +355,13 @@ select.selected {
   border: 1px solid #0b132b;
   border-radius: 10px;
   padding: 0.2%;
+}
+
+.Letra_Botones {
+  cursor: pointer;
+  margin: 0 1%;
+  font-size: 120%;
+  font-weight: 500;
+  color: #0b132b;
+
 }
