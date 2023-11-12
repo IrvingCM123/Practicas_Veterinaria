@@ -9,7 +9,6 @@ export class PdfService {
     reportTitle: string,
     totalSales: number,
     json1: any,
-    json2: any
   ): Promise<Uint8Array> {
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage();

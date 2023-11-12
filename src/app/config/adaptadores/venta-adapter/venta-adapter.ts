@@ -12,8 +12,7 @@ export class VentasAdapter implements VentaPort {
   apiUrl = environment.url + '/venta/';
   api_url = environment.url;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   postVenta(
     id_vendedor: string,
@@ -80,5 +79,12 @@ export class VentasAdapter implements VentaPort {
       `${this.api_url}` + '/detalleVenta/venta/' + id,
       options
     );
+  }
+
+  getInfoReporte(año: number, mes: number): Observable<any> {
+    return this.http.post<any>(`${this.api_url}` + '/venta/reporte/mensual/', {
+      año,
+      mes,
+    });
   }
 }

@@ -101,18 +101,32 @@ export class HistorialComponent implements OnInit {
   async GenerarReporteMensual() {
     // Convertir json a pdf y descargar
 
-    let json = this.Array_Venta;
-    let json2 = this.Array_Detalle;
+    let informacion_reporte = await this._ventaUseCase
+      .getInfoReporte(2023, 11)
+      .toPromise();
 
-    console.log(json);
+    let mes = 11;
+    let año = 2023;
 
-const pdfBytes = await this._pdfService.generatePdf("Mensual: Noviembre 2023",1000,json, json2);
-// Descargar archivo
-const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-const url = window.URL.createObjectURL(blob);
-const link = document.createElement('a');
-link.href = url;
-link.download = 'reporte.pdf';
-link.click();
+    let nombre_documento = `Mensual ${año} ${mes}`;
+
+    // Iterar sobre la matriz de objetos JSON para obtener el total de ventas
+    let totalSales = 0;
+    informacion_reporte.forEach((jsonObject: { total_venta: any }) => {
+      totalSales += jsonObject.total_venta;
+    });
+
+    const pdfBytes = await this._pdfService.generatePdf(
+      nombre_documento,
+      totalSales,
+      informacion_reporte
+    );
+    // Descargar archivo
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'reporte.pdf';
+    link.click();
   }
 }
