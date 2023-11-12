@@ -14,6 +14,10 @@ export class HistorialComponent implements OnInit {
   ) {}
 
   public fecha: any;
+
+  public Mes_Escogido_Venta: any = 0;
+  public Escoger_Mes: any = [];
+
   public Array_Fecha: any = [];
   public Array_Venta: any = [];
   public Datos_Recibidos: boolean = false;
@@ -23,6 +27,14 @@ export class HistorialComponent implements OnInit {
   public ID_Detalle: string = '';
 
   async ngOnInit() {
+    this.ArregloMeses();
+  }
+
+  async MostrarMesesVenta(mes: number) {
+    console.log(mes);
+  }
+
+  async seleccionarFecha1() {
     try {
       const response = await this._ventaUseCase.getFechaVentas().toPromise();
 
@@ -106,6 +118,60 @@ export class HistorialComponent implements OnInit {
     Link_Descarga_PDF.download = nombre_Archivo;
     Link_Descarga_PDF.click();
   }
+
+  ArregloMeses() {
+    this.Escoger_Mes = [
+      {
+        id: 1,
+        nombre: 'Enero',
+      },
+      {
+        id: 2,
+        nombre: 'Febrero',
+      },
+      {
+        id: 3,
+        nombre: 'Marzo',
+      },
+      {
+        id: 4,
+        nombre: 'Abril',
+      },
+      {
+        id: 5,
+        nombre: 'Mayo',
+      },
+      {
+        id: 6,
+        nombre: 'Junio',
+      },
+      {
+        id: 7,
+        nombre: 'Julio',
+      },
+      {
+        id: 8,
+        nombre: 'Agosto',
+      },
+      {
+        id: 9,
+        nombre: 'Septiembre',
+      },
+      {
+        id: 10,
+        nombre: 'Octubre',
+      },
+      {
+        id: 11,
+        nombre: 'Noviembre',
+      },
+      {
+        id: 12,
+        nombre: 'Diciembre',
+      },
+    ];
+  }
+
 }
 
 export function calcularMes(mes: number) {

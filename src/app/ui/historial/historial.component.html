@@ -13,7 +13,20 @@
   <div class="container">
     <div class="Buscador">
       <div class="mb-3">
+
+        <label class="form-label Titulos"> Selecciona Mes </label>
+
+        <select style="margin-left: 1%" class="form-select input" aria-label="Default select example"
+          [(ngModel)]="Mes_Escogido_Venta" (change)="MostrarMesesVenta(Mes_Escogido_Venta)" (change)="handleSelectChange($event)">
+          <option selected>Selecciona un mes:</option>
+          <ng-container *ngFor="let item of Escoger_Mes">
+            <option [ngValue]="item.id">{{ item.nombre }}</option>
+          </ng-container>
+        </select>
+
+        <!--
         <label class="form-label Titulos"> Fecha Venta: </label>
+
         <select style="margin-left: 1%" class="form-select input" aria-label="Default select example"
           [(ngModel)]="fecha" (change)="seleccionarFecha()" (change)="handleSelectChange($event)">
           <option selected>Selecciona una fecha:</option>
@@ -21,7 +34,7 @@
             <option [ngValue]="item">{{ item }}</option>
           </ng-container>
         </select>
-
+      -->
         <button class="Letra_Botones button-59" role="button" *ngIf="Datos_Recibidos" (click)="GenerarReporteMensual()">
           Generar Reporte Mensual
         </button>
