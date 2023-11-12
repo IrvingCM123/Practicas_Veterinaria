@@ -12,8 +12,7 @@ export class VentasAdapter implements VentaPort {
   apiUrl = environment.url + '/venta/';
   api_url = environment.url;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   postVenta(
     id_vendedor: string,
@@ -70,6 +69,19 @@ export class VentasAdapter implements VentaPort {
     );
   }
 
+  getVentasPorMes(mes: number): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http.get<any>(
+      `${this.api_url}` + '/venta/fechas/mes/' + mes,
+      httpOptions
+    );
+  }
+
   getDetalleVenta(id: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -80,5 +92,12 @@ export class VentasAdapter implements VentaPort {
       `${this.api_url}` + '/detalleVenta/venta/' + id,
       options
     );
+  }
+
+  getInfoReporte(año: number, mes: number): Observable<any> {
+    return this.http.post<any>(`${this.api_url}` + '/venta/reporte/mensual/', {
+      año,
+      mes,
+    });
   }
 }

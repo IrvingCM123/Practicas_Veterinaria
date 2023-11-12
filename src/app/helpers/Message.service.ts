@@ -61,3 +61,21 @@ export enum Mensajes_Login {
   Login_Error = 'Error al iniciar sesión',
   Login_Cargando = 'Iniciando sesión...',
 }
+
+export enum Mensajes_Reportes {
+  Reporte_Generado_Success = 'Reporte generado con éxito',
+  Reporte_Generado_Error = 'Error al generar el reporte',
+  Reporte_Generado_Cargando = 'Generando reporte...',
+
+  Cargando_Fechas = 'Cargando fechas...',
+  Cargando_Fechas_Error = 'Error al cargar las fechas',
+  Fechas_Vacias = 'No hay fechas registradas',
+
+  Cargando_Ventas = 'Cargando ventas...',
+  Cargando_Ventas_Error = 'Error al cargar las ventas',
+
+  Cargando_Detalle_Venta = 'Cargando detalle de venta...',
+  Cargando_Detalle_Venta_Error = 'Error al cargar el detalle de venta',
+  Cargando_Detalle_Venta_Vacio = 'No hay detalle de venta registrado',
+  
+}
