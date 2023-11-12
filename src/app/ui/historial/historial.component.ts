@@ -39,25 +39,56 @@ export class HistorialComponent implements OnInit {
   }
 
   async MostrarMesesVenta(mes: number) {
+    this.MostrarAlertaPantalla = true;
+    this.MensajeAlertaPantalla = Mensajes_Reportes.Cargando_Fechas;
+    this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
+    let response: any = null;
+
     try {
-      const response = await this._ventaUseCase
-        .getVentasPorMes(mes)
-        .toPromise();
+      response = await this._ventaUseCase.getVentasPorMes(mes).toPromise();
 
       if (typeof response === 'object' && Array.isArray(response)) {
         this.Array_Fecha = response;
         this.Mes_Escogido = true;
         this.Datos_Recibidos = true;
-      } else {
-        console.error(
-          'La respuesta no contiene la propiedad "nombresDocumentos":',
-          response
-        );
       }
-    } catch (error) {}
+    } catch (error) {
+      this.MensajeAlertaPantalla = Mensajes_Reportes.Cargando_Fechas_Error;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+      this.MostrarAlertaPantalla = true;
+      setTimeout(() => {
+        this.MostrarAlertaPantalla = false;
+      }, 1000);
+    } finally {
+      if (
+        response === null ||
+        response === undefined ||
+        response === '' ||
+        response.length === 0
+      ) {
+        this.MensajeAlertaPantalla = Mensajes_Reportes.Fechas_Vacias;
+        this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+        this.MostrarAlertaPantalla = true;
+        setTimeout(() => {
+          this.MostrarAlertaPantalla = false;
+        }, 1000);
+      } else {
+        this.MensajeAlertaPantalla = Mensajes_Reportes.Cargando_Fechas;
+        this.TipoAlertaPantalla = TypeAlert.Alert_Success;
+        this.MostrarAlertaPantalla = true;
+        setTimeout(() => {
+          this.MostrarAlertaPantalla = false;
+        }, 1000);
+      }
+    }
   }
 
   async seleccionarFecha() {
+    this.MostrarAlertaPantalla = true;
+    this.MensajeAlertaPantalla = Mensajes_Reportes.Cargando_Ventas;
+    this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
+    let errorOcurrido = false;
+
     try {
       const resultado = await this._ventaUseCase
         .getVentas(this.fecha)
@@ -66,11 +97,24 @@ export class HistorialComponent implements OnInit {
       if (resultado && resultado) {
         this.Array_Venta = resultado;
         this.Datos_Recibidos = true;
-      } else {
-        console.error('Datos de venta no válidos:', resultado);
       }
     } catch (error) {
-      console.error('Error al obtener la venta:', error);
+      errorOcurrido = true;
+      this.MensajeAlertaPantalla = Mensajes_Reportes.Cargando_Ventas_Error;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+      this.MostrarAlertaPantalla = true;
+      setTimeout(() => {
+        this.MostrarAlertaPantalla = false;
+      }, 1000);
+    } finally {
+      if (!errorOcurrido) {
+        this.MensajeAlertaPantalla = Mensajes_Reportes.Cargando_Ventas;
+        this.TipoAlertaPantalla = TypeAlert.Alert_Success;
+        this.MostrarAlertaPantalla = true;
+        setTimeout(() => {
+          this.MostrarAlertaPantalla = false;
+        }, 1000);
+      }
     }
   }
 
@@ -88,12 +132,46 @@ export class HistorialComponent implements OnInit {
     if (this.Mostrar_Detalle) {
       this.Mostrar_Detalle = false;
     } else {
-      this.Mostrar_Detalle = true;
-      this.ID_Detalle = id_venta;
-      let resultado = await this._ventaUseCase
-        .getDetalleVenta(id_venta)
-        .toPromise();
-      this.Array_Detalle = resultado;
+      this.MostrarAlertaPantalla = true;
+      this.MensajeAlertaPantalla = Mensajes_Reportes.Cargando_Detalle_Venta;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
+      let errorOcurrido = false;
+      let resultado: any = null;
+      try {
+        this.Mostrar_Detalle = true;
+        this.ID_Detalle = id_venta;
+        resultado = await this._ventaUseCase
+          .getDetalleVenta(id_venta)
+          .toPromise();
+        this.Array_Detalle = resultado;
+      } catch (error) {
+        errorOcurrido = true;
+        this.MensajeAlertaPantalla =
+          Mensajes_Reportes.Cargando_Detalle_Venta_Error;
+        this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+        this.MostrarAlertaPantalla = true;
+        setTimeout(() => {
+          this.MostrarAlertaPantalla = false;
+        }, 1000);
+      } finally {
+        if (!errorOcurrido) {
+          this.MensajeAlertaPantalla =
+            Mensajes_Reportes.Cargando_Detalle_Venta;
+          this.TipoAlertaPantalla = TypeAlert.Alert_Success;
+          this.MostrarAlertaPantalla = true;
+          setTimeout(() => {
+            this.MostrarAlertaPantalla = false;
+          }, 1000);
+        } else if (resultado === null || resultado === undefined || resultado === '' || resultado.length === 0) {
+          this.MensajeAlertaPantalla =
+            Mensajes_Reportes.Cargando_Detalle_Venta_Vacio;
+          this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+          this.MostrarAlertaPantalla = true;
+          setTimeout(() => {
+            this.MostrarAlertaPantalla = false;
+          }, 1000);
+        }
+      }
     }
   }
 

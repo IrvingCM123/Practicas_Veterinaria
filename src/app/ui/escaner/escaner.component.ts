@@ -292,6 +292,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
       this.guardarVenta();
       this.venta_Service.reiniciarProductosEncontrados();
       this.limpiarPantalla();
+      window.location.reload();
     }
   }
 
@@ -320,6 +321,12 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   }
 
   async guardarVenta() {
+
+    this.MostrarAlertaPantalla = true;
+    let errorOcurrido = false;
+    this.MensajeAlertaPantalla = Mensajes_Ventas.Venta_Producto_Cargando;
+    this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
+
     if (!this.calcularCambio()) {
       return;
     } else {
@@ -411,6 +418,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
           this.MostrarAlertaPantalla = false;
           this.OcultarPantalla = false;
         }, 1000);
+        window.location.reload();
       }
     }
   }
