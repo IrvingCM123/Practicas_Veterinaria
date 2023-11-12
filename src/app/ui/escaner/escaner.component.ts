@@ -73,7 +73,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   public venta_granel_boleean: any = false;
 
   //Variables para el ticket
-  public montoAPagar: number = 0;
+  public montoAPagar: number | any;
   public cambio: number = 0;
 
   //Ubicar el input de busqueda a través de ViewChild

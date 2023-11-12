@@ -44,6 +44,13 @@ export class KeyboardShortcutsService {
     }
   }
 
+  manejarAtajo_Pago() {
+    const inputPago = document.getElementById('inputPago');
+    if (inputPago) {
+      inputPago.focus();
+    }
+  }
+
   registrarAtajosDeTeclado() {
     document.addEventListener('keydown', this.manejarEventosDeTeclado);
   }
@@ -66,6 +73,8 @@ export class KeyboardShortcutsService {
         this.manejarAtajo_RealizarVenta();
       } else if (event.key === 't') {
         this.manejarAtajo_RealizarTicket();
+      } else if (event.key === 'p') {
+        this.manejarAtajo_Pago();
       }
     }
   }
