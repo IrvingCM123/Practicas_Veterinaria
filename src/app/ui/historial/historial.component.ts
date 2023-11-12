@@ -99,7 +99,6 @@ export class HistorialComponent implements OnInit {
   }
 
   async GenerarReporteMensual() {
-    // Convertir json a pdf y descargar
 
     let informacion_reporte = await this._ventaUseCase
       .getInfoReporte(2023, 11)
@@ -111,17 +110,19 @@ export class HistorialComponent implements OnInit {
 
     let nombre_documento = `${mes}-${año}`;
 
-    const pdfBytes = await this._reporteadorPDFService.generarReporte(
+    const PDF_Reporte = await this._reporteadorPDFService.generarReporte(
       nombre_documento,
       informacion_reporte
     );
-    // Descargar archivo
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'reporte.pdf';
-    link.click();
+
+    let nombre_Archivo = `Reporte de Ventas ${mes}-${año}`;
+
+    const archivoPDF = new Blob([PDF_Reporte], { type: 'application/pdf' });
+    const url_ArchivodPDF = window.URL.createObjectURL(archivoPDF);
+    const Link_Descarga_PDF = document.createElement('a');
+    Link_Descarga_PDF.href = url_ArchivodPDF;
+    Link_Descarga_PDF.download = nombre_Archivo;
+    Link_Descarga_PDF.click();
   }
 }
 

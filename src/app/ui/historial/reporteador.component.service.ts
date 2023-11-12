@@ -10,7 +10,7 @@ export class ReporteadorPDFService {
     informacion_Reporte_JSON: any
   ): Promise<Uint8Array> {
     const pdfDoc = await PDFDocument.create();
-    const page = pdfDoc.addPage();
+    let page = pdfDoc.addPage();
     const { width, height } = page.getSize();
     const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
 
@@ -24,9 +24,13 @@ export class ReporteadorPDFService {
     const tel: string = '272-724-2852';
     const cel_1: string = '272-114-6086';
     const cel_2: string = '272-154-7909';
+    const contactInfo = `${direccion} | Tel: ${tel} | Cel: ${cel_1} | Cel: ${cel_2}`;
 
-    let resultado = calcularTotalProductosVendidos(informacion_Reporte_JSON);
-    let totalSales = calcularTotalVentas(informacion_Reporte_JSON);
+    let total_Ventas_Mes = calcularTotalVentasPorMes(informacion_Reporte_JSON);
+    let total_Productos_Vendidos = calcularTotalProductosVendidos(
+      informacion_Reporte_JSON
+    );
+    let total_VentasTotales = calcularTotalVentas(informacion_Reporte_JSON);
 
     page.drawRectangle({
       x: borderX,
@@ -46,7 +50,18 @@ export class ReporteadorPDFService {
       color: rgb(0, 0, 0),
     };
 
-    // Calcular el ancho de cada texto
+    const TitulosStyle = {
+      font,
+      size: 13,
+      color: rgb(1, 0, 0),
+    };
+
+    const ProductosStyle = {
+      font,
+      size: 12,
+      color: rgb(0, 0, 1),
+    };
+
     const businessNameWidth = font.widthOfTextAtSize(
       `Veterinaria: ${Nombre_Negocio}`,
       10
@@ -56,8 +71,8 @@ export class ReporteadorPDFService {
       10
     );
 
-    const businessNameX = borderX + 2;
-    const currentDateX = width - currentDateWidth - borderX - 18;
+    const businessNameX = borderX + 10;
+    const currentDateX = width - currentDateWidth - borderX - 26;
 
     page.drawText(`Reporte ${reportTitle}`, {
       x: businessNameX,
@@ -76,7 +91,7 @@ export class ReporteadorPDFService {
       y: height - 95,
       font,
       size: 14,
-      color: rgb(0, 0, 1), // Azul oscuro
+      color: rgb(0, 0, 1),
     });
 
     const logoUrl = '../../../assets/Imagenes/logo.png';
@@ -101,26 +116,101 @@ export class ReporteadorPDFService {
       height: newHeight,
     });
 
-    page.drawText(`Ventas realizadas en el mes: $${totalSales}`, {
+    page.drawText('Ventas realizadas en el mes:', {
       x: 50,
       y: height - 120,
-      font,
-      size: 12,
+      ...TitulosStyle,
+    });
+
+    page.drawText(`${total_Ventas_Mes}`, {
+      x: 208,
+      y: height - 120,
+      ...commonStyle,
+    });
+
+    const currentTotalWidth = font.widthOfTextAtSize(
+      `Productos: ${total_Productos_Vendidos}`,
+      10
+    );
+
+    const currentVenta = borderX + 21;
+    const currentProductoX = width - currentTotalWidth - borderX - 190;
+
+    page.drawText(`Total de ventas en el mes: `, {
+      x: currentVenta,
+      y: height - 145,
+      ...TitulosStyle,
+    });
+
+    page.drawText(`$${total_VentasTotales}`, {
+      x: 190,
+      y: height - 145,
+      ...commonStyle,
+    });
+
+    page.drawText(`Total de productos vendidos:`, {
+      x: currentProductoX,
+      y: height - 145,
+      ...TitulosStyle,
+    });
+
+    page.drawText(`${total_Productos_Vendidos} productos`, {
+      x: currentProductoX + 152,
+      y: height - 145,
+      ...commonStyle,
+    });
+
+    page.drawLine({
+      start: { x: borderX + 27, y: height - 158 },
+      end: { x: width - borderX - 27, y: height - 158 },
+      thickness: 1,
       color: rgb(0, 0, 0),
     });
 
-    page.drawText(`Total de productos vendidos: ${resultado} productos`, {
-      x: 50,
-      y: height - 140,
-      font,
-      size: 12,
-      color: rgb(0, 0, 0),
-    });
-
-    let currentPositionY = height - 160;
+    let currentPositionY = height - 180;
 
     informacion_Reporte_JSON.forEach((jsonObject: any) => {
-      // Fecha de Venta
+      currentPositionY -= 20;
+      if (currentPositionY < borderY || currentPositionY == borderY) {
+        page.drawText(contactInfo, {
+          x: borderX,
+          y: borderY - 14,
+          font,
+          size: 11,
+          color: rgb(0, 0, 0),
+        });
+        page = pdfDoc.addPage();
+        currentPositionY = height - 60;
+        page.drawRectangle({
+          x: borderX,
+          y: borderY,
+          width: borderWidth,
+          height: borderHeight,
+          borderColor: rgb(0, 0, 0),
+          borderWidth: 1,
+        });
+      }
+
+      if (currentPositionY < 200) {
+        page.drawText(contactInfo, {
+          x: borderX,
+          y: borderY - 14,
+          font,
+          size: 11,
+          color: rgb(0, 0, 0),
+        });
+        page = pdfDoc.addPage();
+        currentPositionY = height - 60;
+        page.drawRectangle({
+          x: borderX,
+          y: borderY,
+          width: borderWidth,
+          height: borderHeight,
+          borderColor: rgb(0, 0, 0),
+          borderWidth: 1,
+        });
+      }
+
       page.drawText(`Fecha de Venta: ${jsonObject.fecha_venta}`, {
         x: 50,
         y: currentPositionY,
@@ -129,11 +219,16 @@ export class ReporteadorPDFService {
         color: rgb(0, 0, 0),
       });
 
-      currentPositionY -= 20;
+      page.drawText(`Total Venta: $${jsonObject.total_venta}`, {
+        x: width / 3,
+        y: currentPositionY,
+        font,
+        size: 12,
+        color: rgb(0, 0, 0),
+      });
 
-      // Vendedor
       page.drawText(`Vendedor: ${jsonObject.vendedor.acronimo}`, {
-        x: 50,
+        x: width / 2 + 30,
         y: currentPositionY,
         font,
         size: 12,
@@ -142,27 +237,92 @@ export class ReporteadorPDFService {
 
       currentPositionY -= 20;
 
-      // Total Venta
-      page.drawText(`Total Venta: ${jsonObject.total_venta}`, {
-        x: 50,
-        y: currentPositionY,
-        font,
-        size: 12,
-        color: rgb(0, 0, 0),
+      jsonObject.detallesVenta.forEach((detalleVenta: any) => {
+        currentPositionY -= 10;
+
+        let productos = detalleVenta.id_producto[0];
+        page.drawText(` * Producto: `, {
+          x: 50,
+          y: currentPositionY,
+          ...ProductosStyle,
+        });
+
+        page.drawText(`${productos.nombre}`, {
+          x: 120,
+          y: currentPositionY,
+          ...commonStyle,
+        });
+
+        currentPositionY -= 25;
+
+        page.drawText(`* Precio de venta: `, {
+          x: 53,
+          y: currentPositionY,
+          ...ProductosStyle,
+        });
+
+        page.drawText(`$${productos.precio}`, {
+          x: 150,
+          y: currentPositionY,
+          ...commonStyle,
+        });
+
+        page.drawText(`* Cantidad: `, {
+          x: width / 3,
+          y: currentPositionY,
+          ...ProductosStyle,
+        });
+
+        page.drawText(`${detalleVenta.cantidad_vendida}`, {
+          x: width / 3 + 70,
+          y: currentPositionY,
+          ...commonStyle,
+        });
+
+        page.drawText(`* Subtotal: `, {
+          x: width / 2 + 30,
+          y: currentPositionY,
+          ...ProductosStyle,
+        });
+
+        page.drawText(`$${detalleVenta.subtotal}`, {
+          x: width / 2 + 100,
+          y: currentPositionY,
+          ...commonStyle,
+        });
+
+        currentPositionY -= 25;
+
+        page.drawText(`* Descripcion:`, {
+          x: 53,
+          y: currentPositionY,
+          ...ProductosStyle,
+        });
+
+        page.drawText(`${productos.descripcion}`, {
+          x: 130,
+          y: currentPositionY,
+          ...commonStyle,
+        });
+
+        currentPositionY -= 20;
       });
 
-      currentPositionY -= 30; // Espacio entre las ventas
-
-      // Agregar más campos según sea necesario...
+      if (currentPositionY > borderY) {
+        page.drawLine({
+          start: { x: borderX + 21, y: currentPositionY },
+          end: { x: width - borderX - 400, y: currentPositionY },
+          thickness: 1,
+          color: rgb(0, 0, 0),
+        });
+      }
     });
-
-    const contactInfo = `${direccion} | Tel: ${tel} | Cel: ${cel_1} | Cel: ${cel_2}`;
 
     page.drawText(contactInfo, {
       x: borderX,
-      y: borderY,
+      y: borderY - 14,
       font,
-      size: 10,
+      size: 11,
       color: rgb(0, 0, 0),
     });
 
@@ -188,5 +348,12 @@ export function calcularTotalVentas(Informacion_JSON: any[] | any) {
     jsonObject.total_venta = +jsonObject.total_venta;
     totalSales += jsonObject.total_venta;
   });
+  totalSales = +totalSales.toFixed(2);
   return totalSales;
+}
+
+export function calcularTotalVentasPorMes(Informacion_JSON: any[] | any) {
+  let totalVentas = 0;
+  totalVentas = Informacion_JSON.length;
+  return totalVentas;
 }
