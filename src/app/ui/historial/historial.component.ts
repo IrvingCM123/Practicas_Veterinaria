@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
 import { ReporteadorPDFService } from './reporteador.component.service';
 
+import { TypeAlert } from 'src/app/helpers/TypeAlert.service';
+import { Mensajes_Reportes } from 'src/app/helpers/Message.service';
+
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.component.html',
@@ -16,6 +19,7 @@ export class HistorialComponent implements OnInit {
   public fecha: any;
 
   public Mes_Escogido_Venta: any = 0;
+  public Mes_Escogido: boolean = false;
   public Escoger_Mes: any = [];
 
   public Array_Fecha: any = [];
@@ -26,29 +30,31 @@ export class HistorialComponent implements OnInit {
   public Array_Detalle: any = [];
   public ID_Detalle: string = '';
 
+  public MensajeAlertaPantalla: string = '';
+  public MostrarAlertaPantalla: boolean = false;
+  public TipoAlertaPantalla: string = '';
+
   async ngOnInit() {
     this.ArregloMeses();
   }
 
   async MostrarMesesVenta(mes: number) {
-    console.log(mes);
-  }
-
-  async seleccionarFecha1() {
     try {
-      const response = await this._ventaUseCase.getFechaVentas().toPromise();
+      const response = await this._ventaUseCase
+        .getVentasPorMes(mes)
+        .toPromise();
 
       if (typeof response === 'object' && Array.isArray(response)) {
         this.Array_Fecha = response;
+        this.Mes_Escogido = true;
+        this.Datos_Recibidos = true;
       } else {
         console.error(
           'La respuesta no contiene la propiedad "nombresDocumentos":',
           response
         );
       }
-    } catch (error) {
-      console.error('Error al obtener los datos:', error);
-    }
+    } catch (error) {}
   }
 
   async seleccionarFecha() {
@@ -60,7 +66,6 @@ export class HistorialComponent implements OnInit {
       if (resultado && resultado) {
         this.Array_Venta = resultado;
         this.Datos_Recibidos = true;
-
       } else {
         console.error('Datos de venta no válidos:', resultado);
       }
@@ -93,30 +98,57 @@ export class HistorialComponent implements OnInit {
   }
 
   async GenerarReporteMensual() {
+    let errorOcurrido = false;
+    let año_actual = new Date().getFullYear();
 
-    let informacion_reporte = await this._ventaUseCase
-      .getInfoReporte(2023, 11)
-      .toPromise();
+    this.MensajeAlertaPantalla = Mensajes_Reportes.Reporte_Generado_Cargando;
+    this.MostrarAlertaPantalla = true;
+    this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
 
-    let mes: any = 11;
-    mes = calcularMes(mes);
-    let año = 2023;
+    try {
+      let informacion_reporte = await this._ventaUseCase
+        .getInfoReporte(año_actual, this.Mes_Escogido_Venta)
+        .toPromise();
 
-    let nombre_documento = `${mes}-${año}`;
+      let mes: any = this.Mes_Escogido_Venta;
+      mes = calcularMes(mes);
+      let año = año_actual;
 
-    const PDF_Reporte = await this._reporteadorPDFService.generarReporte(
-      nombre_documento,
-      informacion_reporte
-    );
+      let nombre_documento = `${mes}-${año}`;
 
-    let nombre_Archivo = `Reporte de Ventas ${mes}-${año}`;
+      const PDF_Reporte = await this._reporteadorPDFService.generarReporte(
+        nombre_documento,
+        informacion_reporte
+      );
 
-    const archivoPDF = new Blob([PDF_Reporte], { type: 'application/pdf' });
-    const url_ArchivodPDF = window.URL.createObjectURL(archivoPDF);
-    const Link_Descarga_PDF = document.createElement('a');
-    Link_Descarga_PDF.href = url_ArchivodPDF;
-    Link_Descarga_PDF.download = nombre_Archivo;
-    Link_Descarga_PDF.click();
+      let nombre_Archivo = `Reporte de Ventas ${mes}-${año}`;
+
+      const archivoPDF = new Blob([PDF_Reporte], { type: 'application/pdf' });
+      const url_ArchivodPDF = window.URL.createObjectURL(archivoPDF);
+      const Link_Descarga_PDF = document.createElement('a');
+      Link_Descarga_PDF.href = url_ArchivodPDF;
+      Link_Descarga_PDF.download = nombre_Archivo;
+      Link_Descarga_PDF.click();
+    } catch (error) {
+      errorOcurrido = true;
+      this.MensajeAlertaPantalla = Mensajes_Reportes.Reporte_Generado_Error;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+      this.MostrarAlertaPantalla = true;
+
+      setTimeout(() => {
+        this.MostrarAlertaPantalla = false;
+      }, 1000);
+    } finally {
+      if (!errorOcurrido) {
+        this.MensajeAlertaPantalla = Mensajes_Reportes.Reporte_Generado_Success;
+        this.TipoAlertaPantalla = TypeAlert.Alert_Success;
+        this.MostrarAlertaPantalla = true;
+
+        setTimeout(() => {
+          this.MostrarAlertaPantalla = false;
+        }, 1000);
+      }
+    }
   }
 
   ArregloMeses() {
@@ -171,7 +203,6 @@ export class HistorialComponent implements OnInit {
       },
     ];
   }
-
 }
 
 export function calcularMes(mes: number) {

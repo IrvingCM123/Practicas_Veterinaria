@@ -247,11 +247,19 @@ export class ReporteadorPDFService {
           ...ProductosStyle,
         });
 
-        page.drawText(`${productos.nombre}`, {
-          x: 120,
-          y: currentPositionY,
-          ...commonStyle,
-        });
+        if (productos?.nombre) {
+          page.drawText(`${productos.nombre}`, {
+            x: 120,
+            y: currentPositionY,
+            ...commonStyle,
+          });
+        } else {
+          page.drawText(`Producto eliminado`, {
+            x: 120,
+            y: currentPositionY,
+            ...commonStyle,
+          });
+        }
 
         currentPositionY -= 25;
 
@@ -261,11 +269,19 @@ export class ReporteadorPDFService {
           ...ProductosStyle,
         });
 
-        page.drawText(`$${productos.precio}`, {
-          x: 150,
-          y: currentPositionY,
-          ...commonStyle,
-        });
+        if (productos?.precio) {
+          page.drawText(`$${productos.precio}`, {
+            x: 150,
+            y: currentPositionY,
+            ...commonStyle,
+          });
+        } else {
+          page.drawText(`eliminado`, {
+            x: 145,
+            y: currentPositionY,
+            ...commonStyle,
+          });
+        }
 
         page.drawText(`* Cantidad: `, {
           x: width / 3,
@@ -273,11 +289,19 @@ export class ReporteadorPDFService {
           ...ProductosStyle,
         });
 
-        page.drawText(`${detalleVenta.cantidad_vendida}`, {
-          x: width / 3 + 70,
-          y: currentPositionY,
-          ...commonStyle,
-        });
+        if (detalleVenta?.cantidad_vendida) {
+          page.drawText(`${detalleVenta.cantidad_vendida}`, {
+            x: width / 3 + 70,
+            y: currentPositionY,
+            ...commonStyle,
+          });
+        } else {
+          page.drawText(`eliminado`, {
+            x: 170,
+            y: currentPositionY,
+            ...commonStyle,
+          });
+        }
 
         page.drawText(`* Subtotal: `, {
           x: width / 2 + 30,
@@ -285,11 +309,19 @@ export class ReporteadorPDFService {
           ...ProductosStyle,
         });
 
-        page.drawText(`$${detalleVenta.subtotal}`, {
-          x: width / 2 + 100,
-          y: currentPositionY,
-          ...commonStyle,
-        });
+        if (detalleVenta?.subtotal) {
+          page.drawText(`$${detalleVenta.subtotal}`, {
+            x: width / 2 + 100,
+            y: currentPositionY,
+            ...commonStyle,
+          });
+        } else {
+          page.drawText(`eliminado`, {
+            x: 120,
+            y: currentPositionY,
+            ...commonStyle,
+          });
+        }
 
         currentPositionY -= 25;
 
@@ -299,11 +331,19 @@ export class ReporteadorPDFService {
           ...ProductosStyle,
         });
 
-        page.drawText(`${productos.descripcion}`, {
-          x: 130,
-          y: currentPositionY,
-          ...commonStyle,
-        });
+        if (productos?.descripcion) {
+          page.drawText(`${productos.descripcion}`, {
+            x: 130,
+            y: currentPositionY,
+            ...commonStyle,
+          });
+        } else {
+          page.drawText(`eliminado`, {
+            x: 130,
+            y: currentPositionY,
+            ...commonStyle,
+          });
+        }
 
         currentPositionY -= 20;
       });

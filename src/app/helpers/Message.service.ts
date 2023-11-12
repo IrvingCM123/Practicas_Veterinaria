@@ -61,3 +61,9 @@ export enum Mensajes_Login {
   Login_Error = 'Error al iniciar sesión',
   Login_Cargando = 'Iniciando sesión...',
 }
+
+export enum Mensajes_Reportes {
+  Reporte_Generado_Success = 'Reporte generado con éxito',
+  Reporte_Generado_Error = 'Error al generar el reporte',
+  Reporte_Generado_Cargando = 'Generando reporte...',
+}
