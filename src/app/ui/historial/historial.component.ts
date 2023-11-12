@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
+import { PdfService } from './reporteador.component.service';
 
 @Component({
   selector: 'app-historial',
@@ -7,7 +8,10 @@ import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
   styleUrls: ['./historial.component.scss'],
 })
 export class HistorialComponent implements OnInit {
-  constructor(private _ventaUseCase: VentaUseCase) { }
+  constructor(
+    private _ventaUseCase: VentaUseCase,
+    private _pdfService: PdfService
+  ) {}
 
   // Propiedades públicas para almacenar datos y controlar la interfaz de usuario
   public fecha: any;
@@ -22,15 +26,10 @@ export class HistorialComponent implements OnInit {
   async ngOnInit() {
     try {
       // Realiza la solicitud para obtener la respuesta
-      const response = await this._ventaUseCase
-        .getFechaVentas()
-        .toPromise();
+      const response = await this._ventaUseCase.getFechaVentas().toPromise();
 
       // Verifica que response sea un objeto con la propiedad 'nombresDocumentos'
-      if (
-        typeof response === 'object' &&
-        Array.isArray(response)
-      ) {
+      if (typeof response === 'object' && Array.isArray(response)) {
         // Obtén los nombres de documentos del campo 'nombresDocumentos'
         this.Array_Fecha = response;
       } else {
@@ -87,16 +86,33 @@ export class HistorialComponent implements OnInit {
   }
 
   async DetalleVenta(id_venta: number | any) {
-
     if (this.Mostrar_Detalle) {
       this.Mostrar_Detalle = false;
     } else {
       this.Mostrar_Detalle = true;
       this.ID_Detalle = id_venta;
-      let resultado = await this._ventaUseCase.getDetalleVenta(id_venta).toPromise();
+      let resultado = await this._ventaUseCase
+        .getDetalleVenta(id_venta)
+        .toPromise();
       this.Array_Detalle = resultado;
     }
-
   }
 
+  async GenerarReporteMensual() {
+    // Convertir json a pdf y descargar
+
+    let json = this.Array_Venta;
+    let json2 = this.Array_Detalle;
+
+    console.log(json);
+
+const pdfBytes = await this._pdfService.generatePdf("Mensual: Noviembre 2023",1000,json, json2);
+// Descargar archivo
+const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+const url = window.URL.createObjectURL(blob);
+const link = document.createElement('a');
+link.href = url;
+link.download = 'reporte.pdf';
+link.click();
+  }
 }
