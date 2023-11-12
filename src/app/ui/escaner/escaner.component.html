@@ -183,20 +183,21 @@
         <label for="Total"> Paga con: $</label>
 
         <input
-          id="Total"
           type="number"
+          id = "inputPago"
           [(ngModel)]="montoAPagar"
+
           (change)="calcularCambio()"
         />
 
         <p style="padding-top: 2px">Cambio: ${{ cambio }}</p>
       </div>
 
-      <button #botonGenerarTicket class="generar_ticket" (click)="generar_Ticket()">
+      <button id="botonGenerarTicket" class="generar_ticket" (click)="generar_Ticket()">
         Generar Ticket
       </button>
 
-      <button #botonRealizarVenta class="generar_ticket" (click)="guardarVenta()">
+      <button id="botonRealizarVenta" class="generar_ticket" (click)="guardarVenta()">
         Realizar Venta
       </button>
     </section>
