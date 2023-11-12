@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VentaUseCase } from 'src/app/domain/venta-domain/client/venta-usecase';
-import { PdfService } from './reporteador.component.service';
+import { ReporteadorPDFService } from './reporteador.component.service';
 
 @Component({
   selector: 'app-historial',
@@ -10,7 +10,7 @@ import { PdfService } from './reporteador.component.service';
 export class HistorialComponent implements OnInit {
   constructor(
     private _ventaUseCase: VentaUseCase,
-    private _pdfService: PdfService
+    private _reporteadorPDFService: ReporteadorPDFService
   ) {}
 
   // Propiedades públicas para almacenar datos y controlar la interfaz de usuario
@@ -105,12 +105,13 @@ export class HistorialComponent implements OnInit {
       .getInfoReporte(2023, 11)
       .toPromise();
 
-    let mes = 11;
+    let mes: any = 11;
+    mes = calcularMes(mes);
     let año = 2023;
 
-    let nombre_documento = `Mensual ${año} ${mes}`;
+    let nombre_documento = `${mes}-${año}`;
 
-    const pdfBytes = await this._pdfService.generatePdf(
+    const pdfBytes = await this._reporteadorPDFService.generarReporte(
       nombre_documento,
       informacion_reporte
     );
@@ -122,4 +123,53 @@ export class HistorialComponent implements OnInit {
     link.download = 'reporte.pdf';
     link.click();
   }
+}
+
+export function calcularMes(mes: number) {
+  // Convertir mes a nombre
+  let nombre_mes: string = '';
+
+  switch (mes) {
+    case 1:
+      nombre_mes = 'Enero';
+      break;
+    case 2:
+      nombre_mes = 'Febrero';
+      break;
+    case 3:
+      nombre_mes = 'Marzo';
+      break;
+    case 4:
+      nombre_mes = 'Abril';
+      break;
+    case 5:
+      nombre_mes = 'Mayo';
+      break;
+    case 6:
+      nombre_mes = 'Junio';
+      break;
+    case 7:
+      nombre_mes = 'Julio';
+      break;
+    case 8:
+      nombre_mes = 'Agosto';
+      break;
+    case 9:
+      nombre_mes = 'Septiembre';
+      break;
+    case 10:
+      nombre_mes = 'Octubre';
+      break;
+    case 11:
+      nombre_mes = 'Noviembre';
+      break;
+    case 12:
+      nombre_mes = 'Diciembre';
+      break;
+    default:
+      nombre_mes = 'Mes';
+      break;
+  }
+
+  return nombre_mes;
 }

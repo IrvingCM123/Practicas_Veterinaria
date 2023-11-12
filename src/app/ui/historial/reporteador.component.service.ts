@@ -4,8 +4,8 @@ import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 @Injectable({
   providedIn: 'root',
 })
-export class PdfService {
-  async generatePdf(
+export class ReporteadorPDFService {
+  async generarReporte(
     reportTitle: string,
     informacion_Reporte_JSON: any
   ): Promise<Uint8Array> {
@@ -101,7 +101,7 @@ export class PdfService {
       height: newHeight,
     });
 
-    page.drawText(`Ventas realizadas en el mes: ${totalSales}`, {
+    page.drawText(`Ventas realizadas en el mes: $${totalSales}`, {
       x: 50,
       y: height - 120,
       font,
@@ -111,13 +111,13 @@ export class PdfService {
 
     page.drawText(`Total de productos vendidos: ${resultado} productos`, {
       x: 50,
-      y: height - 130,
+      y: height - 140,
       font,
       size: 12,
       color: rgb(0, 0, 0),
     });
 
-    let currentPositionY = height - 150;
+    let currentPositionY = height - 160;
 
     informacion_Reporte_JSON.forEach((jsonObject: any) => {
       // Fecha de Venta
