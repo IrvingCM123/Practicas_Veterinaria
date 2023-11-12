@@ -110,15 +110,8 @@ export class HistorialComponent implements OnInit {
 
     let nombre_documento = `Mensual ${año} ${mes}`;
 
-    // Iterar sobre la matriz de objetos JSON para obtener el total de ventas
-    let totalSales = 0;
-    informacion_reporte.forEach((jsonObject: { total_venta: any }) => {
-      totalSales += jsonObject.total_venta;
-    });
-
     const pdfBytes = await this._pdfService.generatePdf(
       nombre_documento,
-      totalSales,
       informacion_reporte
     );
     // Descargar archivo
