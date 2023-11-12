@@ -47,4 +47,8 @@ export class VentaUseCase {
     return this._ventaPort.getInfoReporte(año, mes);
   }
 
+  getVentasPorMes(mes: number): Observable<any> {
+    return this._ventaPort.getVentasPorMes(mes);
+  }
+
 }

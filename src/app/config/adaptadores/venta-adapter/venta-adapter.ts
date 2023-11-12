@@ -69,6 +69,19 @@ export class VentasAdapter implements VentaPort {
     );
   }
 
+  getVentasPorMes(mes: number): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http.get<any>(
+      `${this.api_url}` + '/venta/fechas/mes/' + mes,
+      httpOptions
+    );
+  }
+
   getDetalleVenta(id: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

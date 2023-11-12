@@ -5,11 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class KeyboardShortcutsService {
 
-  private isYKeyPressed = false;
-
   constructor() {
-    document.addEventListener('keydown', this.manejarEventosDeTeclado);
-    document.addEventListener('keyup', this.resetearIsYKeyPressed);
+    document.addEventListener('keydown', this.manejarEventosDeTeclado, { capture: true });
   }
 
   manejarAtajo_BuscarProducto() {
@@ -33,34 +30,43 @@ export class KeyboardShortcutsService {
     }
   }
 
+  manejarAtajo_RealizarVenta() {
+    const botonRealizarVenta = document.getElementById('botonRealizarVenta');
+    if (botonRealizarVenta) {
+      botonRealizarVenta.click();
+    }
+  }
+
+  manejarAtajo_RealizarTicket() {
+    const botonRealizarTicket = document.getElementById('botonGenerarTicket');
+    if (botonRealizarTicket) {
+      botonRealizarTicket.click();
+    }
+  }
+
   registrarAtajosDeTeclado() {
     document.addEventListener('keydown', this.manejarEventosDeTeclado);
   }
 
-  // Remover eventos de teclado
   removerAtajosDeTeclado() {
     document.removeEventListener('keydown', this.manejarEventosDeTeclado);
   }
 
-  // Manejar eventos de teclado
   manejarEventosDeTeclado = (event: KeyboardEvent) => {
+    const altKeyPressed = event.altKey;
 
-    if (event.key === 'y' && !this.isYKeyPressed) {
-      // La tecla 'y' ha sido presionada
-      this.isYKeyPressed = true;
-      event.preventDefault();
-    } else if (event.key === 'b' && this.isYKeyPressed )  {
-      this.manejarAtajo_BuscarProducto();
-    } else if (event.key === 'z' && this.isYKeyPressed ) {
-      this.manejarAtajo_EliminarProductos();
-    } else if (event.key === 'x' && this.isYKeyPressed ) {
-      this.manejarAtajo_LimpiarBusqueda();
+    if (altKeyPressed) {
+      if (event.key === 'b') {
+        this.manejarAtajo_BuscarProducto();
+      } else if (event.key === 'e') {
+        this.manejarAtajo_EliminarProductos();
+      } else if (event.key === 'a') {
+        this.manejarAtajo_LimpiarBusqueda();
+      } else if (event.key === 'v') {
+        this.manejarAtajo_RealizarVenta();
+      } else if (event.key === 't') {
+        this.manejarAtajo_RealizarTicket();
+      }
     }
   }
-
-  resetearIsYKeyPressed = (event: KeyboardEvent) => {
-    if (event.key === 'y') {
-      this.isYKeyPressed = false;
-    }
-  };
 }

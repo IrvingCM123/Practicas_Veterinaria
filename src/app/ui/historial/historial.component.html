@@ -13,52 +13,27 @@
   <div class="container">
     <div class="Buscador">
       <div class="mb-3">
-        <!-- Etiqueta del campo Fecha Venta -->
         <label class="form-label Titulos"> Fecha Venta: </label>
-        <!-- Elemento de selección (select) para la fecha de venta -->
-        <!-- Enlace bidireccional con la variable 'fecha' en el componente -->
-        <select
-          style="margin-left: 1%"
-          class="form-select input"
-          aria-label="Default select example"
-          [(ngModel)]="fecha"
-          (change)="seleccionarFecha()"
-          (change)="handleSelectChange($event)"
-        >
-          <!-- Evento que se activa cuando se cambia la selección -->
-          <!-- Opción por defecto -->
+        <select style="margin-left: 1%" class="form-select input" aria-label="Default select example"
+          [(ngModel)]="fecha" (change)="seleccionarFecha()" (change)="handleSelectChange($event)">
           <option selected>Selecciona una fecha:</option>
-          <!-- Recorre el array 'Array_Fecha' para crear opciones dinámicas -->
           <ng-container *ngFor="let item of Array_Fecha">
-            <!-- Asigna el valor de 'item' a la opción utilizando [ngValue] -->
             <option [ngValue]="item">{{ item }}</option>
           </ng-container>
         </select>
 
-        <button
-          class="Letra_Botones button-59"
-          role="button"
-          *ngIf="Datos_Recibidos"
-          (click)="GenerarReporteMensual()"
-        >
+        <button class="Letra_Botones button-59" role="button" *ngIf="Datos_Recibidos" (click)="GenerarReporteMensual()">
           Generar Reporte Mensual
         </button>
 
-        <button
-          class="Letra_Botones button-59"
-          role="button"
-          *ngIf="Datos_Recibidos"
-        >
+        <button class="Letra_Botones button-59" role="button" *ngIf="Datos_Recibidos">
           Generar Reporte del Dia
         </button>
       </div>
     </div>
 
     <div class="table-responsive" *ngIf="Datos_Recibidos">
-      <div
-        *ngFor="let producto of Array_Venta; let i = index"
-        class="Mostrar_Tabla"
-      >
+      <div *ngFor="let producto of Array_Venta; let i = index" class="Mostrar_Tabla">
         <div class="tablaheader">
           <p>
             <strong> Sucursal: </strong> {{ producto.sucursal.nombre }} ,

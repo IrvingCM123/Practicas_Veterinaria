@@ -15,5 +15,6 @@ export abstract class VentaPort {
   abstract getFechaVentas(): Observable<any>;
   abstract getDetalleVenta(id: number): Observable<any>;
   abstract getInfoReporte(año: number, mes: number): Observable<any>;
+  abstract getVentasPorMes(mes: number): Observable<any>;
 }
 
