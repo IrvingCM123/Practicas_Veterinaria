@@ -18,48 +18,30 @@
       <div class="mb-3">
         <label class="form-label Titulos"> Selecciona Mes </label>
 
-        <select
-          style="margin-left: 1%"
-          class="form-select input"
-          aria-label="Default select example"
-          [(ngModel)]="Mes_Escogido_Venta"
-          (change)="MostrarMesesVenta(Mes_Escogido_Venta)"
-          (change)="handleSelectChange($event)"
-        >
+        <select style="margin-left: 1%" class="form-select input" aria-label="Default select example"
+          [(ngModel)]="Mes_Escogido_Venta" (change)="MostrarMesesVenta(Mes_Escogido_Venta)"
+          (change)="handleSelectChange($event)">
           <option selected>Selecciona un mes:</option>
           <ng-container *ngFor="let item of Escoger_Mes">
             <option [ngValue]="item.id">{{ item.nombre }}</option>
           </ng-container>
         </select>
 
-        <label style="margin-left: 1%"
-        class="form-label Titulos"
-
-        *ngIf="Mes_Escogido">
+        <label style="margin-left: 1%" class="form-label Titulos" *ngIf="Mes_Escogido && Mostrar_Botones">
           Fecha Venta:
         </label>
 
-        <select
-        *ngIf="Mes_Escogido"
-          style="margin-left: 1%"
-          class="form-select input"
-          aria-label="Default select example"
-          [(ngModel)]="fecha"
-          (change)="seleccionarFecha()"
-          (change)="handleSelectChange($event)"
-        >
+        <select *ngIf="Mes_Escogido && Mostrar_Botones" style="margin-left: 1%" class="form-select input"
+          aria-label="Default select example" [(ngModel)]="fecha" (change)="seleccionarFecha()"
+          (change)="handleSelectChange($event)">
           <option selected>Selecciona una fecha:</option>
           <ng-container *ngFor="let item of Array_Fecha">
             <option [ngValue]="item">{{ item }}</option>
           </ng-container>
         </select>
 
-        <button
-          class="Letra_Botones button-59"
-          role="button"
-          *ngIf="Datos_Recibidos"
-          (click)="GenerarReporteMensual()"
-        >
+        <button class="Letra_Botones button-59" role="button" *ngIf="Mostrar_Botones == true"
+          (click)="GenerarReporteMensual()">
           Generar Reporte Mensual
         </button>
 
@@ -67,10 +49,7 @@
     </div>
 
     <div class="table-responsive" *ngIf="Datos_Recibidos">
-      <div
-        *ngFor="let producto of Array_Venta; let i = index"
-        class="Mostrar_Tabla"
-      >
+      <div *ngFor="let producto of Array_Venta; let i = index" class="Mostrar_Tabla">
         <div class="tablaheader">
           <p>
             <strong> Sucursal: </strong> {{ producto.sucursal.nombre }} ,

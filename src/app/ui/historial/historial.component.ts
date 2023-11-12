@@ -34,6 +34,8 @@ export class HistorialComponent implements OnInit {
   public MostrarAlertaPantalla: boolean = false;
   public TipoAlertaPantalla: string = '';
 
+  public Mostrar_Botones = false;
+
   async ngOnInit() {
     this.ArregloMeses();
   }
@@ -56,6 +58,7 @@ export class HistorialComponent implements OnInit {
       this.MensajeAlertaPantalla = Mensajes_Reportes.Cargando_Fechas_Error;
       this.TipoAlertaPantalla = TypeAlert.Alert_Error;
       this.MostrarAlertaPantalla = true;
+      this.Mostrar_Botones = false;
       setTimeout(() => {
         this.MostrarAlertaPantalla = false;
       }, 1000);
@@ -69,12 +72,14 @@ export class HistorialComponent implements OnInit {
         this.MensajeAlertaPantalla = Mensajes_Reportes.Fechas_Vacias;
         this.TipoAlertaPantalla = TypeAlert.Alert_Error;
         this.MostrarAlertaPantalla = true;
+
         setTimeout(() => {
           this.MostrarAlertaPantalla = false;
         }, 1000);
       } else {
         this.MensajeAlertaPantalla = Mensajes_Reportes.Cargando_Fechas;
         this.TipoAlertaPantalla = TypeAlert.Alert_Success;
+        this.Mostrar_Botones = true;
         this.MostrarAlertaPantalla = true;
         setTimeout(() => {
           this.MostrarAlertaPantalla = false;
