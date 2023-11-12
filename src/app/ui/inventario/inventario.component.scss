@@ -10,9 +10,8 @@ body {
 
   overflow-y: hidden;
   overflow-x: hidden;
-  margin-left: 10px;
   margin-top: 10px;
-  margin: 1px 0px 0 7%;
+  margin: 1px 0px 0 2%;
   padding-right: 10px;
 
   transition: 1s;
@@ -39,7 +38,18 @@ body {
   overflow-y: hidden;
 }
 
-.contenedor-productos-perros{
+.contenedor-productos-perros {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 0;
+
+  height: max-content + 70%;
+  min-height: 150px;
+  max-height: max-content + 60%;
+}
+
+.contenedor-productos-gatos {
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -50,24 +60,14 @@ body {
   max-height: 100%;
 }
 
-.contenedor-productos-gatos{
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  margin-top: 0;
-
-  height: fit-content;
-  min-height: 150px;
-  max-height: 100%;
-}
-
-.contenedor-perros{
-  min-width: 100%;
+.contenedor-perros {
+  width: max-content + 100px;
+  max-width: auto;
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-.contenedor-gatos{
+.contenedor-gatos {
   min-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
@@ -95,90 +95,100 @@ body {
   background-color: #0056b3;
 }
 
-.nft{
-  user-select:none;
+.nft {
+  user-select: none;
+  width: 100%;
   max-width: 300px;
   margin: 1rem auto;
   border: 1px solid #0b05b022;
   background-color: #7e92c3;
-  background: linear-gradient(0deg, rgb(39, 56, 105) 0%, rgba(27, 92, 142, 0.6) 100%);
+  background: linear-gradient(
+    0deg,
+    rgb(39, 56, 105) 0%,
+    rgba(27, 92, 142, 0.6) 100%
+  );
   box-shadow: 0 7px 20px 5px #cdd3d788;
-  border-radius: .7rem;
+  border-radius: 0.7rem;
   backdrop-filter: blur(7px);
   -webkit-backdrop-filter: blur(7px);
   overflow: hidden;
-  transition: .5s all;
-  hr{
+  transition: 0.5s all;
+  hr {
     width: 100%;
     border: none;
     border-bottom: 1px solid #88888855;
     margin-top: 0;
   }
-  ins{
+  ins {
     text-decoration: none;
   }
-  .main{
+  .main {
     display: flex;
     flex-direction: column;
     width: 90%;
     padding: 1rem;
-    .tokenImage{
-      border-radius: .5rem;
+    height: auto;
+
+    .tokenImage {
+      border-radius: 0.5rem;
       max-width: 100%;
       height: 250px;
       object-fit: cover;
     }
-    .description{
-      margin: .5rem 0;
+    .description {
+      margin: 0.5rem 0;
       color: #1c1a1a;
       font-weight: 700;
       font-size: 100%;
+      animation: scrollText 5s linear infinite; /* animación para el desplazamiento hacia abajo */
+      white-space: nowrap;
+      overflow: hidden;
     }
-    .tokenInfo{
+    .tokenInfo {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .price{
+      .price {
         display: flex;
         align-items: center;
         color: #ffffff;
         font-weight: 700;
-        ins{
-          margin-left: -.3rem;
-          margin-right: .5rem;
+        ins {
+          margin-left: -0.3rem;
+          margin-right: 0.5rem;
         }
       }
-      .duration{
+      .duration {
         display: flex;
         align-items: center;
         color: #ffffff;
-        margin-right: .2rem;
-        ins{
-          margin: .5rem;
-          margin-bottom: .4rem;
+        margin-right: 0.2rem;
+        ins {
+          margin: 0.5rem;
+          margin-bottom: 0.4rem;
         }
       }
     }
-    .creator{
+    .creator {
       display: flex;
       align-items: center;
-      margin-top: .2rem;
-      margin-bottom: -.3rem;
-      ins{
+      margin-top: 0.2rem;
+      margin-bottom: -0.3rem;
+      ins {
         color: hsl(0, 0%, 100%);
         font-size: 100%;
         text-decoration: none;
       }
-      .wrapper{
+      .wrapper {
         display: flex;
         align-items: center;
         border: 1px solid #ffffff22;
-        padding: .3rem;
+        padding: 0.3rem;
         margin: 0;
-        margin-right: .5rem;
+        margin-right: 0.5rem;
         border-radius: 100%;
         box-shadow: inset 0 0 0 4px #000000aa;
-        img{
+        img {
           border-radius: 100%;
           border: 1px solid #ffffff22;
           width: 2rem;
@@ -189,7 +199,7 @@ body {
       }
     }
   }
-  ::before{
+  ::before {
     position: fixed;
     content: "";
     box-shadow: 0 0 100px 40px #ffffff08;
@@ -197,38 +207,37 @@ body {
     left: -100%;
     transform: rotate(-45deg);
     height: 60rem;
-    transition: .7s all;
+    transition: 0.7s all;
   }
-  &:hover{
+  &:hover {
     border: 1px solid #ffffff44;
     box-shadow: 0 7px 50px 10px #000000aa;
     transform: scale(1.015);
     filter: brightness(1.3);
-    ::before{
-      filter: brightness(.5);
+    ::before {
+      filter: brightness(0.5);
       top: -100%;
       left: 200%;
     }
   }
 }
 
-.bg{
+.bg {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  h1{
+  h1 {
     font-size: 20rem;
     filter: opacity(0.5);
   }
 }
 
-
 .menu {
   position: fixed;
   height: 62%;
   background: #0b132b;
-  width: 6%;
+  width: 2%;
   box-shadow: 1px 0 2px rgba(184, 1, 1, 0.2);
   transition: 1s;
   margin-top: 3%;
@@ -248,7 +257,6 @@ body {
 .menu:hover nav {
   left: 2%;
 }
-
 
 nav {
   position: absolute;
@@ -288,7 +296,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  color: #eee;
+  color: aqua;
 }
 
 p {
@@ -301,7 +309,6 @@ h1 {
   margin: 0;
   padding: 0;
 }
-
 
 @keyframes fadeInOut {
   0% {
@@ -317,7 +324,6 @@ h1 {
     opacity: 0;
   }
 }
-
 
 @media only screen and (min-width: 600px) and (max-width: 800px) {
   .interfaz {
@@ -338,7 +344,6 @@ h1 {
   .interfaz::-webkit-scrollbar {
     width: 8px;
     height: 6px;
-
   }
 
   .contenedor::-webkit-scrollbar-thumb,
@@ -351,10 +356,7 @@ h1 {
   .interfaz::-webkit-scrollbar-track {
     background-color: #0b132b;
   }
-
 }
-
-
 
 @media only screen and (min-width: 801px) and (max-width: 1190px) {
   .interfaz {
@@ -373,16 +375,15 @@ h1 {
     margin-top: 13%;
   }
 
+  .menu nav ul li {
+    font-size: 120%;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
 
-.menu nav ul li {
-  font-size: 120%;
-  text-decoration: none;
-  color: white;
-  font-weight: 600;
-
-  margin: 500px 0;
-  padding: 0;
-}
+    margin: 500px 0;
+    padding: 0;
+  }
 }
 
 .grupo-input {
@@ -411,7 +412,6 @@ h1 {
   background: #3c66da;
 }
 
-
 @media only screen and (max-width: 800px) {
   .interfaz {
     min-width: 100%;
@@ -439,7 +439,6 @@ h1 {
     overflow-y: auto;
   }
 
-
   .contenedor {
     flex-grow: 1;
     margin-left: 15%;
@@ -461,9 +460,7 @@ h1 {
     margin: 0;
     padding: 0;
   }
-
 }
-
 
 .blurred {
   filter: blur(20px);

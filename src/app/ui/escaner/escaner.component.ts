@@ -57,7 +57,6 @@ export interface ProductoVenta {
   styleUrls: ['./escaner.component.scss'],
 })
 export class EscanerComponent implements OnInit, AfterViewInit {
-
   // Variables para el escaner
   public id_Producto_Input: string = '';
 
@@ -110,9 +109,21 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     private venta_Service: Venta_Service,
     private cdr: ChangeDetectorRef,
     private _ventaUseCase: VentaUseCase,
-    private _keyboardShortcutsService: KeyboardShortcutsService,
+    private _keyboardShortcutsService: KeyboardShortcutsService
   ) {
+    //this.desactivarEventosTecladoNavegador();
     this._keyboardShortcutsService.registrarAtajosDeTeclado();
+  }
+
+  desactivarEventosTecladoNavegador() {
+    document.addEventListener('keydown', this.prevenirEventosTeclado, true);
+  }
+
+  // Método para prevenir eventos de teclado
+  prevenirEventosTeclado(event: KeyboardEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this._keyboardShortcutsService.manejarEventosDeTeclado(event);
   }
 
   async ngOnInit() {
@@ -130,30 +141,23 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   }
 
   async buscar_Producto() {
-
     if (this.id_Producto_Input.trim() === '') {
-
-      this.MensajeAlertaPantalla = Mensajes_Ventas.Busqueda_ID_Producto_Vacio
+      this.MensajeAlertaPantalla = Mensajes_Ventas.Busqueda_ID_Producto_Vacio;
       this.TipoAlertaPantalla = TypeAlert.Alert_Warning;
       this.MostrarAlertaPantalla = true;
-
     } else {
-
       let obtener_busqueda: Producto | boolean = await this.buscar_Producto_BD(
         this.id_Producto_Input
       );
 
       if (obtener_busqueda === false) {
-
-        this.MensajeAlertaPantalla = Mensajes_Ventas.Busqueda_ID_Producto_Error
+        this.MensajeAlertaPantalla = Mensajes_Ventas.Busqueda_ID_Producto_Error;
         this.TipoAlertaPantalla = TypeAlert.Alert_Error;
         this.MostrarAlertaPantalla = true;
 
         this.Mostrar_Producto = false;
         this.producto_Encontrado = [];
-
       } else {
-
         this.Mostrar_Producto = true;
         this.producto_Encontrado = obtener_busqueda;
 
@@ -182,8 +186,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   }
 
   async buscar_Producto_BD(producto_deseado: string) {
-
-    this.MensajeAlertaPantalla = Mensajes_Ventas.Busqueda_ID_Producto_Cargando
+    this.MensajeAlertaPantalla = Mensajes_Ventas.Busqueda_ID_Producto_Cargando;
     this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
     this.MostrarAlertaPantalla = true;
 
@@ -259,7 +262,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
         fecha: `${fechaFormateada} ${horaFormateada}`,
         productos: this.productosVenta.map((producto: Agregar_Producto) => {
           const precioProducto = +(this.venta_granel_boleean &&
-            producto.VentaGranel
+          producto.VentaGranel
             ? producto.Precio_granel
             : producto.Precio);
           return {
@@ -289,6 +292,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
       this.guardarVenta();
       this.venta_Service.reiniciarProductosEncontrados();
       this.limpiarPantalla();
+      window.location.reload();
     }
   }
 
@@ -311,12 +315,18 @@ export class EscanerComponent implements OnInit, AfterViewInit {
       }, 1000);
       return false;
     } else {
-      this.cambio = this.montoAPagar - this.calcularTotalVenta();
+      this.cambio = +(this.montoAPagar - this.calcularTotalVenta()).toFixed(2);
       return true;
     }
   }
 
   async guardarVenta() {
+
+    this.MostrarAlertaPantalla = true;
+    let errorOcurrido = false;
+    this.MensajeAlertaPantalla = Mensajes_Ventas.Venta_Producto_Cargando;
+    this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
+
     if (!this.calcularCambio()) {
       return;
     } else {
@@ -326,11 +336,12 @@ export class EscanerComponent implements OnInit, AfterViewInit {
         const mes = fechaActual.getMonth() + 1;
         const dia = fechaActual.getDate();
 
-        const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''
-          }${dia}`;
+        const fechaVenta = `${año}-${mes < 10 ? '0' : ''}${mes}-${
+          dia < 10 ? '0' : ''
+        }${dia}`;
 
-        const iva = this.calcularIvaVenta(); // Calcula el IVA acumulado de todos los productos
-        const subtotal = this.calcularSubtotal(); // Calcula el subtotal sin IVA
+        const iva = this.calcularIvaVenta();
+        const subtotal = this.calcularSubtotal();
 
         const total = subtotal + iva;
 
@@ -407,6 +418,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
           this.MostrarAlertaPantalla = false;
           this.OcultarPantalla = false;
         }, 1000);
+        window.location.reload();
       }
     }
   }
@@ -505,7 +517,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     if (this.inputDinamicoCantidad.length > 0) {
       this.inputDinamicoCantidad
         .toArray()
-      [this.contadorInputDinamicoCantidad].nativeElement.focus();
+        [this.contadorInputDinamicoCantidad].nativeElement.focus();
       this.contadorInputDinamicoCantidad =
         (this.contadorInputDinamicoCantidad + 1) %
         this.inputDinamicoCantidad.length;
@@ -516,7 +528,7 @@ export class EscanerComponent implements OnInit, AfterViewInit {
     if (this.inputDinamicoGranel.length > 0) {
       this.inputDinamicoGranel
         .toArray()
-      [this.contadorInputDinamicoGranel].nativeElement.click();
+        [this.contadorInputDinamicoGranel].nativeElement.click();
       this.contadorInputDinamicoGranel =
         (this.contadorInputDinamicoGranel + 1) %
         this.inputDinamicoGranel.length;
@@ -528,14 +540,19 @@ export class EscanerComponent implements OnInit, AfterViewInit {
   }
 
   manejarEventosDeTeclado = (event: KeyboardEvent) => {
-    if (event.key === 'm') {
+    const altKeyPressed = event.altKey;
+
+    if (altKeyPressed) {
+    if (event.key === 'c') {
       this.manejarAtajo_ActualizarCantidad();
-    } else if (event.key === 'b') {
+    } else if (event.key === 'g') {
       this.manejarAtajo_PermitirVentaGranel();
     }
+  }
   };
 
   ngOnDestroy() {
     this._keyboardShortcutsService.removerAtajosDeTeclado();
+    document.removeEventListener('keydown', this.prevenirEventosTeclado, true);
   }
 }

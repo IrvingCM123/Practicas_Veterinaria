@@ -7,7 +7,7 @@ import { VentaPort } from 'src/app/config/puertos/venta-puertos/venta-ports';
 @Injectable({
   providedIn: 'root'
 })
-export class VentaUseCase {
+export class VentaUseCase1 {
 
   constructor (private _ventaPort: VentaPort) {}
 

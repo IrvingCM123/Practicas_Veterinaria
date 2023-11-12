@@ -6,18 +6,13 @@ import { VentaPort } from '../../puertos/venta-puertos/venta-ports';
 import { venta_Entity } from 'src/app/domain/venta-domain/models/venta.entity';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VentasAdapter implements VentaPort {
-  apiUrl = environment.url + "/venta/";
+  apiUrl = environment.url + '/venta/';
+  api_url = environment.url;
 
-  constructor(private http: HttpClient) { }
-  getVentas(fecha: string): Observable<any> {
-    throw new Error('Method not implemented.');
-  }
-  getFechaVentas(): Observable<any> {
-    throw new Error('Method not implemented.');
-  }
+  constructor(private http: HttpClient) {}
 
   postVenta(
     id_vendedor: string,
@@ -28,7 +23,8 @@ export class VentasAdapter implements VentaPort {
     iva: string,
     detallesVenta: any[]
   ): Observable<venta_Entity> {
-    console.log("adapter",
+    console.log(
+      'adapter',
       id_vendedor,
       id_sucursal,
       fecha_venta,
@@ -45,10 +41,63 @@ export class VentasAdapter implements VentaPort {
       subtotal,
       iva,
       detallesVenta,
-    }
+    });
+  }
+
+  getVentas(fecha: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const options = { headers: headers };
+
+    return this.http.get<any>(
+      `${this.api_url}` + '/venta/fechas/' + fecha,
+      options
     );
   }
 
+  getFechaVentas(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
 
+    return this.http.get<any>(
+      `${this.api_url}` + '/venta/fechas/',
+      httpOptions
+    );
+  }
 
+  getVentasPorMes(mes: number): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http.get<any>(
+      `${this.api_url}` + '/venta/fechas/mes/' + mes,
+      httpOptions
+    );
+  }
+
+  getDetalleVenta(id: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const options = { headers: headers };
+
+    return this.http.get<any>(
+      `${this.api_url}` + '/detalleVenta/venta/' + id,
+      options
+    );
+  }
+
+  getInfoReporte(año: number, mes: number): Observable<any> {
+    return this.http.post<any>(`${this.api_url}` + '/venta/reporte/mensual/', {
+      año,
+      mes,
+    });
+  }
 }
