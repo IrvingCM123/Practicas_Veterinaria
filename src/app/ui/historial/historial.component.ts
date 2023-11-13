@@ -5,8 +5,6 @@ import { ReporteadorPDFService } from './reporteador.component.service';
 import { TypeAlert } from 'src/app/helpers/TypeAlert.service';
 import { Mensajes_Reportes } from 'src/app/helpers/Message.service';
 
-import { NgZone } from '@angular/core';
-
 
 @Component({
   selector: 'app-historial',
@@ -16,8 +14,7 @@ import { NgZone } from '@angular/core';
 export class HistorialComponent implements OnInit {
   constructor(
     private _ventaUseCase: VentaUseCase,
-    private _reporteadorPDFService: ReporteadorPDFService,
-    private zone: NgZone
+    private _reporteadorPDFService: ReporteadorPDFService
   ) {}
 
   public fecha: any;
@@ -193,8 +190,6 @@ export class HistorialComponent implements OnInit {
     this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
 
     try {
-      this.zone.run(async () => {
-
       let informacion_reporte = await this._ventaUseCase
         .getInfoReporte(año_actual, this.Mes_Escogido_Venta)
         .toPromise();
@@ -218,7 +213,6 @@ export class HistorialComponent implements OnInit {
       Link_Descarga_PDF.href = url_ArchivodPDF;
       Link_Descarga_PDF.download = nombre_Archivo;
       Link_Descarga_PDF.click();
-      });
     } catch (error) {
       errorOcurrido = true;
       this.MensajeAlertaPantalla = Mensajes_Reportes.Reporte_Generado_Error;

@@ -94,7 +94,7 @@ export class ReporteadorPDFService {
       color: rgb(0, 0, 1),
     });
 
-    const logoUrl = '../../../assets/Imagenes/logo.png';
+    const logoUrl = '/assets/Imagenes/logo.png';
     const logoImageBytes = await fetch(logoUrl).then((res) =>
       res.arrayBuffer()
     );
