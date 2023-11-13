@@ -5,6 +5,7 @@ import { ReporteadorPDFService } from './reporteador.component.service';
 import { TypeAlert } from 'src/app/helpers/TypeAlert.service';
 import { Mensajes_Reportes } from 'src/app/helpers/Message.service';
 
+
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.component.html',
