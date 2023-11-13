@@ -1,75 +1,108 @@
-<div class="interfaz">
+<app-alert *ngIf="MostrarAlertaPantalla" [messageToShow]="TipoAlertaPantalla"
+  [messageText]="MensajeAlertaPantalla"></app-alert>
 
+<div class="interfaz">
   <div class="menu">
     <nav>
       Veterinaria
       <ul>
-        <li><a href="historial_venta">Historial</a></li>
-        <li><a href="ventas">Venta</a></li>
-        <li><a href="#">Estadisticas</a></li>
+        <li><a routerLink="/historial_venta" routerLinkActive="active">Historial</a></li>
+        <li><a routerLink="/ventas" routerLinkActive="active">Venta</a></li>
+        <li><a routerLink="/#" routerLinkActive="active">Estadisticas</a></li>
       </ul>
     </nav>
   </div>
 
   <div class="container">
-
     <div class="Buscador">
-
       <div class="mb-3">
-        <!-- Etiqueta del campo Fecha Venta -->
-        <label class="form-label Titulos"> Fecha Venta: </label>
-        <!-- Elemento de selección (select) para la fecha de venta -->
-        <!-- Enlace bidireccional con la variable 'fecha' en el componente -->
-        <select style="margin-left: 1%;" class="form-select input" aria-label="Default select example" [(ngModel)]="fecha" (change)="seleccionarFecha()" (change)="handleSelectChange($event)">  <!-- Evento que se activa cuando se cambia la selección -->
-          <!-- Opción por defecto -->
-          <option selected>Selecciona una fecha: </option>
-          <!-- Recorre el array 'Array_Fecha' para crear opciones dinámicas -->
-          <ng-container *ngFor="let item of Array_Fecha">
-            <!-- Asigna el valor de 'item' a la opción utilizando [ngValue] -->
-            <option [ngValue]="item"> {{ item }} </option>
+        <label class="form-label Titulos"> Selecciona Mes </label>
+
+        <select style="margin-left: 1%" class="form-select input" aria-label="Default select example"
+          [(ngModel)]="Mes_Escogido_Venta" (change)="MostrarMesesVenta(Mes_Escogido_Venta)"
+          (change)="handleSelectChange($event)">
+          <option selected>Selecciona un mes:</option>
+          <ng-container *ngFor="let item of Escoger_Mes">
+            <option [ngValue]="item.id">{{ item.nombre }}</option>
           </ng-container>
         </select>
+
+        <label style="margin-left: 1%" class="form-label Titulos" *ngIf="Mes_Escogido && Mostrar_Botones">
+          Fecha Venta:
+        </label>
+
+        <select *ngIf="Mes_Escogido && Mostrar_Botones" style="margin-left: 1%" class="form-select input"
+          aria-label="Default select example" [(ngModel)]="fecha" (change)="seleccionarFecha()"
+          (change)="handleSelectChange($event)">
+          <option selected>Selecciona una fecha:</option>
+          <ng-container *ngFor="let item of Array_Fecha">
+            <option [ngValue]="item">{{ item }}</option>
+          </ng-container>
+        </select>
+
+        <button class="Letra_Botones button-59" role="button" *ngIf="Mostrar_Botones == true"
+          (click)="GenerarReporteMensual()">
+          Generar Reporte Mensual
+        </button>
+
       </div>
-
-      <button style="cursor: pointer;" *ngIf="Datos_Recibidos">
-        Generar Reporte
-      </button>
-
     </div>
 
-    <div class="table-responsive"  *ngIf="Datos_Recibidos" >
-      <table class="table">
-        <thead class="tabla">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let producto of Array_Venta.ProductosVendidos; let i = index" >
-            <th scope="row"> {{i + 1}} </th>
-            <td> {{producto.Nombre}} </td>
-            <td> {{producto.Cantidad}} </td>
-            <td> ${{producto.Precio}} </td>
-            <td> ${{producto.Subtotal}} </td>
-          </tr>
+    <div class="table-responsive" *ngIf="Datos_Recibidos">
+      <div *ngFor="let producto of Array_Venta; let i = index" class="Mostrar_Tabla">
+        <div class="tablaheader">
+          <p>
+            <strong> Sucursal: </strong> {{ producto.sucursal.nombre }} ,
+            {{ producto.sucursal.ciudad }} -
+            {{ producto.sucursal.estado }}
+          </p>
 
-        </tbody>
-      </table>
+          <p><strong> Vendedor: </strong> {{ producto.vendedor.acronimo }}</p>
 
-      <div class="tablafooter">
-        <p>
-          <strong> Total: $</strong> {{Array_Venta.TotalVenta}}
-        </p>
+          <button class="button-59" role="button">
+            <strong (click)="DetalleVenta(producto.id_venta)">
+              Mostrar Detalle De Venta
+            </strong>
+          </button>
+        </div>
 
-        <p>
-          <strong> Fecha: </strong> {{Array_Venta.FechaVenta}}
-        </p>
+        <div *ngIf="ID_Detalle == producto.id_venta && Mostrar_Detalle">
+          <div *ngFor="let productos of Array_Detalle; let id = index">
+            <table class="table">
+              <thead class="tabla">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Venta Granel</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Precio</th>
+                  <th scope="col">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let producto of productos.id_producto">
+                  <th scope="row">{{ id + 1 }}</th>
+                  <td>{{ producto.nombre }}</td>
+                  <td>{{ productos.venta_granel }}</td>
+                  <td>{{ productos.cantidad_vendida }}</td>
+                  <td>$ {{ productos.precio_producto }}</td>
+                  <td>$ {{ productos.subtotal }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tablafooter">
+          <p><strong> Total: $</strong> {{ producto.total_venta }}</p>
+
+          <p><strong> Subtotal: $ </strong> {{ producto.subtotal }}</p>
+
+          <p><strong> IVA: $ </strong> {{ producto.iva }}</p>
+
+          <p><strong> Fecha: </strong> {{ producto.fecha_venta }}</p>
+        </div>
       </div>
     </div>
   </div>
-
 </div>

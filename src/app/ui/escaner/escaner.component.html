@@ -1,4 +1,3 @@
-<!-- Mandar a llamar el componente del mensaje, pasando como parametro el tipo de mensaje que se desea junto a su mensaje esperado a mostrar-->
 <app-alert
   *ngIf="MostrarAlertaPantalla"
   [messageToShow]="TipoAlertaPantalla"
@@ -10,9 +9,9 @@
     <nav>
       Veterinaria
       <ul>
-        <li><a href="historial_venta">Historial</a></li>
-        <li><a href="ventas">Venta</a></li>
-        <li><a href="#">Estadisticas</a></li>
+        <li><a routerLink="/historial_venta" routerLinkActive="active">Historial</a></li>
+        <li><a routerLink="/ventas" routerLinkActive="active">Venta</a></li>
+        <li><a routerLink="/#">Estadisticas</a></li>
       </ul>
     </nav>
   </div>
@@ -170,7 +169,6 @@
           </span>
         </p>
 
-        <!-- El IVA se muestra solo en ventas normales -->
         <p>
           IVA:
           <span
@@ -185,20 +183,21 @@
         <label for="Total"> Paga con: $</label>
 
         <input
-          id="Total"
           type="number"
+          id = "inputPago"
           [(ngModel)]="montoAPagar"
+
           (change)="calcularCambio()"
         />
 
         <p style="padding-top: 2px">Cambio: ${{ cambio }}</p>
       </div>
 
-      <button class="generar_ticket" (click)="generar_Ticket()">
+      <button id="botonGenerarTicket" class="generar_ticket" (click)="generar_Ticket()">
         Generar Ticket
       </button>
 
-      <button class="generar_ticket" (click)="guardarVenta()">
+      <button id="botonRealizarVenta" class="generar_ticket" (click)="guardarVenta()">
         Realizar Venta
       </button>
     </section>
