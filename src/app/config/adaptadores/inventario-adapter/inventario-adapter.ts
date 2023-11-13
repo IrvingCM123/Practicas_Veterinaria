@@ -26,7 +26,7 @@ export class InventarioAdapter implements InventarioPort {
       id_producto,
     });
   }
-  
+
   getProducto(): Observable<Inventario[]> {
     return this.http.get<Inventario[]>(this.apiUrl);
   }
