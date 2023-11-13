@@ -1,4 +1,5 @@
 <body>
+
   <div
     id="Mensaje"
     [style.display]="messageToShow === 'success' ? 'block' : 'none'"
@@ -6,7 +7,24 @@
     <div class="popup" id="Mensaje">
       <div class="popup-content" style="background: rgba(11, 168, 27, 0.9)">
         <div class="imgbox">
-          <img src="../../../assets/Imagenes/checked.png" alt="" class="img" />
+          <img src="/assets/Imagenes/checked.png" alt="" class="img" />
+        </div>
+        <div class="title" style="word-wrap: break-word; color: aliceblue">
+          {{ messageText }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div
+    id="Mensaje"
+    [style.display]="messageToShow === 'success' ? 'block' : 'none'"
+  >
+    <div class="popup" id="Mensaje">
+      <div class="popup-content" style="background: rgba(11, 168, 27, 0.9)">
+        <div class="imgbox">
+          <img src="/assets/Imagenes/checked.png" alt="" class="img" />
         </div>
         <div class="title" style="word-wrap: break-word; color: aliceblue">
           {{ messageText }}
@@ -22,7 +40,7 @@
     <div class="popup" id="Mensaje">
       <div class="popup-content"  style="background: rgba(168, 11, 11, 1)">
         <div class="imgbox">
-          <img src="../../../assets/Imagenes/cancel.png" alt="" class="img" />
+          <img src="/assets/Imagenes/cancel.png" alt="" class="img" />
         </div>
         <div class="title" style="word-wrap: break-word; color: aliceblue">
           {{ messageText }}
@@ -40,7 +58,7 @@
     <div class="popup" id="Mensaje">
       <div class="popup-content" style="background: rgba(168, 168, 11,1)">
         <div class="imgbox">
-          <img src="../../../assets/Imagenes/warning.png" alt="" class="img" />
+          <img src="/assets/Imagenes/warning.png" alt="" class="img" />
         </div>
         <div class="title" style="word-wrap: break-word; color: aliceblue">
           {{ messageText }}

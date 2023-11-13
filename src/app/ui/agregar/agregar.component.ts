@@ -254,6 +254,8 @@ export class AgregarComponent implements OnInit {
         .toPromise();
       this.id_producto_inventario = response.id;
       await this.CrearProductoInventario(this.id_producto_inventario);
+      console.log(this.Inventario);
+
       await this._inventarioUseCase
         .postProducto(
           this.Inventario.existencias,
@@ -358,7 +360,7 @@ export class AgregarComponent implements OnInit {
         },
         (error: any) => {
           errorOcurrido = true;
-          this.ManejarError(); 
+          this.ManejarError();
         }
       );
 
@@ -440,10 +442,12 @@ export class AgregarComponent implements OnInit {
 
   actualizarStockMinimo(event: Event): void {
     this.stock_minimo_producto = (event.target as HTMLInputElement).value;
+    console.log(this.stock_minimo_producto);
   }
 
   actualizarStockMaximo(event: Event): void {
     this.stock_maximo_producto = (event.target as HTMLInputElement).value;
+    console.log(this.stock_maximo_producto);
   }
 
   actualizarPrecioGranel(event: Event): void {
