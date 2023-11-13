@@ -168,7 +168,9 @@
       <div class="contenedor-productos-gatos">
         <div *ngFor="let producto of productosFiltradosMarcas">
           <div>
-            <div class="nft">
+            <div class="nft"
+            (click)="SeleccionarProducto(producto.codigo_barras)"
+              style="cursor: pointer">
               <div class="main">
                 <img class="tokenImage" [src]="producto.imagen" alt="NFT" />
                 <h2 style="font-size: 140%; justify-content: center">
@@ -212,7 +214,9 @@
       <div class="contenedor-productos-gatos">
         <div *ngFor="let producto of productosFiltradosNombre">
           <div>
-            <div class="nft">
+            <div class="nft"
+            (click)="SeleccionarProducto(producto.codigo_barras)"
+              style="cursor: pointer">
               <div class="main">
                 <img class="tokenImage" [src]="producto.imagen" alt="NFT" />
                 <h2 style="font-size: 140%; justify-content: center">
