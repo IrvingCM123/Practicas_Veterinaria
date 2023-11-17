@@ -357,8 +357,6 @@ export class ReporteadorPDFService {
 
         currentPositionY -= 25;
 
-        // Si la descripcion es muy larga y llega al borde del margen, se divide en dos lineas
-
         page.drawText(`Descripcion:`, {
           x: 93,
           y: currentPositionY,
@@ -366,11 +364,35 @@ export class ReporteadorPDFService {
         });
 
         if (productos?.descripcion) {
-          page.drawText(`${productos.descripcion}`, {
-            x: 170,
-            y: currentPositionY,
-            ...commonStyle,
-          });
+
+          if (productos.descripcion.length > 77) {
+            const truncatedText = truncateText(productos.descripcion, 77);
+
+            for (let i = 0; i < truncatedText.length; i++) {
+              if (i === 0) {
+                page.drawText(`${truncatedText[i]}`, {
+                  x: 170,
+                  y: currentPositionY,
+                  ...commonStyle,
+                });
+              } else {
+                page.drawText(`${truncatedText[i]}`, {
+                  x: 170,
+                  y: currentPositionY - 20,
+                  ...commonStyle,
+                });
+
+                currentPositionY -= 20;
+              }
+            }
+
+          } else {
+            page.drawText(`${productos.descripcion}`, {
+              x: 170,
+              y: currentPositionY,
+              ...commonStyle,
+            });
+          }
         } else {
           page.drawText(`eliminado`, {
             x: 170,
@@ -430,4 +452,26 @@ export function calcularTotalVentasPorMes(Informacion_JSON: any[] | any) {
   let totalVentas = 0;
   totalVentas = Informacion_JSON.length;
   return totalVentas;
+}
+
+export function truncateText(text: string, maxLength: number): string[] {
+  const result: string[] = [];
+
+  const words = text.split(' ');
+  let truncatedText = '';
+
+  for (const word of words) {
+    if ((truncatedText + word).length <= maxLength) {
+      truncatedText += word + ' ';
+    } else {
+      result.push(truncatedText.trim());
+      truncatedText = word + ' ';
+    }
+  }
+
+  if (truncatedText.trim() !== '') {
+    result.push(truncatedText.trim());
+  }
+
+  return result;
 }
