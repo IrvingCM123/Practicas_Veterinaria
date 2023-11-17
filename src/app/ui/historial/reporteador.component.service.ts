@@ -167,10 +167,10 @@ export class ReporteadorPDFService {
       color: rgb(0, 0, 0),
     });
 
-    let currentPositionY = height - 180;
+    let currentPositionY = height - 170;
 
     informacion_Reporte_JSON.forEach((jsonObject: any) => {
-      currentPositionY -= 20;
+      currentPositionY -= 15;
       if (currentPositionY < borderY || currentPositionY == borderY) {
         page.drawText(contactInfo, {
           x: borderX,
@@ -380,7 +380,6 @@ export class ReporteadorPDFService {
         });
 
         if (productos?.descripcion) {
-
           if (productos.descripcion.length > 77) {
             const truncatedText = truncateText(productos.descripcion, 77);
 
@@ -401,7 +400,6 @@ export class ReporteadorPDFService {
                 currentPositionY -= 20;
               }
             }
-
           } else {
             page.drawText(`${productos.descripcion}`, {
               x: 170,
