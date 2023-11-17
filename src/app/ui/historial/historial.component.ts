@@ -5,7 +5,6 @@ import { ReporteadorPDFService } from './reporteador.component.service';
 import { TypeAlert } from 'src/app/helpers/TypeAlert.service';
 import { Mensajes_Reportes } from 'src/app/helpers/Message.service';
 
-
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.component.html',
@@ -161,14 +160,18 @@ export class HistorialComponent implements OnInit {
         }, 1000);
       } finally {
         if (!errorOcurrido) {
-          this.MensajeAlertaPantalla =
-            Mensajes_Reportes.Cargando_Detalle_Venta;
+          this.MensajeAlertaPantalla = Mensajes_Reportes.Cargando_Detalle_Venta;
           this.TipoAlertaPantalla = TypeAlert.Alert_Success;
           this.MostrarAlertaPantalla = true;
           setTimeout(() => {
             this.MostrarAlertaPantalla = false;
           }, 1000);
-        } else if (resultado === null || resultado === undefined || resultado === '' || resultado.length === 0) {
+        } else if (
+          resultado === null ||
+          resultado === undefined ||
+          resultado === '' ||
+          resultado.length === 0
+        ) {
           this.MensajeAlertaPantalla =
             Mensajes_Reportes.Cargando_Detalle_Venta_Vacio;
           this.TipoAlertaPantalla = TypeAlert.Alert_Error;
@@ -228,6 +231,54 @@ export class HistorialComponent implements OnInit {
         this.TipoAlertaPantalla = TypeAlert.Alert_Success;
         this.MostrarAlertaPantalla = true;
 
+        setTimeout(() => {
+          this.MostrarAlertaPantalla = false;
+        }, 1000);
+      }
+    }
+  }
+
+  async GenerarReporteDiario() {
+    let errorOcurrido = false;
+    let año_actual = new Date().getFullYear();
+
+    this.MensajeAlertaPantalla = Mensajes_Reportes.Reporte_Generado_Cargando;
+    this.MostrarAlertaPantalla = true;
+    this.TipoAlertaPantalla = TypeAlert.Alert_Loading;
+
+    try {
+      let informacion_reporte = await this._ventaUseCase.getVentas(this.fecha).toPromise();
+
+      let nombre_documento = `Dia ${this.fecha}`;
+
+      const PDF_Reporte = await this._reporteadorPDFService.generarReporte(
+        nombre_documento,
+        informacion_reporte
+      );
+
+      let nombre_Archivo = `Reporte de Ventas del dia ${this.fecha} `;
+
+      const archivoPDF = new Blob([PDF_Reporte], { type: 'application/pdf' });
+      const url_ArchivodPDF = window.URL.createObjectURL(archivoPDF);
+      const Link_Descarga_PDF = document.createElement('a');
+      Link_Descarga_PDF.href = url_ArchivodPDF;
+      Link_Descarga_PDF.download = nombre_Archivo;
+      Link_Descarga_PDF.click();
+    } catch (error) {
+      console.log(error);
+      errorOcurrido = true;
+      this.MensajeAlertaPantalla = Mensajes_Reportes.Reporte_Generado_Error;
+      this.TipoAlertaPantalla = TypeAlert.Alert_Error;
+      this.MostrarAlertaPantalla = true;
+
+      setTimeout(() => {
+        this.MostrarAlertaPantalla = false;
+      }, 1000);
+    } finally {
+      if (!errorOcurrido) {
+        this.MensajeAlertaPantalla = Mensajes_Reportes.Reporte_Generado_Success;
+        this.TipoAlertaPantalla = TypeAlert.Alert_Success;
+        this.MostrarAlertaPantalla = true;
         setTimeout(() => {
           this.MostrarAlertaPantalla = false;
         }, 1000);

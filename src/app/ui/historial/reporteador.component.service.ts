@@ -47,19 +47,19 @@ export class ReporteadorPDFService {
     const commonStyle = {
       font,
       size: 12,
-      color: rgb(0, 0, 0),
+      color: rgb(1 / 255, 1 / 255, 1 / 255),
     };
 
     const TitulosStyle = {
       font,
       size: 13,
-      color: rgb(1, 0, 0),
+      color: rgb(5 / 255, 102 / 255, 141 / 255),
     };
 
     const ProductosStyle = {
       font,
       size: 12,
-      color: rgb(0, 0, 1),
+      color: rgb(0 / 255, 41 / 255, 107 / 255),
     };
 
     const businessNameWidth = font.widthOfTextAtSize(
@@ -91,7 +91,7 @@ export class ReporteadorPDFService {
       y: height - 95,
       font,
       size: 14,
-      color: rgb(0, 0, 1),
+      color: rgb(0 / 255, 41 / 255, 107 / 255),
     });
 
     const logoUrl = '/assets/Imagenes/logo.png';
@@ -167,10 +167,10 @@ export class ReporteadorPDFService {
       color: rgb(0, 0, 0),
     });
 
-    let currentPositionY = height - 180;
+    let currentPositionY = height - 170;
 
     informacion_Reporte_JSON.forEach((jsonObject: any) => {
-      currentPositionY -= 20;
+      currentPositionY -= 15;
       if (currentPositionY < borderY || currentPositionY == borderY) {
         page.drawText(contactInfo, {
           x: borderX,
@@ -211,28 +211,54 @@ export class ReporteadorPDFService {
         });
       }
 
-      page.drawText(`Fecha de Venta: ${jsonObject.fecha_venta}`, {
+      page.drawText(`Folio:`, {
         x: 50,
         y: currentPositionY,
-        font,
-        size: 12,
-        color: rgb(0, 0, 0),
+        ...ProductosStyle,
       });
 
-      page.drawText(`Total Venta: $${jsonObject.total_venta}`, {
-        x: width / 3,
+      page.drawText(`${jsonObject.id_venta}`, {
+        x: 90,
         y: currentPositionY,
-        font,
-        size: 12,
-        color: rgb(0, 0, 0),
+        ...commonStyle,
       });
 
-      page.drawText(`Vendedor: ${jsonObject.vendedor.acronimo}`, {
-        x: width / 2 + 30,
+      currentPositionY -= 20;
+
+      page.drawText(`Fecha de Venta: `, {
+        x: 90,
         y: currentPositionY,
-        font,
-        size: 12,
-        color: rgb(0, 0, 0),
+        ...ProductosStyle,
+      });
+
+      page.drawText(`${jsonObject.fecha_venta}`, {
+        x: 180,
+        y: currentPositionY,
+        ...commonStyle,
+      });
+
+      page.drawText(`Total Venta: `, {
+        x: width / 3 + 45,
+        y: currentPositionY,
+        ...ProductosStyle,
+      });
+
+      page.drawText(`$${jsonObject.total_venta}`, {
+        x: width / 3 + 110,
+        y: currentPositionY,
+        ...commonStyle,
+      });
+
+      page.drawText(`Vendedor:  `, {
+        x: width / 2 + 70,
+        y: currentPositionY,
+        ...ProductosStyle,
+      });
+
+      page.drawText(`${jsonObject.vendedor.acronimo}`, {
+        x: width / 2 + 130,
+        y: currentPositionY,
+        ...commonStyle,
       });
 
       currentPositionY -= 20;
@@ -241,83 +267,105 @@ export class ReporteadorPDFService {
         currentPositionY -= 10;
 
         let productos = detalleVenta.id_producto[0];
-        page.drawText(` * Producto: `, {
-          x: 50,
+        page.drawText(`Producto: `, {
+          x: 90,
           y: currentPositionY,
           ...ProductosStyle,
         });
 
         if (productos?.nombre) {
           page.drawText(`${productos.nombre}`, {
-            x: 120,
+            x: 160,
             y: currentPositionY,
             ...commonStyle,
           });
         } else {
           page.drawText(`Producto eliminado`, {
-            x: 120,
+            x: 160,
             y: currentPositionY,
             ...commonStyle,
+          });
+        }
+
+        if (detalleVenta?.venta_granel == true) {
+          page.drawText(`(Venta a granel)`, {
+            x: width / 2 + 70,
+            y: currentPositionY,
+            ...TitulosStyle,
+          });
+        } else {
+          page.drawText(`(Venta por unidad)`, {
+            x: width / 2 + 70,
+            y: currentPositionY,
+            ...TitulosStyle,
           });
         }
 
         currentPositionY -= 25;
 
-        page.drawText(`* Precio de venta: `, {
-          x: 53,
+        page.drawText(`Precio de venta: `, {
+          x: 93,
           y: currentPositionY,
           ...ProductosStyle,
         });
 
         if (productos?.precio) {
-          page.drawText(`$${productos.precio}`, {
-            x: 150,
-            y: currentPositionY,
-            ...commonStyle,
-          });
+          if (detalleVenta?.venta_granel == true) {
+            page.drawText(`$${productos.precio_granel}`, {
+              x: 190,
+              y: currentPositionY,
+              ...commonStyle,
+            });
+          } else {
+            page.drawText(`$${productos.precio}`, {
+              x: 190,
+              y: currentPositionY,
+              ...commonStyle,
+            });
+          }
         } else {
           page.drawText(`eliminado`, {
-            x: 145,
+            x: 185,
             y: currentPositionY,
             ...commonStyle,
           });
         }
 
-        page.drawText(`* Cantidad: `, {
-          x: width / 3,
+        page.drawText(`Cantidad: `, {
+          x: width / 3 + 40,
           y: currentPositionY,
           ...ProductosStyle,
         });
 
         if (detalleVenta?.cantidad_vendida) {
           page.drawText(`${detalleVenta.cantidad_vendida}`, {
-            x: width / 3 + 70,
+            x: width / 3 + 110,
             y: currentPositionY,
             ...commonStyle,
           });
         } else {
           page.drawText(`eliminado`, {
-            x: 170,
+            x: 200,
             y: currentPositionY,
             ...commonStyle,
           });
         }
 
-        page.drawText(`* Subtotal: `, {
-          x: width / 2 + 30,
+        page.drawText(`Subtotal: `, {
+          x: width / 2 + 70,
           y: currentPositionY,
           ...ProductosStyle,
         });
 
         if (detalleVenta?.subtotal) {
           page.drawText(`$${detalleVenta.subtotal}`, {
-            x: width / 2 + 100,
+            x: width / 2 + 140,
             y: currentPositionY,
             ...commonStyle,
           });
         } else {
           page.drawText(`eliminado`, {
-            x: 120,
+            x: 160,
             y: currentPositionY,
             ...commonStyle,
           });
@@ -325,21 +373,43 @@ export class ReporteadorPDFService {
 
         currentPositionY -= 25;
 
-        page.drawText(`* Descripcion:`, {
-          x: 53,
+        page.drawText(`Descripcion:`, {
+          x: 93,
           y: currentPositionY,
           ...ProductosStyle,
         });
 
         if (productos?.descripcion) {
-          page.drawText(`${productos.descripcion}`, {
-            x: 130,
-            y: currentPositionY,
-            ...commonStyle,
-          });
+          if (productos.descripcion.length > 77) {
+            const truncatedText = truncateText(productos.descripcion, 77);
+
+            for (let i = 0; i < truncatedText.length; i++) {
+              if (i === 0) {
+                page.drawText(`${truncatedText[i]}`, {
+                  x: 170,
+                  y: currentPositionY,
+                  ...commonStyle,
+                });
+              } else {
+                page.drawText(`${truncatedText[i]}`, {
+                  x: 170,
+                  y: currentPositionY - 20,
+                  ...commonStyle,
+                });
+
+                currentPositionY -= 20;
+              }
+            }
+          } else {
+            page.drawText(`${productos.descripcion}`, {
+              x: 170,
+              y: currentPositionY,
+              ...commonStyle,
+            });
+          }
         } else {
           page.drawText(`eliminado`, {
-            x: 130,
+            x: 170,
             y: currentPositionY,
             ...commonStyle,
           });
@@ -396,4 +466,26 @@ export function calcularTotalVentasPorMes(Informacion_JSON: any[] | any) {
   let totalVentas = 0;
   totalVentas = Informacion_JSON.length;
   return totalVentas;
+}
+
+export function truncateText(text: string, maxLength: number): string[] {
+  const result: string[] = [];
+
+  const words = text.split(' ');
+  let truncatedText = '';
+
+  for (const word of words) {
+    if ((truncatedText + word).length <= maxLength) {
+      truncatedText += word + ' ';
+    } else {
+      result.push(truncatedText.trim());
+      truncatedText = word + ' ';
+    }
+  }
+
+  if (truncatedText.trim() !== '') {
+    result.push(truncatedText.trim());
+  }
+
+  return result;
 }
