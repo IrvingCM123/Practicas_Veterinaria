@@ -211,38 +211,54 @@ export class ReporteadorPDFService {
         });
       }
 
-      page.drawText(`Folio: ${jsonObject.id_venta}`, {
+      page.drawText(`Folio:`, {
         x: 50,
         y: currentPositionY,
-        font,
-        size: 12,
-        color: rgb(0, 0, 0),
+        ...ProductosStyle,
+      });
+
+      page.drawText(`${jsonObject.id_venta}`, {
+        x: 90,
+        y: currentPositionY,
+        ...commonStyle,
       });
 
       currentPositionY -= 20;
 
-      page.drawText(`Fecha de Venta: ${jsonObject.fecha_venta}`, {
+      page.drawText(`Fecha de Venta: `, {
         x: 90,
         y: currentPositionY,
-        font,
-        size: 12,
-        color: rgb(0, 0, 0),
+        ...ProductosStyle,
       });
 
-      page.drawText(`Total Venta: $${jsonObject.total_venta}`, {
-        x: width / 3 + 40,
+      page.drawText(`${jsonObject.fecha_venta}`, {
+        x: 180,
         y: currentPositionY,
-        font,
-        size: 12,
-        color: rgb(0, 0, 0),
+        ...commonStyle,
       });
 
-      page.drawText(`Vendedor: ${jsonObject.vendedor.acronimo}`, {
+      page.drawText(`Total Venta: `, {
+        x: width / 3 + 45,
+        y: currentPositionY,
+        ...ProductosStyle,
+      });
+
+      page.drawText(`$${jsonObject.total_venta}`, {
+        x: width / 3 + 110,
+        y: currentPositionY,
+        ...commonStyle,
+      });
+
+      page.drawText(`Vendedor:  `, {
         x: width / 2 + 70,
         y: currentPositionY,
-        font,
-        size: 12,
-        color: rgb(0, 0, 0),
+        ...ProductosStyle,
+      });
+
+      page.drawText(`${jsonObject.vendedor.acronimo}`, {
+        x: width / 2 + 130,
+        y: currentPositionY,
+        ...commonStyle,
       });
 
       currentPositionY -= 20;
