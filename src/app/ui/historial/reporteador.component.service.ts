@@ -226,62 +226,111 @@ export class ReporteadorPDFService {
       });
 
       page.drawText(`Fecha: `, {
-        x: 122,
+        x: 142,
         y: currentPositionY,
         ...ProductosStyle,
       });
 
       page.drawText(`${jsonObject.fecha_venta}`, {
-        x: 171,
+        x: 181,
         y: currentPositionY,
         ...commonStyle,
       });
 
       page.drawText(`Total: `, {
-        x: width / 3 + 55,
+        x: width / 3 + 75,
         y: currentPositionY,
         ...ProductosStyle,
       });
 
       page.drawText(`$${jsonObject.total_venta}`, {
-        x: width / 3 + 95,
+        x: width / 3 + 110,
         y: currentPositionY,
         ...commonStyle,
       });
 
       page.drawText(`Vendedor:  `, {
-        x: width / 2 + 60,
+        x: width / 2 + 75,
         y: currentPositionY,
         ...ProductosStyle,
       });
 
       page.drawText(`${jsonObject.vendedor.acronimo}`, {
-        x: width / 2 + 120,
+        x: width / 2 + 130,
         y: currentPositionY,
         ...commonStyle,
       });
 
-      currentPositionY -= 20;
+      currentPositionY -= 30;
+
+      page.drawText(`Producto: `, {
+        x: 50,
+        y: currentPositionY,
+        ...ProductosStyle,
+      });
+
+      page.drawText(`Precio: `, {
+        x: 210,
+        y: currentPositionY,
+        ...ProductosStyle,
+      });
+
+      page.drawText(`Cantidad: `, {
+        x: width / 3 + 80,
+        y: currentPositionY,
+        ...ProductosStyle,
+      });
+
+      page.drawText(`Subtotal: `, {
+        x: width / 2 + 70,
+        y: currentPositionY,
+        ...ProductosStyle,
+      });
+
+      page.drawText(`Tipo: `, {
+        x: width / 2 + 140,
+        y: currentPositionY,
+        ...ProductosStyle,
+      });
+
+      currentPositionY -= 10;
 
       jsonObject.detallesVenta.forEach((detalleVenta: any) => {
         currentPositionY -= 10;
 
         let productos = detalleVenta.id_producto[0];
-        page.drawText(`Producto: `, {
-          x: 90,
-          y: currentPositionY,
-          ...ProductosStyle,
-        });
 
         if (productos?.nombre) {
-          page.drawText(`${productos.nombre}`, {
-            x: 160,
-            y: currentPositionY,
-            ...commonStyle,
-          });
+          if (productos.nombre.length > 77) {
+            const truncatedText = truncateText(productos.nombre, 77);
+
+            for (let i = 0; i < truncatedText.length; i++) {
+              if (i === 0) {
+                page.drawText(`${truncatedText[i]}`, {
+                  x: 50,
+                  y: currentPositionY,
+                  ...commonStyle,
+                });
+              } else {
+                page.drawText(`${truncatedText[i]}`, {
+                  x: 50,
+                  y: currentPositionY - 20,
+                  ...commonStyle,
+                });
+
+                currentPositionY -= 20;
+              }
+            }
+          } else {
+            page.drawText(`${productos.nombre}`, {
+              x: 50,
+              y: currentPositionY,
+              ...commonStyle,
+            });
+          }
         } else {
           page.drawText(`Producto eliminado`, {
-            x: 160,
+            x: 50,
             y: currentPositionY,
             ...commonStyle,
           });
@@ -289,13 +338,13 @@ export class ReporteadorPDFService {
 
         if (detalleVenta?.venta_granel == true) {
           page.drawText(`(Venta a granel)`, {
-            x: width / 2 + 70,
+            x: width / 2 + 140,
             y: currentPositionY,
             ...TitulosStyle,
           });
         } else {
           page.drawText(`(Venta por unidad)`, {
-            x: width / 2 + 70,
+            x: width / 2 + 140,
             y: currentPositionY,
             ...TitulosStyle,
           });
@@ -303,69 +352,51 @@ export class ReporteadorPDFService {
 
         currentPositionY -= 25;
 
-        page.drawText(`Precio de venta: `, {
-          x: 93,
-          y: currentPositionY,
-          ...ProductosStyle,
-        });
-
         if (productos?.precio) {
           if (detalleVenta?.venta_granel == true) {
             page.drawText(`$${productos.precio_granel}`, {
-              x: 190,
+              x: 210,
               y: currentPositionY,
               ...commonStyle,
             });
           } else {
             page.drawText(`$${productos.precio}`, {
-              x: 190,
+              x: 210,
               y: currentPositionY,
               ...commonStyle,
             });
           }
         } else {
           page.drawText(`eliminado`, {
-            x: 185,
+            x: 210,
             y: currentPositionY,
             ...commonStyle,
           });
         }
-
-        page.drawText(`Cantidad: `, {
-          x: width / 3 + 40,
-          y: currentPositionY,
-          ...ProductosStyle,
-        });
 
         if (detalleVenta?.cantidad_vendida) {
           page.drawText(`${detalleVenta.cantidad_vendida}`, {
-            x: width / 3 + 110,
+            x: width / 3 + 80,
             y: currentPositionY,
             ...commonStyle,
           });
         } else {
           page.drawText(`eliminado`, {
-            x: 200,
+            x: width / 3 + 80,
             y: currentPositionY,
             ...commonStyle,
           });
         }
 
-        page.drawText(`Subtotal: `, {
-          x: width / 2 + 70,
-          y: currentPositionY,
-          ...ProductosStyle,
-        });
-
         if (detalleVenta?.subtotal) {
           page.drawText(`$${detalleVenta.subtotal}`, {
-            x: width / 2 + 140,
+            x: width / 2 + 70,
             y: currentPositionY,
             ...commonStyle,
           });
         } else {
           page.drawText(`eliminado`, {
-            x: 160,
+            x: width / 2 + 70,
             y: currentPositionY,
             ...commonStyle,
           });
