@@ -211,6 +211,8 @@ export class ReporteadorPDFService {
         });
       }
 
+      currentPositionY -= 10;
+
       page.drawText(`Folio:`, {
         x: 50,
         y: currentPositionY,
@@ -223,40 +225,38 @@ export class ReporteadorPDFService {
         ...commonStyle,
       });
 
-      currentPositionY -= 20;
-
-      page.drawText(`Fecha de Venta: `, {
-        x: 90,
+      page.drawText(`Fecha: `, {
+        x: 122,
         y: currentPositionY,
         ...ProductosStyle,
       });
 
       page.drawText(`${jsonObject.fecha_venta}`, {
-        x: 180,
+        x: 171,
         y: currentPositionY,
         ...commonStyle,
       });
 
-      page.drawText(`Total Venta: `, {
-        x: width / 3 + 45,
+      page.drawText(`Total: `, {
+        x: width / 3 + 55,
         y: currentPositionY,
         ...ProductosStyle,
       });
 
       page.drawText(`$${jsonObject.total_venta}`, {
-        x: width / 3 + 110,
+        x: width / 3 + 95,
         y: currentPositionY,
         ...commonStyle,
       });
 
       page.drawText(`Vendedor:  `, {
-        x: width / 2 + 70,
+        x: width / 2 + 60,
         y: currentPositionY,
         ...ProductosStyle,
       });
 
       page.drawText(`${jsonObject.vendedor.acronimo}`, {
-        x: width / 2 + 130,
+        x: width / 2 + 120,
         y: currentPositionY,
         ...commonStyle,
       });
@@ -373,49 +373,47 @@ export class ReporteadorPDFService {
 
         currentPositionY -= 25;
 
-        page.drawText(`Descripcion:`, {
-          x: 93,
-          y: currentPositionY,
-          ...ProductosStyle,
-        });
-
-        if (productos?.descripcion) {
-          if (productos.descripcion.length > 77) {
-            const truncatedText = truncateText(productos.descripcion, 77);
-
-            for (let i = 0; i < truncatedText.length; i++) {
-              if (i === 0) {
-                page.drawText(`${truncatedText[i]}`, {
-                  x: 170,
-                  y: currentPositionY,
-                  ...commonStyle,
-                });
-              } else {
-                page.drawText(`${truncatedText[i]}`, {
-                  x: 170,
-                  y: currentPositionY - 20,
-                  ...commonStyle,
-                });
-
-                currentPositionY -= 20;
-              }
-            }
-          } else {
-            page.drawText(`${productos.descripcion}`, {
-              x: 170,
-              y: currentPositionY,
-              ...commonStyle,
-            });
-          }
-        } else {
-          page.drawText(`eliminado`, {
-            x: 170,
-            y: currentPositionY,
-            ...commonStyle,
-          });
-        }
-
-        currentPositionY -= 20;
+        //page.drawText(`Descripcion:`, {
+        //  x: 93,
+        //  y: currentPositionY,
+        //  ...ProductosStyle,
+        //});
+        //
+        //if (productos?.descripcion) {
+        //  if (productos.descripcion.length > 77) {
+        //    const truncatedText = truncateText(productos.descripcion, 77);
+        //
+        //    for (let i = 0; i < truncatedText.length; i++) {
+        //      if (i === 0) {
+        //        page.drawText(`${truncatedText[i]}`, {
+        //          x: 170,
+        //          y: currentPositionY,
+        //          ...commonStyle,
+        //        });
+        //      } else {
+        //        page.drawText(`${truncatedText[i]}`, {
+        //          x: 170,
+        //          y: currentPositionY - 20,
+        //          ...commonStyle,
+        //        });
+        //
+        //        currentPositionY -= 20;
+        //      }
+        //    }
+        //  } else {
+        //    page.drawText(`${productos.descripcion}`, {
+        //      x: 170,
+        //      y: currentPositionY,
+        //      ...commonStyle,
+        //    });
+        //  }
+        //} else {
+        //  page.drawText(`eliminado`, {
+        //    x: 170,
+        //    y: currentPositionY,
+        //    ...commonStyle,
+        //  });
+        //}
       });
 
       if (currentPositionY > borderY) {
