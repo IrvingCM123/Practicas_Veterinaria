@@ -180,7 +180,7 @@ export class ReporteadorPDFService {
           color: rgb(0, 0, 0),
         });
         page = pdfDoc.addPage();
-        currentPositionY = height - 60;
+        currentPositionY = height;
         page.drawRectangle({
           x: borderX,
           y: borderY,
@@ -263,7 +263,7 @@ export class ReporteadorPDFService {
 
       currentPositionY -= 30;
 
-      page.drawText(`Producto: `, {
+      page.drawText(`Producto(s): `, {
         x: 50,
         y: currentPositionY,
         ...ProductosStyle,
@@ -301,24 +301,26 @@ export class ReporteadorPDFService {
         let productos = detalleVenta.id_producto[0];
 
         if (productos?.nombre) {
-          if (productos.nombre.length > 77) {
-            const truncatedText = truncateText(productos.nombre, 77);
+          if (productos.nombre.length > 30) {
+            const truncatedText = truncateText(productos.nombre, 30);
 
             for (let i = 0; i < truncatedText.length; i++) {
+              currentPositionY -= 5;
               if (i === 0) {
                 page.drawText(`${truncatedText[i]}`, {
                   x: 50,
                   y: currentPositionY,
                   ...commonStyle,
                 });
+                currentPositionY -= 5;
               } else {
                 page.drawText(`${truncatedText[i]}`, {
                   x: 50,
-                  y: currentPositionY - 20,
+                  y: currentPositionY - 10,
                   ...commonStyle,
                 });
 
-                currentPositionY -= 20;
+                currentPositionY -= 5;
               }
             }
           } else {
@@ -349,8 +351,6 @@ export class ReporteadorPDFService {
             ...TitulosStyle,
           });
         }
-
-        currentPositionY -= 25;
 
         if (productos?.precio) {
           if (detalleVenta?.venta_granel == true) {
@@ -402,7 +402,7 @@ export class ReporteadorPDFService {
           });
         }
 
-        currentPositionY -= 25;
+        currentPositionY -= 10;
 
         //page.drawText(`Descripcion:`, {
         //  x: 93,
