@@ -123,7 +123,7 @@ export class ReporteadorPDFService {
     });
 
     page.drawText(`${total_Ventas_Mes}`, {
-      x: 208,
+      x: 170,
       y: height - 120,
       ...commonStyle,
     });
@@ -133,11 +133,11 @@ export class ReporteadorPDFService {
       10
     );
 
-    const currentVenta = borderX + 21;
+    const currentVenta = borderX;
     const currentProductoX = width - currentTotalWidth - borderX - 190;
 
     page.drawText(`Total de ventas: `, {
-      x: currentVenta,
+      x: 170,
       y: height - 145,
       ...TitulosStyle,
     });
