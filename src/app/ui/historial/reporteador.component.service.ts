@@ -116,7 +116,7 @@ export class ReporteadorPDFService {
       height: newHeight,
     });
 
-    page.drawText('Ventas realizadas en el mes:', {
+    page.drawText('Ventas realizadas:', {
       x: 50,
       y: height - 120,
       ...TitulosStyle,
@@ -136,7 +136,7 @@ export class ReporteadorPDFService {
     const currentVenta = borderX + 21;
     const currentProductoX = width - currentTotalWidth - borderX - 190;
 
-    page.drawText(`Total de ventas en el mes: `, {
+    page.drawText(`Total de ventas: `, {
       x: currentVenta,
       y: height - 145,
       ...TitulosStyle,
