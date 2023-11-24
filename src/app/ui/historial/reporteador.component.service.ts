@@ -133,17 +133,17 @@ export class ReporteadorPDFService {
       10
     );
 
-    const currentVenta = borderX;
+    const currentVenta = borderX + 21;
     const currentProductoX = width - currentTotalWidth - borderX - 190;
 
     page.drawText(`Total de ventas: `, {
-      x: 170,
+      x: currentVenta,
       y: height - 145,
       ...TitulosStyle,
     });
 
     page.drawText(`$${total_VentasTotales}`, {
-      x: 190,
+      x: 170,
       y: height - 145,
       ...commonStyle,
     });
