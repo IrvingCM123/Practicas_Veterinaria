@@ -470,7 +470,7 @@ export class ReporteadorPDFService {
         //    x: 170,
         //    y: currentPositionY,
         //    ...commonStyle,
-        //  }); 
+        //  });
         //}
       });
 
@@ -528,7 +528,7 @@ export function truncateText(text: string, maxLength: number): string[] {
   const result: string[] = [];
 
   const words = text.split(' ');
-  let truncatedText = '';
+  let truncatedText = ''; 
 
   for (const word of words) {
     if ((truncatedText + word).length <= maxLength) {
