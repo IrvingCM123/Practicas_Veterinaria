@@ -363,7 +363,7 @@ export class ReporteadorPDFService {
             y: currentPositionY,
             ...commonStyle,
           });
-        }
+        } 
 
         if (detalleVenta?.venta_granel == true) {
           page.drawText(`(Venta a granel)`, {
