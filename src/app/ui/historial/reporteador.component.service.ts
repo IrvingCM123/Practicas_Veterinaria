@@ -12,7 +12,7 @@ export class ReporteadorPDFService {
     const pdfDoc = await PDFDocument.create();
     let page = pdfDoc.addPage();
     const { width, height } = page.getSize();
-    const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+    const font = await pdfDoc.embedFont(StandardFonts.Courier);
 
     const borderX = 28.35; // 1 cm en puntos (1 cm = 28.35 puntos)
     const borderY = 28.35;
@@ -24,13 +24,14 @@ export class ReporteadorPDFService {
     const tel: string = '272-724-2852';
     const cel_1: string = '272-114-6086';
     const cel_2: string = '272-154-7909';
-    const contactInfo = `${direccion} | Tel: ${tel} | Cel: ${cel_1} | Cel: ${cel_2}`;
+    const contactInfo = `${direccion} | Tel: ${tel} | Cel: ${cel_1} `;
 
     let total_Ventas_Mes = calcularTotalVentasPorMes(informacion_Reporte_JSON);
     let total_Productos_Vendidos = calcularTotalProductosVendidos(
       informacion_Reporte_JSON
     );
     let total_VentasTotales = calcularTotalVentas(informacion_Reporte_JSON);
+    let pageNumber = 1;
 
     page.drawRectangle({
       x: borderX,
@@ -41,18 +42,26 @@ export class ReporteadorPDFService {
       borderWidth: 1,
     });
 
+    page.drawText('Página: ' + pageNumber, {
+      x: width/2 + 190,
+      y: borderY + 4,
+      font,
+      size: 12,
+      color: rgb(0, 0, 0),
+    });
+
     const Nombre_Negocio = 'Como Perros y Gatos';
     const Fecha_Reporte_Generado = new Date().toLocaleDateString();
 
     const commonStyle = {
       font,
-      size: 12,
+      size: 11,
       color: rgb(1 / 255, 1 / 255, 1 / 255),
     };
 
     const TitulosStyle = {
       font,
-      size: 13,
+      size: 12,
       color: rgb(5 / 255, 102 / 255, 141 / 255),
     };
 
@@ -87,7 +96,7 @@ export class ReporteadorPDFService {
     });
 
     page.drawText(`Veterinaria: ${Nombre_Negocio}`, {
-      x: width / 3,
+      x: width / 3 - 50,
       y: height - 95,
       font,
       size: 14,
@@ -123,7 +132,7 @@ export class ReporteadorPDFService {
     });
 
     page.drawText(`${total_Ventas_Mes}`, {
-      x: 170,
+      x: 185,
       y: height - 120,
       ...commonStyle,
     });
@@ -148,7 +157,7 @@ export class ReporteadorPDFService {
       ...commonStyle,
     });
 
-    page.drawText(`Total de productos vendidos:`, {
+    page.drawText(`Productos vendidos:`, {
       x: currentProductoX,
       y: height - 145,
       ...TitulosStyle,
@@ -173,13 +182,15 @@ export class ReporteadorPDFService {
       currentPositionY -= 15;
       if (currentPositionY < borderY || currentPositionY == borderY) {
         page.drawText(contactInfo, {
-          x: borderX,
+          x: borderX - 10,
           y: borderY - 14,
           font,
-          size: 11,
+          size: 9,
           color: rgb(0, 0, 0),
         });
         page = pdfDoc.addPage();
+        pageNumber += 1;
+
         currentPositionY = height;
         page.drawRectangle({
           x: borderX,
@@ -189,14 +200,23 @@ export class ReporteadorPDFService {
           borderColor: rgb(0, 0, 0),
           borderWidth: 1,
         });
+
+        page.drawText('Página: ' + pageNumber, {
+          x: width/2 + 190,
+          y: borderY + 4,
+          font,
+          size: 12,
+          color: rgb(0, 0, 0),
+        });
       }
 
       if (currentPositionY < 200) {
+        pageNumber += 1;
         page.drawText(contactInfo, {
-          x: borderX,
+          x: borderX - 10,
           y: borderY - 14,
           font,
-          size: 11,
+          size: 9,
           color: rgb(0, 0, 0),
         });
         page = pdfDoc.addPage();
@@ -209,6 +229,13 @@ export class ReporteadorPDFService {
           borderColor: rgb(0, 0, 0),
           borderWidth: 1,
         });
+        page.drawText('Página: ' + pageNumber, {
+          x: width/2 + 190,
+          y: borderY + 4,
+          font,
+          size: 12,
+          color: rgb(0, 0, 0),
+        });
       }
 
       currentPositionY -= 10;
@@ -220,7 +247,7 @@ export class ReporteadorPDFService {
       });
 
       page.drawText(`${jsonObject.id_venta}`, {
-        x: 90,
+        x: 100,
         y: currentPositionY,
         ...commonStyle,
       });
@@ -232,31 +259,31 @@ export class ReporteadorPDFService {
       });
 
       page.drawText(`${jsonObject.fecha_venta}`, {
-        x: 181,
+        x: 200,
         y: currentPositionY,
         ...commonStyle,
       });
 
       page.drawText(`Total: `, {
-        x: width / 3 + 75,
+        x: width / 3 + 95,
         y: currentPositionY,
         ...ProductosStyle,
       });
 
       page.drawText(`$${jsonObject.total_venta}`, {
-        x: width / 3 + 110,
+        x: width / 3 + 140,
         y: currentPositionY,
         ...commonStyle,
       });
 
       page.drawText(`Vendedor:  `, {
-        x: width / 2 + 75,
+        x: width / 2 + 105,
         y: currentPositionY,
         ...ProductosStyle,
       });
 
       page.drawText(`${jsonObject.vendedor.acronimo}`, {
-        x: width / 2 + 130,
+        x: width / 2 + 180,
         y: currentPositionY,
         ...commonStyle,
       });
@@ -282,7 +309,7 @@ export class ReporteadorPDFService {
       });
 
       page.drawText(`Subtotal: `, {
-        x: width / 2 + 70,
+        x: width / 2 + 60,
         y: currentPositionY,
         ...ProductosStyle,
       });
@@ -390,7 +417,7 @@ export class ReporteadorPDFService {
 
         if (detalleVenta?.subtotal) {
           page.drawText(`$${detalleVenta.subtotal}`, {
-            x: width / 2 + 70,
+            x: width / 2 + 60,
             y: currentPositionY,
             ...commonStyle,
           });
@@ -458,10 +485,10 @@ export class ReporteadorPDFService {
     });
 
     page.drawText(contactInfo, {
-      x: borderX,
+      x: borderX - 10,
       y: borderY - 14,
       font,
-      size: 11,
+      size: 9,
       color: rgb(0, 0, 0),
     });
 
