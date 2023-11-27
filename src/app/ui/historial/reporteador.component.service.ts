@@ -317,7 +317,7 @@ export class ReporteadorPDFService {
       page.drawText(`Tipo: `, {
         x: width / 2 + 140,
         y: currentPositionY,
-        ...ProductosStyle,
+        ...ProductosStyle, 
       });
 
       currentPositionY -= 10;
@@ -363,7 +363,7 @@ export class ReporteadorPDFService {
             y: currentPositionY,
             ...commonStyle,
           });
-        } 
+        }
 
         if (detalleVenta?.venta_granel == true) {
           page.drawText(`(Venta a granel)`, {
