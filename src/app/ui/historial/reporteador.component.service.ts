@@ -317,7 +317,7 @@ export class ReporteadorPDFService {
       page.drawText(`Tipo: `, {
         x: width / 2 + 140,
         y: currentPositionY,
-        ...ProductosStyle, 
+        ...ProductosStyle,
       });
 
       currentPositionY -= 10;
@@ -470,7 +470,7 @@ export class ReporteadorPDFService {
         //    x: 170,
         //    y: currentPositionY,
         //    ...commonStyle,
-        //  });
+        //  }); 
         //}
       });
 
