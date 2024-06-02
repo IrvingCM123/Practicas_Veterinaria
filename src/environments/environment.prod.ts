@@ -1,13 +1,13 @@
 export const environment = {
   production: true,
-  url: "https://veterinaria-service-irvingcm123.cloud.okteto.net/api",
+  url: "https://api-veterinaria-ri9m.onrender.com/api",
   firebase: {
-    apiKey: "AIzaSyBE1y6DQ1xeKDTuuFvl7wkNLcLUsMn49ZU",
-  authDomain: "veterinaria-75bd6.firebaseapp.com",
-  projectId: "veterinaria-75bd6",
-  storageBucket: "veterinaria-75bd6.appspot.com",
-  messagingSenderId: "445641217415",
-  appId: "1:445641217415:web:67290301793e01dcae6f22",
-  measurementId: "G-KRCBXGH2CT"
+    apiKey: "AIzaSyDIA5oQQyds4EOz3tfq6y3mAdRJYmNgt0c",
+    authDomain: "veterinaria-463a7.firebaseapp.com",
+    projectId: "veterinaria-463a7",
+    storageBucket: "veterinaria-463a7.appspot.com",
+    messagingSenderId: "877091037040",
+    appId: "1:877091037040:web:8a0a7b2d1955694ec9b9b5",
+    measurementId: "G-4EEETHX6ME"
   }
 };

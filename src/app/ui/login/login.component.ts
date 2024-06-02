@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
       }
     } catch (error) {
       this.responseSuccessful = false;
-      // Aquí puedes manejar el error, mostrar una alerta, etc.
       this.MensajeAlertaPantalla = Mensajes_Login.Login_Error;
       this.TipoAlertaPantalla = TypeAlert.Alert_Error;
       this.MostrarAlertaPantalla = true;
