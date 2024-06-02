@@ -2,6 +2,7 @@
   *ngIf="MostrarAlertaPantalla"
   [messageToShow]="TipoAlertaPantalla"
   [messageText]="MensajeAlertaPantalla"
+  id="error"
 ></app-alert>
 
 <main class="contenedor">
@@ -11,15 +12,14 @@
 
       <div class="formulario">
         <h3
+          id="Titulo_Formulario"
           style="
             text-transform: uppercase;
             font-size: 150%;
             font-family: 'Poppins-SemiBold';
             text-align: center;
           "
-        >
-          Iniciar Sesión
-        </h3>
+        >Iniciar Sesión</h3>
 
         <div class="form-group">
           <div class="form-wrapper" style="position: relative">
@@ -54,6 +54,7 @@
         <button
           class="log-in"
           (click)="IniciarSesion()"
+          id="btnIniciarSesion"
         >
           Iniciar Sesión
         </button>

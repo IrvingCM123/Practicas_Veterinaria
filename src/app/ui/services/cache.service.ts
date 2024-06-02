@@ -7,9 +7,8 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 export class Cache_Service {
 
 
-  private loggedInSubject = new Subject<any>();
-  loggedIn$ = this.loggedInSubject.asObservable();
-
+  private loggedInSubject = new BehaviorSubject<boolean>(false);
+  loggedIn$: Observable<boolean> = this.loggedInSubject.asObservable();
 
   obtener_DatoLocal(indice: string): any {
     const valor = localStorage.getItem(indice);
